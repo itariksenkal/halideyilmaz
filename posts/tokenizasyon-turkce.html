@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="tr" data-theme="light">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Tokenizasyon ve Türkçe'nin Zorlukları: Eklemeli Dil, Kelime Patlaması ve Verimli Tokenizasyon — Halide Yılmaz</title>
+<meta name="description" content="Türkçe neden daha fazla token tüketir? Eklemeli dil, kelime patlaması, BPE ve SentencePiece ile verimli tokenizasyonun maliyet ve hıza etkisi." />
+<link rel="canonical" href="https://halideyilmaz.com/posts/tokenizasyon-turkce.html" />
+<link rel="alternate" hreflang="en" href="https://halideyilmaz.com/en/posts/tokenizasyon-turkce.html" />
+<meta name="theme-color" content="#7CB342" />
+<meta property="og:type" content="article" /><meta property="og:title" content="Tokenizasyon ve Türkçe'nin Zorlukları: Eklemeli Dil, Kelime Patlaması ve Verimli Tokenizasyon" /><meta property="og:description" content="Türkçe neden daha fazla token tüketir? Eklemeli dil, kelime patlaması, BPE ve SentencePiece ile verimli tokenizasyonun maliyet ve hıza etkisi." /><meta property="og:image" content="https://halideyilmaz.com/image/ai-h-02.svg" />
+<link rel="icon" type="image/png" href="../image/hatsontech_logo.png" />
+<link rel="preconnect" href="https://fonts.googleapis.com" /><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&family=Newsreader:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet" />
+<script>(function(){try{var k="hy-theme",t=localStorage.getItem(k),m=window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches;document.documentElement.setAttribute("data-theme",t||(m?"dark":"light"));}catch(e){}})();</script>
+<link rel="stylesheet" href="../css/style.css" />
+</head>
+<body>
+<div class="progress"></div>
+  <nav class="nav" id="nav">
+    <div class="wrap">
+      <a class="brand" href="../index.html" aria-label="Home"><img src="../image/hatsontech_logo.png" alt="HatsonTech" /><span>Halide Yılmaz<small>HatsonTech · Co-Founder</small></span></a>
+      <div class="nav-links" id="navLinks">
+        <a href="../index.html#hakkinda">Kimdir</a>
+        <a href="../index.html#ne-yapiyor">Ne Yapıyor</a>
+        <a href="../index.html#uzmanlik">Uzmanlık</a>
+        <a href="../blog.html">Yazılar</a>
+        <a href="../index.html#iletisim">İletişim</a>
+      </div>
+      <div class="nav-actions">
+        <a class="lang-switch" href="../en/posts/tokenizasyon-turkce.html">EN</a>
+        <button class="icon-btn theme-toggle" data-theme-toggle aria-label="Theme"><svg class="sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M6.3 17.7l-1.4 1.4M19.1 4.9l-1.4 1.4"/></svg><svg class="moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg></button>
+        <button class="icon-btn nav-toggle" data-nav-toggle aria-label="Menu"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 6h18M3 12h18M3 18h18"/></svg></button>
+      </div>
+    </div>
+  </nav>
+<article>
+  <div class="wrap narrow article-head">
+    <div class="breadcrumb"><a href="../index.html">Ana sayfa</a> <span>/</span>
+        <a href="../blog.html">Yazılar</a> <span>/</span>
+        <span>Türkçe NLP</span></div>
+    <span class="tag">Türkçe NLP</span>
+    <h1>Tokenizasyon ve Türkçe'nin Zorlukları: Eklemeli Dil, Kelime Patlaması ve Verimli Tokenizasyon</h1>
+    <div class="article-meta"><div class="author"><span class="ava">HY</span><div><div style="color:var(--text);font-weight:600">Halide Yılmaz</div><div>HatsonTech · Kurucu Ortak</div></div></div><span>· 6 dakika okuma</span></div>
+  </div>
+  <div class="wrap narrow"><div class="article-hero"><img src="../image/ai-h-02.svg" alt="Tokenizasyon ve Türkçe'nin Zorlukları: Eklemeli Dil, Kelime Patlaması ve Verimli Tokenizasyon"></div></div>
+  <div class="wrap narrow" style="padding-top:36px;padding-bottom:36px">
+    <div class="prose">
+<p class="lead-p">Bir yapay zeka modeli metni doğrudan "okumaz"; önce onu küçük parçalara, yani <em>token</em>lara böler. Bu görünüşte basit adım, Türkçe gibi eklemeli diller için sessiz ama büyük bir maliyet kaynağıdır. Aynı cümle Türkçe yazıldığında, İngilizcesine kıyasla çok daha fazla token tüketebilir; bu da daha yavaş, daha pahalı ve bazen daha az isabetli sonuçlar demektir. Bu yazıda tokenizasyonun ne olduğunu, Türkçenin neden zorlu bir vaka olduğunu ve BPE ile SentencePiece gibi yöntemlerin işi nasıl çözmeye çalıştığını sezgisel biçimde anlatıyoruz.</p>
+
+<div class="toc"><h4>İçindekiler</h4><ol>
+<li><a href="#b1">Tokenizasyon nedir?</a></li>
+<li><a href="#b2">Eklemeli dil ve kelime patlaması</a></li>
+<li><a href="#b3">BPE ve SentencePiece nasıl çalışır?</a></li>
+<li><a href="#b4">Türkçe için verimli tokenizasyon neden önemli?</a></li>
+<li><a href="#b5">Pratikte ne yapabiliriz?</a></li>
+</ol></div>
+
+<h2 id="b1">Tokenizasyon nedir?</h2>
+<p>Tokenizasyon, bir metni modelin işleyebileceği sayısal birimlere dönüştürmenin ilk adımıdır. Modeller harf veya kelimeyle değil, bir sözlükteki kimliklerle (ID) çalışır. Her token bir tam sayıya karşılık gelir; model de aslında bu sayıların dizilerini öğrenir ve tahmin eder.</p>
+<p>Token; bir kelime, bir kelime parçası, bir noktalama işareti, hatta bir boşluk olabilir. Günlük bir analoji kuralım: Lego ile düşünün. Sık kullanılan büyük bloklar (örneğin "the" gibi yaygın kelimeler) tek parçadır. Nadir veya uzun kelimeler ise birkaç küçük bloğa bölünür. Amaç, en sık görülen kalıpları tek parçayla temsil edip metni olabildiğince az parçayla ifade etmektir.</p>
+<blockquote>Token sayısı önemlidir çünkü modelin bağlam penceresi, hızı ve ücretlendirmesi genellikle doğrudan token sayısına bağlıdır.</blockquote>
+
+<h2 id="b2">Eklemeli dil ve kelime patlaması</h2>
+<p>Türkçe <strong>eklemeli</strong> (sondan eklemeli) bir dildir. Kelimenin köküne sırayla ekler getirilerek anlam genişletilir. İngilizcede ayrı kelimeler ya da yardımcı sözcüklerle ifade edilen pek çok şey, Türkçede tek bir kelimenin içine yerleşir.</p>
+<p>Klasik örnek üzerinden gidelim:</p>
+<ul>
+<li><code>ev</code> → house</li>
+<li><code>evler</code> → houses</li>
+<li><code>evlerimiz</code> → our houses</li>
+<li><code>evlerimizden</code> → from our houses</li>
+<li><code>evlerimizdekiler</code> → the ones at our houses</li>
+</ul>
+<p>Tek bir <code>ev</code> kökünden, ekleri farklı kombinasyonlarla dizerek yüzlerce, hatta teoride binlerce ayrı yüzeysel biçim üretebilirsiniz. Buna <strong>kelime patlaması</strong> (vocabulary explosion) denir. Eğer her biçimi sözlüğe ayrı bir giriş olarak koymaya çalışırsanız, sözlük yönetilemez biçimde büyür ve çoğu biçim eğitim verisinde ya hiç ya da çok az geçtiği için model onları iyi öğrenemez.</p>
+<p>Sorun yalnızca çekim ekleriyle de sınırlı değil. Türkçede ünlü uyumu nedeniyle aynı ekin birden çok ses biçimi vardır: çokluk eki bağlama göre <code>-ler</code> ya da <code>-lar</code> olur. Bu da yüzey biçimlerinin çeşitliliğini artırır.</p>
+<div class="callout"><strong>İpucu:</strong> Bir metnin Türkçe ve İngilizce sürümlerini aynı tokenleştiriciye verip token sayılarını karşılaştırın. Aradaki fark, doğrudan maliyet ve hız farkınızdır.</div>
+
+<h2 id="b3">BPE ve SentencePiece nasıl çalışır?</h2>
+<p>Kelime patlamasını çözmek için modern modeller <strong>alt kelime</strong> (subword) tokenizasyonu kullanır. Fikir basit: ne tamamen harf bazında (çok uzun diziler) ne de tamamen kelime bazında (devasa sözlük) çalış; ikisinin arasında, sık görülen parçaları birleştirerek dengeli bir sözlük kur.</p>
+
+<h3>BPE (Byte Pair Encoding)</h3>
+<p>BPE aslında bir veri sıkıştırma fikrinden uyarlanmıştır. Sezgisi şudur: en sık yan yana gelen iki birimi al, onları tek bir yeni birim hâline getir, bunu hedef sözlük boyutuna ulaşana kadar tekrarla. Böylece sık kalıplar tek tokenda toplanırken nadir kelimeler küçük parçalara ayrılabilir.</p>
+<pre><code>baslangic: ["e","v","l","e","r"]
+sayim: en sik ikili -> "e"+"r" = "er"
+birlestir -> ["e","v","l","er"]
+sayim: en sik ikili -> "l"+"er" = "ler"
+birlestir -> ["e","v","ler"]
+...
+ogrenilen birlestirme kurallari:
+  e r  -> er
+  l er -> ler
+sonuc sozlugu: ev, ler, im, iz, den, ...</code></pre>
+<p>Yukarıdaki şemada görüldüğü gibi, <code>ler</code> gibi sık görülen bir ek tek bir tokena dönüşür. Bu, Türkçe için özellikle değerlidir: çekim ekleri yeniden ve yeniden geçtiği için onları ayrı tokenlar olarak öğrenmek mantıklıdır.</p>
+
+<h3>SentencePiece</h3>
+<p>SentencePiece bir algoritmadan çok bir çerçevedir; içinde BPE veya unigram dil modeli tabanlı eğitimi barındırabilir. En önemli iki özelliği şunlardır: birincisi, dile özgü ön işleme (örneğin boşlukla kelime ayırma) varsayımı yapmaz; ham metni karakter dizisi olarak alır. İkincisi, boşluğu görünür bir simgeyle (genellikle <code>▁</code>, alt çizgiye benzer bir işaret) kodlar. Böylece tokenlardan orijinal metni kayıpsız geri üretmek mümkün olur.</p>
+<p>Bu "boşluğa bağımsızlık", Türkçe gibi morfolojisi zengin diller için pratik bir avantajdır: tokenleştirme, kelimenin nasıl yazıldığına dair sabit kurallara değil, veriden öğrenilen istatistiklere dayanır.</p>
+<blockquote>Özetle: BPE "en sık ikiliyi birleştir" der; SentencePiece bunu dilden bağımsız, kayıpsız bir boru hattı içine yerleştirir.</blockquote>
+
+<h2 id="b4">Türkçe için verimli tokenizasyon neden önemli?</h2>
+<p>Çoğu büyük modelin tokenleştiricisi ağırlıklı olarak İngilizce metinle eğitildiği için sözlüğü İngilizce kalıplara daha cömert davranır. Sonuç: Türkçe bir cümle, anlamca eşdeğer İngilizce cümleye kıyasla genellikle daha fazla tokena bölünür. Bunun üç somut etkisi vardır:</p>
+<ol>
+<li><strong>Maliyet:</strong> API kullanımı token başına ücretlendirilir. Daha fazla token, aynı işi yapmak için daha fazla ödeme demektir.</li>
+<li><strong>Hız ve gecikme:</strong> Model token token üretir; daha uzun token dizisi daha uzun yanıt süresi anlamına gelir.</li>
+<li><strong>Etkin bağlam:</strong> Bağlam penceresi token cinsinden sabittir. Türkçe metin daha çok token yediği için aynı pencereye daha az "gerçek içerik" sığar.</li>
+</ol>
+<p>Buna ek olarak, bir kelime çok sayıda küçük ve anlamsız parçaya bölünürse, modelin o kelimenin anlamını yakalaması zorlaşabilir. İyi tasarlanmış bir tokenleştirici, <code>ler</code>, <code>imiz</code>, <code>den</code> gibi anlamlı ekleri tutarlı birimler olarak temsil ederek modele daha temiz bir sinyal verir.</p>
+<div class="callout"><strong>İpucu:</strong> Türkçe ağırlıklı bir ürün geliştiriyorsanız, model seçerken yalnızca kalite kıyaslamalarına değil, aynı örnek metindeki <em>token verimliliğine</em> de bakın. İki model benzer kalitede olsa bile, biri Türkçeyi daha az tokenla işliyorsa uzun vadede ciddi tasarruf sağlar.</div>
+
+<h2 id="b5">Pratikte ne yapabiliriz?</h2>
+<p>Tokenleştiriciyi kendiniz baştan yazmanız genellikle gerekmez, ama bilinçli kararlar verebilirsiniz:</p>
+<ul>
+<li><strong>Ölçün:</strong> Tipik girdilerinizi gerçek tokenleştiriciyle ölçüp Türkçe/İngilizce oranını çıkarın. Tahmin yerine veriyle karar verin.</li>
+<li><strong>İstemleri sadeleştirin:</strong> Gereksiz tekrar, uzun kalıp metinler ve aşırı biçimlendirme token yer. Aynı talimatı daha derli toplu yazmak doğrudan tasarruftur.</li>
+<li><strong>Model/tokenleştirici seçimi:</strong> Türkçeyi daha verimli işleyen, çok dilli sözlüğü güçlü modelleri tercih edin.</li>
+<li><strong>Alan-içi sözlük:</strong> Kendi modelinizi eğitiyorsanız, alanınıza ait sık terimleri içeren bir tokenleştirici eğitmek token sayısını belirgin biçimde düşürebilir.</li>
+</ul>
+
+<div class="takeaways"><h4>Öne çıkanlar</h4><ul>
+<li>Tokenizasyon, metni modelin işleyebileceği sayısal birimlere bölmenin ilk adımıdır.</li>
+<li>Türkçe eklemeli bir dildir; tek kökten çok sayıda yüzey biçimi üretilir ve bu "kelime patlamasına" yol açar.</li>
+<li>BPE en sık görülen ikilileri birleştirerek alt kelime sözlüğü kurar; SentencePiece bunu dilden bağımsız, kayıpsız bir çerçeveye taşır.</li>
+<li>Türkçe genellikle İngilizceden daha fazla token tüketir; bu da maliyet, hız ve etkin bağlamı etkiler.</li>
+<li>Ölçmek, istemleri sadeleştirmek ve token-verimli model seçmek pratikte fark yaratır.</li>
+</ul></div>
+
+<div class="faq">
+<details><summary>Token sayısı yaklaşık kaç kelimeye denk gelir?</summary><p>Kesin bir oran yoktur; dile ve tokenleştiriciye göre değişir. İngilizcede kabaca bir token genellikle bir kelimenin biraz altına denk gelir. Türkçede ise eklemeli yapı nedeniyle bir kelime çoğu zaman birden fazla tokena bölünür, dolayısıyla kelime başına token sayısı daha yüksektir.</p></details>
+<details><summary>BPE ile SentencePiece arasındaki temel fark nedir?</summary><p>BPE bir birleştirme algoritmasıdır: en sık görülen birim ikilisini tekrar tekrar birleştirir. SentencePiece ise bir çerçevedir; içinde BPE veya unigram yöntemini kullanabilir, dile özgü ön işleme varsaymaz ve boşluğu görünür bir simgeyle kodlayarak kayıpsız geri dönüşüm sağlar.</p></details>
+<details><summary>Türkçe için ayrı bir tokenleştirici eğitmek şart mı?</summary><p>Şart değil. Çok dilli, güçlü tokenleştiricilere sahip modeller çoğu uygulama için yeterlidir. Ancak çok büyük hacimli, alana özgü Türkçe metinle çalışıyorsanız, alan-içi bir tokenleştirici eğitmek token verimliliğini ve dolayısıyla maliyet/hızı belirgin biçimde iyileştirebilir.</p></details>
+</div>
+
+<hr>
+<p>Tokenizasyon, modelin "okuma gözlüğü" gibidir: doğru ayarlandığında metni daha az çabayla, daha net görür. Türkçe gibi morfolojisi zengin diller için bu ayarın önemi katlanarak artar. Yapay zekayı Türkçe içeriğe verimli biçimde uygulamak istiyorsanız, ölçmeye ve token-verimli seçimlere bugünden başlamak en sağlam adımdır. Bu tür mühendislik kararlarında nasıl destek olduğumuzu merak ediyorsanız <a href="hatsontech-nedir.html">HatsonTech</a> sayfasına göz atabilirsiniz.</p>
+
+    </div>
+    <div class="article-tags"><span class="tag">Türkçe NLP</span><span class="tag">Yapay Zeka</span></div>
+    <div class="author-box"><span class="ava">HY</span><div><h4>Halide Yılmaz</h4><div class="role">HatsonTech Teknoloji A.Ş. · Kurucu Ortak</div><p>ODTÜ Bilgisayar Mühendisliği mezunu; bilgisayar ve yapay zeka alanında deneyimli kurucu ortak.</p></div></div>
+    <div class="post-nav"><a href="attention-mekanizmasi.html"><div class="dir">← Önceki</div><div class="ttl">Attention (Dikkat) Mekanizması Sezgisel Anlatım: Query, Key, Value ve Self-Attention Neden Devrim Yarattı?</div></a><a class="next" href="embedding-semantik-benzerlik.html"><div class="dir">Sıradaki →</div><div class="ttl">Embedding Modelleri ve Semantik Benzerlik: Metni Anlama Çeviren Vektörler</div></a></div>
+  </div>
+</article>
+  <footer class="footer"><div class="wrap"><div class="footer-bottom" style="border:none;margin:0;padding:0"><span>© <span data-year>2026</span> Halide Yılmaz · Tüm hakları saklıdır.</span><span><a href="../gizlilik.html">Çerez Politikası</a> · Ankara · ODTÜ Teknokent 🌿</span></div></div></footer>
+  <button class="icon-btn to-top" aria-label="Top"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5M5 12l7-7 7 7"/></svg></button>
+  <script src="../js/main.js"></script>
+</body>
+</html>

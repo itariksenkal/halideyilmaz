@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="tr" data-theme="light">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Model Çıkarımı ve Ölçekleme: Gecikme, Verim, Niceleme ve KV-Cache ile GPU Maliyetini Düşürmek — Halide Yılmaz</title>
+<meta name="description" content="Gecikme, verim, niceleme, KV-cache ve batching kavramlarını sezgisel analojilerle anlatan, GPU çıkarım maliyetini düşürmeye odaklı pratik bir rehber." />
+<link rel="canonical" href="https://halideyilmaz.com/posts/model-cikarimi-olcekleme.html" />
+<link rel="alternate" hreflang="en" href="https://halideyilmaz.com/en/posts/model-cikarimi-olcekleme.html" />
+<meta name="theme-color" content="#7CB342" />
+<meta property="og:type" content="article" /><meta property="og:title" content="Model Çıkarımı ve Ölçekleme: Gecikme, Verim, Niceleme ve KV-Cache ile GPU Maliyetini Düşürmek" /><meta property="og:description" content="Gecikme, verim, niceleme, KV-cache ve batching kavramlarını sezgisel analojilerle anlatan, GPU çıkarım maliyetini düşürmeye odaklı pratik bir rehber." /><meta property="og:image" content="https://halideyilmaz.com/image/ai-h-09.svg" />
+<link rel="icon" type="image/png" href="../image/hatsontech_logo.png" />
+<link rel="preconnect" href="https://fonts.googleapis.com" /><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&family=Newsreader:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet" />
+<script>(function(){try{var k="hy-theme",t=localStorage.getItem(k),m=window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches;document.documentElement.setAttribute("data-theme",t||(m?"dark":"light"));}catch(e){}})();</script>
+<link rel="stylesheet" href="../css/style.css" />
+</head>
+<body>
+<div class="progress"></div>
+  <nav class="nav" id="nav">
+    <div class="wrap">
+      <a class="brand" href="../index.html" aria-label="Home"><img src="../image/hatsontech_logo.png" alt="HatsonTech" /><span>Halide Yılmaz<small>HatsonTech · Co-Founder</small></span></a>
+      <div class="nav-links" id="navLinks">
+        <a href="../index.html#hakkinda">Kimdir</a>
+        <a href="../index.html#ne-yapiyor">Ne Yapıyor</a>
+        <a href="../index.html#uzmanlik">Uzmanlık</a>
+        <a href="../blog.html">Yazılar</a>
+        <a href="../index.html#iletisim">İletişim</a>
+      </div>
+      <div class="nav-actions">
+        <a class="lang-switch" href="../en/posts/model-cikarimi-olcekleme.html">EN</a>
+        <button class="icon-btn theme-toggle" data-theme-toggle aria-label="Theme"><svg class="sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M6.3 17.7l-1.4 1.4M19.1 4.9l-1.4 1.4"/></svg><svg class="moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg></button>
+        <button class="icon-btn nav-toggle" data-nav-toggle aria-label="Menu"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 6h18M3 12h18M3 18h18"/></svg></button>
+      </div>
+    </div>
+  </nav>
+<article>
+  <div class="wrap narrow article-head">
+    <div class="breadcrumb"><a href="../index.html">Ana sayfa</a> <span>/</span>
+        <a href="../blog.html">Yazılar</a> <span>/</span>
+        <span>Ölçekleme</span></div>
+    <span class="tag">Ölçekleme</span>
+    <h1>Model Çıkarımı ve Ölçekleme: Gecikme, Verim, Niceleme ve KV-Cache ile GPU Maliyetini Düşürmek</h1>
+    <div class="article-meta"><div class="author"><span class="ava">HY</span><div><div style="color:var(--text);font-weight:600">Halide Yılmaz</div><div>HatsonTech · Kurucu Ortak</div></div></div><span>· 6 dakika okuma</span></div>
+  </div>
+  <div class="wrap narrow"><div class="article-hero"><img src="../image/ai-h-09.svg" alt="Model Çıkarımı ve Ölçekleme: Gecikme, Verim, Niceleme ve KV-Cache ile GPU Maliyetini Düşürmek"></div></div>
+  <div class="wrap narrow" style="padding-top:36px;padding-bottom:36px">
+    <div class="prose">
+<p class="lead-p">Bir modeli eğitmek bir kerelik bir maratondur; onu her gün, her istekte çalıştırmak ise hiç bitmeyen bir koşudur. Üretimdeki asıl fatura çoğu zaman eğitimden değil, çıkarımdan (inference) gelir. Bu yazıda gecikme, verim, niceleme, KV-cache ve batching kavramlarını günlük analojilerle açıyor; GPU maliyetini nasıl düşürebileceğinizi pratik bir bakışla ele alıyoruz.</p>
+
+<div class="toc"><h4>İçindekiler</h4><ol>
+<li><a href="#b1">Çıkarım nedir, neden pahalıdır?</a></li>
+<li><a href="#b2">Gecikme ve verim: iki farklı saat</a></li>
+<li><a href="#b3">KV-cache: aynı işi iki kez yapmamak</a></li>
+<li><a href="#b4">Batching: dolu otobüsle yola çıkmak</a></li>
+<li><a href="#b5">Niceleme: bavulu küçültmek</a></li>
+<li><a href="#b6">Maliyeti düşürmenin pratik yol haritası</a></li>
+</ol></div>
+
+<h2 id="b1">Çıkarım nedir, neden pahalıdır?</h2>
+<p>Çıkarım, eğitilmiş bir modelin yeni bir girdiye yanıt üretmesidir: sorunuzu yazarsınız, model yanıtı kelime kelime (daha doğrusu token token) oluşturur. Eğitim laboratuvarda bir kez yapılır; çıkarım ise canlı sistemde, her kullanıcı için, günde milyonlarca kez tekrarlanır. Bu yüzden uzun vadede toplam GPU faturasının büyük kısmı çıkarımdan doğar.</p>
+<p>Üretken (autoregressive) bir dil modeli metni iki aşamada üretir. Önce <strong>prefill</strong> aşamasında girdinizdeki tüm tokenları tek seferde işler; bu aşama hesap-yoğundur (GPU'nun işlem gücünü zorlar). Sonra <strong>decode</strong> aşamasında çıktıyı her seferinde bir token üretir; bu aşama ise bellek bant genişliği-yoğundur, çünkü her yeni token için modelin tüm ağırlıklarını bellekten okumak gerekir.</p>
+<blockquote>Kısaca: prefill mektubu okumak gibidir, hepsini bir bakışta tararsınız; decode ise mektubu el yazısıyla cevaplamaktır, satır satır ilerler.</blockquote>
+
+<h2 id="b2">Gecikme ve verim: iki farklı saat</h2>
+<p>İki ölçü sık sık karıştırılır ama bambaşka şeyleri ifade eder:</p>
+<ul>
+<li><strong>Gecikme (latency):</strong> Tek bir isteğin ne kadar sürede tamamlandığı. Burada iki alt metrik önemlidir: ilk tokenı görene kadar geçen süre (TTFT) ve sonraki her token arasındaki süre (TPOT veya token/saniye hızı).</li>
+<li><strong>Verim (throughput):</strong> Sistemin birim zamanda toplam kaç token ürettiği; yani saniyede tüm kullanıcılara servis edilen token sayısı.</li>
+</ul>
+<p>Analoji: Bir kafede tek bir müşterinin kahvesini ne kadar hızlı aldığı gecikmedir. Barista'nın bir saatte kaç kahve yaptığı ise verimdir. İlginç olan şu: barista aynı anda birden çok kahve hazırlarsa toplam verim artar, ama o tek müşteri belki birkaç saniye daha bekler. Gecikme ile verim çoğu zaman birbiriyle yarışır.</p>
+<div class="callout"><strong>İpucu:</strong> Sohbet arayüzünde kullanıcı ilk kelimeyi hızlı görmek ister; bu yüzden TTFT'yi optimize edin. Toplu özetleme gibi arka plan işlerinde ise tek isteğin hızı önemsizdir, verimi maksimize edin.</div>
+
+<h2 id="b3">KV-cache: aynı işi iki kez yapmamak</h2>
+<p>Model her yeni token üretirken, önceki tüm tokenlara "dikkat" eder (attention). Saf bir uygulamada her adımda tüm geçmiş yeniden hesaplanır; bu, her cümle eklediğinizde tüm paragrafı baştan okumaya benzer. KV-cache tam burada devreye girer: her tokenın hesaplanan anahtar (key) ve değer (value) vektörlerini bellekte saklar, böylece bir sonraki adımda yalnızca yeni token için hesap yapılır.</p>
+<p>Faydası büyüktür: tekrarlanan hesap ortadan kalkar ve decode aşaması ciddi hızlanır. Bedeli ise bellektir. Cache boyutu konuşma uzunluğuyla doğrusal büyür ve uzun bağlamlarda model ağırlıklarından bile fazla yer kaplayabilir. GPU belleği dolduğunda ya eşzamanlı kullanıcı sayısını düşürmek ya da bağlamı kısaltmak gerekir.</p>
+<pre><code># KV-cache'in kavramsal mantığı (pseudocode)
+kv_cache = []                      # baslangicta bos
+for step in range(max_tokens):
+    if step == 0:
+        # prefill: tum girdiyi isle, K/V'leri sakla
+        k, v = model.encode(prompt)
+        kv_cache = [k, v]
+    else:
+        # decode: yalnizca son token icin hesapla
+        k_new, v_new = model.step(last_token)
+        kv_cache.append((k_new, v_new))
+    last_token = model.predict_next(kv_cache)
+    if last_token == EOS: break</code></pre>
+
+<h2 id="b4">Batching: dolu otobüsle yola çıkmak</h2>
+<p>Bir GPU, tek bir isteği işlerken çoğu zaman atıl kalır; çünkü decode aşaması bellek bant genişliğiyle sınırlıdır, hesap birimleri boş bekler. Birden çok isteği aynı anda işlerseniz (batching), aynı ağırlık okumasıyla daha fazla iş çıkarırsınız. Bu, yarım dolu otobüs yerine dolu otobüsle yola çıkmak gibidir: yakıt aynı, taşınan yolcu kat kat fazla.</p>
+<p>Statik batching'de tüm istekler aynı anda başlar ve en yavaş olan bitene kadar diğerleri bekler. Modern sunucular ise <strong>sürekli batching (continuous batching)</strong> kullanır: bir istek bittiğinde onun yerine kuyruktan yenisi anında alınır, böylece GPU sürekli dolu kalır. Bu teknik verimi çarpıcı biçimde artırır.</p>
+<div class="callout"><strong>İpucu:</strong> Sürekli batching ve PagedAttention gibi tekniklerle KV-cache belleğini parçalı yöneten vLLM, TGI veya TensorRT-LLM gibi olgun sunucuları doğrudan kullanın; bu çarkı yeniden icat etmeyin.</div>
+
+<h2 id="b5">Niceleme: bavulu küçültmek</h2>
+<p>Model ağırlıkları varsayılan olarak 16-bit ondalık sayılarla (FP16/BF16) tutulur. <strong>Niceleme (quantization)</strong>, bu sayıları daha az bit ile temsil etmektir: örneğin 8-bit (INT8) veya 4-bit. Bavulunuzdaki kıyafetleri vakumlu poşetlere koyup hacmini küçültmek gibi düşünün; aynı eşya, çok daha az yer.</p>
+<p>Kazançlar somuttur. 16-bit yerine 8-bit kullanmak ağırlıkların bellek ayak izini kabaca yarıya, 4-bit kullanmak ise dörtte birine indirir. Daha küçük model daha az bellek okuması demektir; bu da bellek bant genişliğiyle sınırlı decode aşamasını hızlandırır ve aynı GPU'ya daha büyük model ya da daha fazla eşzamanlı kullanıcı sığdırmanızı sağlar.</p>
+<p>Bedava değildir: bit azaldıkça doğrulukta küçük kayıplar olabilir. Ancak GPTQ, AWQ gibi modern yöntemler kaybı çoğu görevde fark edilmez seviyede tutar. Pratik kural: 8-bit neredeyse her zaman güvenli; 4-bit çoğu üretim senaryosunda iyi bir denge; daha agresif şemalarda mutlaka kendi verinizle ölçün.</p>
+
+<h2 id="b6">Maliyeti düşürmenin pratik yol haritası</h2>
+<p>Bu parçaları birleştirdiğimizde, GPU faturasını düşürmek için net bir öncelik sırası çıkar:</p>
+<ol>
+<li><strong>Doğru modeli seçin:</strong> Görev için yeterli olan en küçük model en büyük tasarruftur. Devasa bir modeli sırf "ihtiyaten" kullanmayın.</li>
+<li><strong>Niceleme uygulayın:</strong> 8-bit veya 4-bit ile aynı donanımda daha fazla kapasite açın.</li>
+<li><strong>Sürekli batching açın:</strong> GPU'yu boş bırakmayın; verim genellikle birkaç kat artar.</li>
+<li><strong>KV-cache'i yönetin:</strong> Gereksiz uzun bağlamlardan kaçının; sık kullanılan sistem yönergelerinde önek (prefix) cache'inden yararlanın.</li>
+<li><strong>İş yükünü ayırın:</strong> Gecikmeye duyarlı sohbet ile arka plan toplu işlerini farklı kuyruklarda çalıştırın.</li>
+<li><strong>Ölçün ve iterasyon yapın:</strong> p50/p95 gecikme, token/saniye ve GPU kullanımını sürekli izleyin.</li>
+</ol>
+
+<div class="takeaways"><h4>Öne çıkanlar</h4><ul>
+<li>Uzun vadede toplam maliyetin büyük kısmı eğitim değil, çıkarımdır.</li>
+<li>Gecikme tek isteğin hızıdır; verim toplam üretimdir, ikisi çoğu zaman birbiriyle yarışır.</li>
+<li>KV-cache tekrar hesabı önler ama bellek tüketir; uzun bağlam pahalıdır.</li>
+<li>Sürekli batching GPU'yu dolu tutarak verimi katlar.</li>
+<li>Niceleme bellek ayak izini düşürür, decode'u hızlandırır ve kapasiteyi artırır.</li>
+</ul></div>
+
+<div class="faq">
+<details><summary>Niceleme modelimi "aptallaştırır" mı?</summary><p>Genellikle hayır. 8-bit niceleme çoğu görevde neredeyse kayıpsızdır. 4-bit'te küçük kayıplar olabilir ama GPTQ/AWQ gibi yöntemlerle çoğu zaman fark edilmez. Kritik uygulamalarda kendi verinizle ölçmek şarttır.</p></details>
+<details><summary>Verimi artırmak gecikmeyi her zaman bozar mı?</summary><p>Hayır, sürekli batching sayesinde belirli bir noktaya kadar her ikisini birden iyileştirebilirsiniz. Ancak batch boyutunu aşırı büyütürseniz tek isteğin gecikmesi artmaya başlar; doğru denge iş yükünüze bağlıdır.</p></details>
+<details><summary>Kendi sunucumu mu yazmalıyım?</summary><p>Çoğu durumda hayır. vLLM, TGI veya TensorRT-LLM gibi olgun çıkarım sunucuları sürekli batching, KV-cache yönetimi ve niceleme desteğini hazır sunar. Bunları kullanmak hem güvenli hem de hızlıdır.</p></details>
+</div>
+
+<hr>
+<p>Çıkarımı optimize etmek, tek bir sihirli düğme değil; model seçimi, niceleme, batching ve cache yönetiminin birlikte ayarlanmasıdır. Doğru kombinasyonla aynı donanımdan kat kat fazla değer çıkarabilirsiniz. Yapay zekâ altyapısını verimli ve sürdürülebilir biçimde kurmak konusunda daha fazlasını merak ediyorsanız <a href="hatsontech-nedir.html">HatsonTech</a> yaklaşımına göz atabilirsiniz.</p>
+    </div>
+    <div class="article-tags"><span class="tag">Ölçekleme</span><span class="tag">Yapay Zeka</span></div>
+    <div class="author-box"><span class="ava">HY</span><div><h4>Halide Yılmaz</h4><div class="role">HatsonTech Teknoloji A.Ş. · Kurucu Ortak</div><p>ODTÜ Bilgisayar Mühendisliği mezunu; bilgisayar ve yapay zeka alanında deneyimli kurucu ortak.</p></div></div>
+    <div class="post-nav"><a href="bilgi-grafigi-rag.html"><div class="dir">← Önceki</div><div class="ttl">Bilgi Grafiği + RAG (GraphRAG): İlişkileri Yakalayan Getirim</div></a><a class="next" href="veri-kalitesi-etiketleme.html"><div class="dir">Sıradaki →</div><div class="ttl">Veri Kalitesi ve Etiketleme: Modelin Asıl Yakıtı</div></a></div>
+  </div>
+</article>
+  <footer class="footer"><div class="wrap"><div class="footer-bottom" style="border:none;margin:0;padding:0"><span>© <span data-year>2026</span> Halide Yılmaz · Tüm hakları saklıdır.</span><span><a href="../gizlilik.html">Çerez Politikası</a> · Ankara · ODTÜ Teknokent 🌿</span></div></div></footer>
+  <button class="icon-btn to-top" aria-label="Top"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5M5 12l7-7 7 7"/></svg></button>
+  <script src="../js/main.js"></script>
+</body>
+</html>
