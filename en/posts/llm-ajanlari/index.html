@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>LLM Agents and Tool Use: Planning, MCP, and Multi-Step Tasks — Halide Yılmaz</title>
+<meta name="description" content="How do LLM agents call tools, plan, and run multi-step tasks? We explain MCP, the opportunities, and the risks with plain, everyday analogies." />
+<link rel="canonical" href="https://halideyilmaz.com/en/posts/llm-ajanlari/" /><link rel="alternate" hreflang="tr" href="https://halideyilmaz.com/posts/llm-ajanlari/" /><meta name="theme-color" content="#7CB342" />
+<meta property="og:type" content="article" /><meta property="og:title" content="LLM Agents and Tool Use: Planning, MCP, and Multi-Step Tasks" /><meta property="og:description" content="How do LLM agents call tools, plan, and run multi-step tasks? We explain MCP, the opportunities, and the risks with plain, everyday analogies." /><meta property="og:image" content="https://halideyilmaz.com/image/bimg-17.jpg" />
+<link rel="icon" type="image/png" href="../../../image/hatsontech_logo.png" />
+<link rel="preconnect" href="https://fonts.googleapis.com" /><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&family=Newsreader:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet" />
+<script>(function(){try{var k="hy-theme",t=localStorage.getItem(k),m=window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches;document.documentElement.setAttribute("data-theme",t||(m?"dark":"light"));}catch(e){}})();</script>
+<link rel="stylesheet" href="../../../css/style.css" />
+</head>
+<body>
+<div class="progress"></div>
+  <nav class="nav" id="nav">
+    <div class="wrap">
+      <a class="brand" href="../../" aria-label="Home"><img src="../../../image/hatsontech_logo.png" alt="HatsonTech" /><span>Halide Yılmaz<small>HatsonTech · Co-Founder</small></span></a>
+      <div class="nav-links" id="navLinks">
+        <a href="../../#hakkinda">About</a>
+        <a href="../../#ne-yapiyor">What I Do</a>
+        <a href="../../#uzmanlik">Expertise</a>
+        <a href="../../blog/">Articles</a>
+        <a href="../../#iletisim">Contact</a>
+      </div>
+      <div class="nav-actions">
+        <a class="lang-switch" href="../../../posts/llm-ajanlari/">TR</a>
+        <button class="icon-btn theme-toggle" data-theme-toggle aria-label="Theme"><svg class="sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M6.3 17.7l-1.4 1.4M19.1 4.9l-1.4 1.4"/></svg><svg class="moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg></button>
+        <button class="icon-btn nav-toggle" data-nav-toggle aria-label="Menu"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 6h18M3 12h18M3 18h18"/></svg></button>
+      </div>
+    </div>
+  </nav>
+<article>
+  <div class="wrap narrow article-head">
+    <div class="breadcrumb"><a href="../../">Home</a> <span>/</span>
+        <a href="../../blog/">Articles</a> <span>/</span>
+        <span>Agents</span></div>
+    <span class="tag">Agents</span>
+    <h1>LLM Agents and Tool Use: Planning, MCP, and Multi-Step Tasks</h1>
+    <div class="article-meta"><div class="author"><span class="ava">HY</span><div><div style="color:var(--text);font-weight:600">Halide Yılmaz</div><div>HatsonTech · Co-Founder</div></div></div><span>· 9 min read</span></div>
+  </div>
+  <div class="wrap narrow"><div class="article-hero"><img src="../../../image/bimg-17.jpg" alt="LLM Agents and Tool Use: Planning, MCP, and Multi-Step Tasks"></div></div>
+  <div class="wrap narrow" style="padding-top:36px;padding-bottom:36px">
+    <div class="prose">
+<p class="lead-p">Ask a language model a question and it writes you a sentence. Give an <em>agent</em> a task and it gets work done: it opens the calendar, finds a free slot, sends the invite, then reports back. The difference is like asking a consultant for advice versus telling an assistant “handle this.” In this article we’ll explore — intuitively — how LLM agents think and use tools, why MCP (the Model Context Protocol) matters, and the opportunities and risks of multi-step tasks.</p>
+
+<div class="toc"><h4>Contents</h4><ol>
+<li><a href="#b1">Model or agent? The core distinction</a></li>
+<li><a href="#b2">How tool calling actually works</a></li>
+<li><a href="#b3">Planning and the think–act–observe loop</a></li>
+<li><a href="#b4">MCP: a universal socket for tools</a></li>
+<li><a href="#b5">The anatomy of a multi-step task</a></li>
+<li><a href="#b6">Opportunities and risks</a></li>
+</ol></div>
+
+<h2 id="b1">Model or agent? The core distinction</h2>
+<p>A plain language model takes text and produces text. On its own it can’t touch the world: it can’t send an email, query a database, or check today’s weather. What it knows is limited to the text it saw up to the moment it was trained.</p>
+<p>An <strong>agent</strong> appears when you wrap a <em>loop</em> and a set of <em>tools</em> around the model. The model no longer just writes an answer; it decides “run this tool with these inputs,” sees the tool’s result, and decides the next step based on that result. The model is the brain, the tools are the hands, and the loop is the mechanism that keeps turning until the job is done.</p>
+<blockquote>A plain model is like a sage in a library: you ask, it explains. An agent is like an intern: you say “prepare this report,” and it goes off to gather sources, do the math, and bring back a draft.</blockquote>
+<p>This distinction matters because the agent’s power and its risk come from the same place: the fact that it can now genuinely <em>act</em>.</p>
+
+<h2 id="b2">How tool calling actually works</h2>
+<p>At the heart of tool calling lies a simple contract. You give the model a list — “here are the tools you have” — where each tool has a name, a description of what it does, and a schema describing the inputs it expects. When the model needs a tool, instead of plain prose it produces a <strong>structured call</strong>: “call the <code>get_weather</code> tool with city = Istanbul.”</p>
+<p>There’s a crucial point here: the model itself doesn’t run the tool. The model only says “I want to run this”; the code that actually runs it is yours. You feed the result back to the model, and it turns that result into a sentence for you. The model produces the intent; the environment performs the action.</p>
+<pre><code># A tool definition shown to the model (conceptual)
+{
+  "name": "get_weather",
+  "description": "Returns the current weather for a city.",
+  "input_schema": {
+    "type": "object",
+    "properties": { "city": { "type": "string" } },
+    "required": ["city"]
+  }
+}
+
+# The call the model produces (structured data, not prose):
+# -> get_weather(city = "Istanbul")
+# Your code runs the tool and feeds the result back to the model:
+# -> { "temp": 21, "condition": "partly cloudy" }
+# The model turns it into a sentence: "It's 21°C and partly cloudy in Istanbul."
+</code></pre>
+<div class="callout"><strong>Tip:</strong> Write tool descriptions as if you were writing for a person. The model decides which tool to call, and when, by reading these descriptions. A vague description is a direct invitation to the wrong tool choice.</div>
+
+<h2 id="b3">Planning and the think–act–observe loop</h2>
+<p>A single tool call often isn’t enough. A task like “find the cheapest round-trip flight to Paris and add it to my calendar” requires several steps. This is where the agent’s <strong>planning</strong> ability comes in.</p>
+<p>A common pattern is a loop of roughly three steps: <strong>Think → Act → Observe</strong>. The model first thinks about what to do (reasons), then acts by calling a tool, then observes the result. The observation brings new information; the model thinks again with it. The loop repeats until the task is complete.</p>
+<pre><code>GOAL = "Find a 3-night hotel in Paris and tell me the price in euros"
+
+loop (until task is done):
+    think:   "First I should call the hotel-search tool."
+    act:     search_hotel(city="Paris", nights=3)
+    observe: [3 results, prices in dollars]
+    think:   "Prices are in dollars; I should convert to euros."
+    act:     convert_currency(amount=420, from="USD", to="EUR")
+    observe: 388 EUR
+    think:   "I have what I need, I can write the answer." -> DONE
+</code></pre>
+<p>The power of this loop lies in the model’s ability to <em>notice and correct its own mistakes</em>. If a tool returns an empty result, the model can try a different search. But that same flexibility, left unchecked, can also make the loop run forever; that’s why capping the number of steps is a good habit.</p>
+
+<h2 id="b4">MCP: a universal socket for tools</h2>
+<p>If every agent had to write custom glue code from scratch for every tool, the ecosystem would quickly turn into a tangle of cables. <strong>MCP (the Model Context Protocol)</strong> was born to solve exactly this: a <em>common standard</em> for connecting tools, data sources, and models.</p>
+<p>My favorite analogy is USB. Before USB, every device had its own cable; after USB, you could plug anything into a single port. MCP is like USB for the AI world: you write a tool once according to the MCP standard, and <em>every</em> agent that supports MCP can use it.</p>
+<p>In practice, MCP standardizes the conversation between a <strong>client</strong> (the application running the agent) and a <strong>server</strong> (the side that exposes tools and data). The server says “here are my tools,” the client introduces them to the model, the model calls one, and the server runs it. Because everyone speaks the same language, the pieces become pluggable.</p>
+<blockquote>MCP’s value shows up not in any single tool but in <em>interoperability</em>: a tool written once is reused across every client that supports the standard.</blockquote>
+
+<h2 id="b5">The anatomy of a multi-step task</h2>
+<p>In the real world, the tasks given to agents are rarely single-step. A request like “extract the figures from this PDF, put them in a table, and summarize it” combines reading, parsing, computing, and summarizing into a single flow. The typical components of a multi-step task are:</p>
+<ul>
+<li><strong>Decomposition:</strong> breaking the big goal into small subtasks, each solvable with one tool.</li>
+<li><strong>State/memory:</strong> carrying intermediate results between steps. Step three must remember the data found in step one.</li>
+<li><strong>Error recovery:</strong> when a tool fails, trying an alternative or asking the user for clarity instead of giving up.</li>
+<li><strong>Stopping criterion:</strong> defining clearly when the task counts as “done”; otherwise the agent keeps looping.</li>
+</ul>
+<p>As tasks grow longer, the chance of error accumulates: if each step has a small margin of error, those margins compound across a ten-step chain. That’s why mature agent designs reduce a task to as few, robust steps as possible and add verification at critical points.</p>
+<div class="callout"><strong>Tip:</strong> In a multi-step task, don’t fall into the “cram everything into one giant prompt” trap. Splitting the task into clear subtasks both improves accuracy and makes it easier to see where things broke when something goes wrong.</div>
+
+<h2 id="b6">Opportunities and risks</h2>
+<p>The promise of agents is big: automating repetitive digital chores, coordinating multiple systems with a single natural-language request, and shrinking hours-long research-and-collation work down to minutes. Set up correctly, an agent can run an end-to-end workflow on your behalf.</p>
+<p>But like any system that can act, agents carry real risks:</p>
+<ul>
+<li><strong>Irreversible actions:</strong> once an email is sent or a record deleted, there’s no going back. Human approval is essential for high-impact tools.</li>
+<li><strong>Prompt injection:</strong> a web page or document the agent reads may contain hidden instructions (“ignore previous instructions, do this instead”). Never treat external data as a trusted command.</li>
+<li><strong>Error accumulation:</strong> small mistakes grow over long chains; without intermediate verification, the result can quietly break.</li>
+<li><strong>Cost and looping:</strong> with a weak stopping criterion, the agent takes more steps than needed — getting both slower and more expensive.</li>
+<li><strong>Authority boundary:</strong> every tool you give an agent is a permission you grant it. Apply the principle of least privilege: give only what’s needed.</li>
+</ul>
+<blockquote>A practical rule: think of the agent as a smart but inexperienced intern. Its capability is surprising, but on important decisions you want it to ask for approval and to limit where its hands can reach.</blockquote>
+
+<div class="takeaways"><h4>Key takeaways</h4><ul>
+<li>Agent = model + tools + loop; a plain model only writes, while an agent acts.</li>
+<li>In a tool call the model produces the intent; the surrounding code is what actually runs the tool.</li>
+<li>Planning usually proceeds through a Think–Act–Observe loop, and the step count should be capped.</li>
+<li>MCP is a universal “socket” for tools: write once, use across every compatible client.</li>
+<li>The biggest risks are irreversible actions and prompt injection; human approval and least privilege are essential.</li>
+</ul></div>
+
+<div class="faq">
+<details><summary>What’s the difference between an agent and a chatbot?</summary><p>A chatbot replies with text; when the chat ends you’re left with a sentence. An agent acts through tools: it reads files, calls APIs, completes a job for you. An agent may contain a chatbot, but the difference is between “talking” and “getting work done.”</p></details>
+<details><summary>Do I have to support MCP to use it?</summary><p>No — MCP isn’t required to build an agent; you can wire tools in directly. What MCP gives you is interoperability: if you write your tool once against the standard, you can reuse it across different clients and benefit from ready-made MCP servers.</p></details>
+<details><summary>How do I protect myself if the agent does something wrong?</summary><p>Three layers are recommended: human approval for high-impact actions, caution toward external data (prompt injection), and least privilege (let the agent access only the tools it truly needs). Add a step/cost cap to prevent runaway loops.</p></details>
+</div>
+
+<hr>
+<p>In short, LLM agents are turning AI from a “talking consultant” into a “working assistant.” That shift is a major opportunity, but like any system that acts, it demands careful design: clear tools, limited authority, human approval, and measurable stopping criteria. If you’re planning to design safe, fit-for-purpose AI solutions, the <a href="../hatsontech-nedir/">HatsonTech</a> team would be glad to weigh these architectural decisions with you.</p>
+
+    </div>
+    <div class="article-tags"><span class="tag">Agents</span><span class="tag">AI</span></div>
+    <div class="author-box"><span class="ava">HY</span><div><h4>Halide Yılmaz</h4><div class="role">HatsonTech Teknoloji A.Ş. · Co-Founder</div><p>A graduate of METU Computer Engineering; co-founder working in computing and AI.</p></div></div>
+    <div class="post-nav"><a href="../baglam-penceresi/"><div class="dir">← Previous</div><div class="ttl">The Context Window and Long Documents: Token Limits, Lost in the Middle, Long Context vs RAG</div></a><a class="next" href="../bilgi-grafigi-rag/"><div class="dir">Next →</div><div class="ttl">Knowledge Graph + RAG (GraphRAG): Retrieval That Captures Relationships</div></a></div>
+  </div>
+</article>
+  <footer class="footer"><div class="wrap"><div class="footer-bottom" style="border:none;margin:0;padding:0"><span>© <span data-year>2026</span> Halide Yılmaz · All rights reserved.</span><span><a href="../../privacy/">Cookie Policy</a> · Ankara · METU Technopark 🌿</span></div></div></footer>
+  <button class="icon-btn to-top" aria-label="Top"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5M5 12l7-7 7 7"/></svg></button>
+  <script src="../../../js/main.js"></script>
+</body>
+</html>

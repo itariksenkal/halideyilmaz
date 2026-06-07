@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="tr" data-theme="light">
+<head>
+<meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Aşırı Öğrenme (Overfitting) ve Düzenlileştirme: Model Neden Ezberler? — Halide Yılmaz</title>
+<meta name="description" content="Model neden ezberler? Aşırı öğrenme ve düzenlileştirmeyi sezgisel anlatıyoruz: dropout, L1/L2, erken durdurma ve çapraz doğrulama günlük örneklerle." />
+<link rel="canonical" href="https://halideyilmaz.com/posts/overfitting-duzenlilestirme/" /><link rel="alternate" hreflang="en" href="https://halideyilmaz.com/en/posts/overfitting-duzenlilestirme/" /><meta name="theme-color" content="#7CB342" />
+<meta property="og:type" content="article" /><meta property="og:title" content="Aşırı Öğrenme (Overfitting) ve Düzenlileştirme: Model Neden Ezberler?" /><meta property="og:description" content="Model neden ezberler? Aşırı öğrenme ve düzenlileştirmeyi sezgisel anlatıyoruz: dropout, L1/L2, erken durdurma ve çapraz doğrulama günlük örneklerle." /><meta property="og:image" content="https://halideyilmaz.com/image/bimg-03.jpg" />
+<link rel="icon" type="image/png" href="../../image/hatsontech_logo.png" />
+<link rel="preconnect" href="https://fonts.googleapis.com" /><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&family=Newsreader:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet" />
+<script>(function(){try{var k="hy-theme",t=localStorage.getItem(k),m=window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches;document.documentElement.setAttribute("data-theme",t||(m?"dark":"light"));}catch(e){}})();</script>
+<link rel="stylesheet" href="../../css/style.css" />
+</head>
+<body>
+<div class="progress"></div>
+  <nav class="nav" id="nav">
+    <div class="wrap">
+      <a class="brand" href="../../" aria-label="Home"><img src="../../image/hatsontech_logo.png" alt="HatsonTech" /><span>Halide Yılmaz<small>HatsonTech · Co-Founder</small></span></a>
+      <div class="nav-links" id="navLinks">
+        <a href="../../#hakkinda">Kimdir</a>
+        <a href="../../#ne-yapiyor">Ne Yapıyor</a>
+        <a href="../../#uzmanlik">Uzmanlık</a>
+        <a href="../../blog/">Yazılar</a>
+        <a href="../../#iletisim">İletişim</a>
+      </div>
+      <div class="nav-actions">
+        <a class="lang-switch" href="../../en/posts/overfitting-duzenlilestirme/">EN</a>
+        <button class="icon-btn theme-toggle" data-theme-toggle aria-label="Theme"><svg class="sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M6.3 17.7l-1.4 1.4M19.1 4.9l-1.4 1.4"/></svg><svg class="moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg></button>
+        <button class="icon-btn nav-toggle" data-nav-toggle aria-label="Menu"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 6h18M3 12h18M3 18h18"/></svg></button>
+      </div>
+    </div>
+  </nav>
+<article>
+  <div class="wrap narrow article-head">
+    <div class="breadcrumb"><a href="../../">Ana sayfa</a> <span>/</span>
+        <a href="../../blog/">Yazılar</a> <span>/</span>
+        <span>Temeller</span></div>
+    <span class="tag">Temeller</span>
+    <h1>Aşırı Öğrenme (Overfitting) ve Düzenlileştirme: Model Neden Ezberler?</h1>
+    <div class="article-meta"><div class="author"><span class="ava">HY</span><div><div style="color:var(--text);font-weight:600">Halide Yılmaz</div><div>HatsonTech · Kurucu Ortak</div></div></div><span>· 8 dakika okuma</span></div>
+  </div>
+  <div class="wrap narrow"><div class="article-hero"><img src="../../image/bimg-03.jpg" alt="Aşırı Öğrenme (Overfitting) ve Düzenlileştirme: Model Neden Ezberler?"></div></div>
+  <div class="wrap narrow" style="padding-top:36px;padding-bottom:36px">
+    <div class="prose">
+<p class="lead-p">Bir öğrenci sınava çalışırken konuyu anlamak yerine geçmiş yılların sorularını ve cevaplarını ezberlerse, tanıdık sorularda parlak ama biraz değiştirilmiş yeni bir soruda çaresiz kalır. Makine öğrenmesi modelleri de aynı tuzağa düşebilir: eğitim verisini "ezberleyip" gerçek dünyada tökezlerler. Bu duruma <strong>aşırı öğrenme (overfitting)</strong> denir. Bu yazıda modelin neden ezberlediğini sezgisel olarak anlatıyor; dropout, L1/L2, erken durdurma ve çapraz doğrulama gibi <strong>düzenlileştirme</strong> araçlarını günlük örneklerle açıyoruz.</p>
+
+<div class="toc">
+  <h4>İçindekiler</h4>
+  <ol>
+    <li><a href="#b1">Ezberleyen öğrenci: overfitting nedir?</a></li>
+    <li><a href="#b2">Yanlılık-varyans dengesi</a></li>
+    <li><a href="#b3">Dropout: rastgele dinlenmeye yollamak</a></li>
+    <li><a href="#b4">L1 ve L2: ağırlıkları dizginlemek</a></li>
+    <li><a href="#b5">Erken durdurma: tam zamanında durmak</a></li>
+    <li><a href="#b6">Çapraz doğrulama: dürüst bir sınav</a></li>
+    <li><a href="#b7">Pratikte hepsini birleştirmek</a></li>
+  </ol>
+</div>
+
+<h2 id="b1">1. Ezberleyen öğrenci: overfitting nedir?</h2>
+<p>Bir modeli eğitmek, ona örnekler gösterip "bu girdiye bu çıktı uyar" demektir. Amaç, modelin örneklerin <em>altında yatan kuralı</em> öğrenmesidir; tek tek örnekleri değil. Ne var ki yeterince esnek bir model, eğitim verisindeki her gürültüyü, her rastlantısal ayrıntıyı da öğrenmeye meyleder. Buna aşırı öğrenme denir.</p>
+<p>İşaretleri basittir: model eğitim verisinde neredeyse kusursuz (%99 isabet) ama daha önce görmediği veride zayıftır (%70 isabet). Aradaki bu uçurum, modelin genel kuralı değil, eğitim örneklerinin kendine has detaylarını ezberlediğinin habercisidir.</p>
+<blockquote>Aşırı öğrenme, ormanı görmek yerine her bir ağacın yaprak sayısını ezberlemektir. Yeni bir orman gösterildiğinde model şaşırır.</blockquote>
+<p>Zıt uç ise <strong>yetersiz öğrenmedir (underfitting)</strong>: model fazla basittir, eğitim verisinde bile kötüdür. Sanki öğrenci konuya hiç çalışmamıştır. İyi bir model bu ikisi arasında, "yeterince ama fazla değil" dengesini tutturur.</p>
+
+<h2 id="b2">2. Yanlılık-varyans dengesi</h2>
+<p>Bu dengeyi anlatan klasik çerçeve <strong>yanlılık-varyans (bias-variance)</strong> ikilisidir.</p>
+<ul>
+  <li><strong>Yüksek yanlılık (bias):</strong> Model fazla katı varsayımlar yapar, örüntüyü kaçırır. Bu, yetersiz öğrenmedir. Tüm verileri bir doğruyla geçmeye çalışan, ama veri eğri olan bir model gibi.</li>
+  <li><strong>Yüksek varyans:</strong> Model eğitim verisine aşırı duyarlıdır; küçük değişiklikler tahminleri allak bullak eder. Bu, aşırı öğrenmedir.</li>
+</ul>
+<p>Bir okçuyu düşünün. Yüksek yanlılık, okların hep aynı yere ama hedeften uzağa saplanmasıdır (tutarlı ama yanlış). Yüksek varyans ise okların hedefin etrafına dağılmasıdır (ortalamada doğru ama savruk). Hedef, okları hem hedefe yakın hem de derli toplu tutmaktır. <strong>Düzenlileştirme (regularization)</strong> dediğimiz teknikler tam da varyansı kısıp bu dengeyi sağlamaya yarar.</p>
+<div class="callout"><strong>İpucu:</strong> Eğitim ve doğrulama hatasını birlikte izleyin. İkisi de yüksekse yetersiz öğrenme, eğitim düşük ama doğrulama yüksekse aşırı öğrenme vardır. Teşhis, tedaviden önce gelir.</div>
+
+<h2 id="b3">3. Dropout: rastgele dinlenmeye yollamak</h2>
+<p>Sinir ağlarında çok etkili bir yöntem <strong>dropout</strong>'tur. Fikir şaşırtıcı derecede basit: her eğitim adımında, ağdaki nöronların rastgele bir kısmını (örneğin %20-50'sini) geçici olarak kapatırsınız. O adımda sanki o nöronlar hiç yokmuş gibi davranılır.</p>
+<p>Neden işe yarar? Bir takım hayal edin: eğer her işi hep aynı yıldız oyuncu yapıyorsa, o oyuncu sakatlandığında takım çöker. Ama antrenmanlarda rastgele oyuncuları dinlendirirseniz, herkes her rolü öğrenmek zorunda kalır; takım daha dayanıklı olur. Dropout da nöronların birbirine fazla bel bağlamasını (ko-adaptasyon) engeller, ağı daha sağlam örüntüler öğrenmeye zorlar.</p>
+<p>Önemli bir ayrıntı: dropout yalnızca <em>eğitim</em> sırasında uygulanır. Tahmin (çıkarım) anında tüm nöronlar açıktır, çünkü artık modelin tüm gücünü kullanmak isteriz.</p>
+
+<pre><code># Sözde-kod: tek bir katmanda dropout (yalnızca eğitimde)
+def dropout(x, p=0.3, egitim=True):
+    if not egitim:
+        return x                      # cikarimda hicbir noron kapatilmaz
+    mask = (rand_like(x) > p)         # her noron icin: %p ihtimalle kapat
+    return x * mask / (1 - p)         # olcekle ki ortalama deger korunsun</code></pre>
+
+<h2 id="b4">4. L1 ve L2: ağırlıkları dizginlemek</h2>
+<p>Bir modelin "ezberleme" eğilimi çoğu zaman ağırlıklarının (parametrelerinin) aşırı büyümesinden belli olur. Çok büyük ağırlıklar, modelin tek tek örneklere keskin tepkiler vermesi demektir. <strong>L1 ve L2 düzenlileştirmesi</strong>, kayıp (loss) fonksiyonuna bir ceza ekleyerek ağırlıkları küçük tutmaya teşvik eder.</p>
+<ul>
+  <li><strong>L2 (ağırlık sönümleme / weight decay):</strong> Ağırlıkların karelerinin toplamını cezalandırır. Tüm ağırlıkları nazikçe sıfıra doğru iter ama tam sıfır yapmaz. Sonuç: daha yumuşak, daha dengeli bir model.</li>
+  <li><strong>L1:</strong> Ağırlıkların mutlak değerlerini cezalandırır. İlginç bir yan etkisi vardır: birçok ağırlığı tam sıfıra çeker. Bu, modelin gereksiz özellikleri (feature) tamamen elemesini, yani bir tür otomatik özellik seçimi yapmasını sağlar.</li>
+</ul>
+<p>Sezgisel analoji: bir valiz hazırlıyorsunuz. L2 size "her şeyi al ama her birinden azar azar" der; L1 ise "gerçekten gerekmeyenleri tamamen çıkar" der. İkisi de bavulu hafifletir, ama farklı felsefelerle.</p>
+<p>Matematiksel olarak yeni hedef şudur: <em>toplam kayıp = veri kaybı + λ × ceza</em>. Buradaki <strong>λ (lambda)</strong> ceza katsayısıdır: büyük λ daha sert düzenlileştirme (daha basit model), küçük λ daha gevşek demektir. Doğru λ'yı bulmak, dengeyi kurmanın anahtarıdır.</p>
+
+<h2 id="b5">5. Erken durdurma: tam zamanında durmak</h2>
+<p>Bir modeli eğitirken her turda (epoch) ağırlıklar biraz daha iyileşir. Başlangıçta hem eğitim hem doğrulama hatası düşer. Ama bir noktadan sonra ilginç bir şey olur: eğitim hatası düşmeye devam ederken doğrulama hatası <em>artmaya</em> başlar. İşte tam o an, model genel kuralı öğrenmeyi bırakıp eğitim verisini ezberlemeye geçmiştir.</p>
+<p><strong>Erken durdurma (early stopping)</strong>, doğrulama hatasının dibe vurduğu o anı yakalayıp eğitimi durdurmaktır. Pratikte: doğrulama hatası belirli sayıda turda (örneğin 5 tur) iyileşmezse eğitimi keser ve en iyi noktadaki ağırlıkları geri yükleriz. Yani fırını tam kıvamında kapatmak; keki ne çiğ bırakmak ne de yakmak.</p>
+<div class="callout"><strong>İpucu:</strong> Erken durdurma neredeyse bedava bir düzenlileştirmedir; sadece doğrulama hatasını izlemek yeter. Üstelik gereksiz eğitim turlarını keserek zamandan ve hesaplama maliyetinden de tasarruf ettirir.</div>
+
+<h2 id="b6">6. Çapraz doğrulama: dürüst bir sınav</h2>
+<p>Bütün bu tekniklerin işe yarayıp yaramadığını nasıl anlarız? Modeli eğittiğimiz veriyle test edersek, ezbere kanarız. Bu yüzden veriyi ayırırız: bir kısmıyla eğitir, ayırdığımız bir kısmıyla sınarız. Ama tek bir ayrım şanslı (ya da şanssız) bir bölünmeye denk gelebilir.</p>
+<p><strong>k-katlı çapraz doğrulama (k-fold cross-validation)</strong> bu sorunu çözer. Veriyi k eşit parçaya (örneğin 5) bölersiniz. Sonra k tur yaparsınız: her turda bir parçayı sınav, kalan dördünü eğitim için kullanırsınız. Sırayla her parça bir kez sınav olur. Sonuçların ortalamasını alırsınız.</p>
+<p>Bu, bir sınavı tek bir öğretmenin değil, beş farklı öğretmenin ayrı ayrı değerlendirmesi gibidir; tek bir kişinin önyargısına ya da şansa bağlı kalmazsınız. Çapraz doğrulama hem modelin gerçek performansını dürüstçe ölçer hem de λ gibi ayarları (hiperparametreleri) seçmek için güvenilir bir zemin sağlar.</p>
+
+<pre><code># Sözde-kod: 5-katli capraz dogrulama
+parcalar = veriyi_bol(veri, k=5)
+skorlar = []
+for i in range(5):
+    sinav   = parcalar[i]                 # bu tur sinav
+    egitim  = tum_parcalar_haric(i)       # kalan 4 parca
+    model   = egit(egitim)
+    skorlar.append(degerlendir(model, sinav))
+print("Ortalama skor:", ortalama(skorlar))   # daha dürüst bir tahmin</code></pre>
+
+<h2 id="b7">7. Pratikte hepsini birleştirmek</h2>
+<p>Gerçek projelerde bu araçlar birbirinin alternatifi değil, tamamlayıcısıdır. Tipik bir sinir ağı eğitiminde dropout, L2 (weight decay) ve erken durdurmayı aynı anda kullanmak; λ ve dropout oranı gibi seçimleri çapraz doğrulamayla ayarlamak yaygındır. Ayrıca en güçlü düzenlileştiricinin çoğu zaman <strong>daha fazla ve daha temiz veri</strong> olduğunu unutmamak gerekir: model ne kadar çok gerçek örnek görürse, gürültüyü ezberlemesi o kadar zorlaşır.</p>
+<p>Veri toplamak pahalıysa <strong>veri çoğaltma (data augmentation)</strong> devreye girer: görselleri döndürmek, kırpmak, metinleri eşanlamlılarla yeniden ifade etmek gibi yöntemlerle aynı veriden daha çeşitli örnekler türetilir. Tüm bu yaklaşımların ortak amacı tektir: modeli ezberden uzaklaştırıp genelleştirmeye yöneltmek.</p>
+
+<div class="takeaways">
+  <h4>Öne çıkanlar</h4>
+  <ul>
+    <li>Aşırı öğrenme, modelin genel kuralı değil eğitim verisinin gürültüsünü ezberlemesidir; belirtisi eğitimde yüksek, gerçek veride düşük başarıdır.</li>
+    <li>Yanlılık-varyans dengesi, "fazla basit" ile "fazla karmaşık" arasındaki dengeyi tarif eder; düzenlileştirme varyansı kısar.</li>
+    <li>Dropout, eğitimde nöronları rastgele kapatarak ağın belirli yollara bağımlı kalmasını engeller.</li>
+    <li>L2 ağırlıkları nazikçe küçültür; L1 birçok ağırlığı sıfırlayarak otomatik özellik seçimi yapar. λ cezanın şiddetini ayarlar.</li>
+    <li>Erken durdurma, doğrulama hatası artmaya başladığı anda eğitimi keser; ucuz ve etkili bir düzenlileştirmedir.</li>
+    <li>Çapraz doğrulama, performansı dürüstçe ölçer ve hiperparametre seçimini güvenilir kılar.</li>
+    <li>En güçlü düzenlileştirici çoğu zaman daha fazla, daha temiz veridir; mümkünse veri çoğaltma ile desteklenir.</li>
+  </ul>
+</div>
+
+<div class="faq">
+  <details>
+    <summary>Modelimin aşırı öğrendiğini nasıl anlarım?</summary>
+    <p>En net işaret, eğitim başarısı ile doğrulama başarısı arasındaki büyük açıktır. Model eğitim verisinde çok iyi (örneğin %98) ama görmediği doğrulama verisinde belirgin biçimde kötüyse (örneğin %75), büyük olasılıkla ezberliyordur. Eğitim ve doğrulama hatası eğrilerini birlikte çizmek bu teşhisi kolaylaştırır.</p>
+  </details>
+  <details>
+    <summary>L1 mi L2 mi kullanmalıyım?</summary>
+    <p>Duruma bağlı. Eğer çok sayıda özelliğiniz var ve bunların çoğunun gereksiz olduğundan şüpheleniyorsanız, L1 işe yarar çünkü gereksizleri sıfırlayıp seyrek (sparse) bir model üretir. Genel amaçlı, daha pürüzsüz bir model için L2 tercih edilir. İkisini birlikte kullanan (Elastic Net) yöntemler de vardır.</p>
+  </details>
+  <details>
+    <summary>Daha fazla veri toplamak her zaman çözüm müdür?</summary>
+    <p>Çoğu zaman en etkili çözümdür, çünkü model gerçek örnekler arttıkça gürültüyü ezberlemekte zorlanır. Ancak veri pahalı ya da kıt olabilir; o durumda veri çoğaltma, dropout, L1/L2 ve erken durdurma gibi tekniklerle aynı veriden daha fazla genelleme çıkarmaya çalışırız. Pratikte hepsi birlikte kullanılır.</p>
+  </details>
+</div>
+
+<hr>
+<p>Özetle: aşırı öğrenme, makine öğrenmesinin en yaygın tuzağıdır ama teşhisi ve tedavisi bellidir. Yanlılık-varyans dengesini gözeterek dropout, L1/L2, erken durdurma ve çapraz doğrulamayı bir arada kullandığınızda, ezberleyen değil <em>genelleştiren</em> modeller elde edersiniz. Türkçe odaklı yapay zeka modellerinin gerçek dünyada nasıl sağlam kurulduğunu merak ediyorsanız, <a href="../hatsontech-nedir/">HatsonTech</a>'un çalışmalarına göz atabilirsiniz.</p>
+
+    </div>
+    <div class="article-tags"><span class="tag">Temeller</span><span class="tag">Yapay Zeka</span></div>
+    <div class="author-box"><span class="ava">HY</span><div><h4>Halide Yılmaz</h4><div class="role">HatsonTech Teknoloji A.Ş. · Kurucu Ortak</div><p>ODTÜ Bilgisayar Mühendisliği mezunu; bilgisayar ve yapay zeka alanında deneyimli kurucu ortak.</p></div></div>
+    <div class="post-nav"><a href="../rnn-den-transformer/"><div class="dir">← Önceki</div><div class="ttl">RNN ve LSTM'den Transformer'a: Dizi Mimarilerinin Evrimi</div></a><a class="next" href="../gradyan-inisi-optimizasyon/"><div class="dir">Sıradaki →</div><div class="ttl">Gradyan İnişi ve Optimizasyon: Bir Model Nasıl &quot;Öğrenir&quot;?</div></a></div>
+  </div>
+</article>
+  <footer class="footer"><div class="wrap"><div class="footer-bottom" style="border:none;margin:0;padding:0"><span>© <span data-year>2026</span> Halide Yılmaz · Tüm hakları saklıdır.</span><span><a href="../../gizlilik/">Çerez Politikası</a> · Ankara · ODTÜ Teknokent 🌿</span></div></div></footer>
+  <button class="icon-btn to-top" aria-label="Top"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5M5 12l7-7 7 7"/></svg></button>
+  <script src="../../js/main.js"></script>
+</body>
+</html>
