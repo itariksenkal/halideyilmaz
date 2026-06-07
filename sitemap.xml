@@ -27,27 +27,27 @@
   <url><loc>https://halideyilmaz.com/posts/veri-kalitesi-etiketleme/</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
   <url><loc>https://halideyilmaz.com/en/</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
   <url><loc>https://halideyilmaz.com/en/blog/</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://halideyilmaz.com/en/posts/halide-yilmaz-kimdir/</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://halideyilmaz.com/en/posts/hatsontech-nedir/</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://halideyilmaz.com/en/posts/caseon-nedir/</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://halideyilmaz.com/en/posts/cnn-goruntu-isleme/</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://halideyilmaz.com/en/posts/rnn-den-transformer/</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://halideyilmaz.com/en/posts/overfitting-duzenlilestirme/</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://halideyilmaz.com/en/posts/gradyan-inisi-optimizasyon/</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://halideyilmaz.com/en/posts/degerlendirme-metrikleri/</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://halideyilmaz.com/en/posts/denetimsiz-ogrenme-kumeleme/</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://halideyilmaz.com/en/posts/ozellik-muhendisligi/</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://halideyilmaz.com/en/posts/model-yorumlanabilirligi/</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://halideyilmaz.com/en/posts/sentetik-veri/</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://halideyilmaz.com/en/posts/model-izleme-drift/</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://halideyilmaz.com/en/posts/attention-mekanizmasi/</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://halideyilmaz.com/en/posts/tokenizasyon-turkce/</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://halideyilmaz.com/en/posts/embedding-semantik-benzerlik/</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://halideyilmaz.com/en/posts/rag-chunking-stratejileri/</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://halideyilmaz.com/en/posts/reranking-hibrit-arama/</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://halideyilmaz.com/en/posts/baglam-penceresi/</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://halideyilmaz.com/en/posts/llm-ajanlari/</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://halideyilmaz.com/en/posts/bilgi-grafigi-rag/</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://halideyilmaz.com/en/posts/model-cikarimi-olcekleme/</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://halideyilmaz.com/en/posts/veri-kalitesi-etiketleme/</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://halideyilmaz.com/en/posts/who-is-halide-yilmaz/</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://halideyilmaz.com/en/posts/how-hatsontech-started/</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://halideyilmaz.com/en/posts/what-is-caseon/</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://halideyilmaz.com/en/posts/cnn-image-processing-basics/</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://halideyilmaz.com/en/posts/rnn-lstm-to-transformer/</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://halideyilmaz.com/en/posts/overfitting-regularization/</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://halideyilmaz.com/en/posts/gradient-descent-optimization/</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://halideyilmaz.com/en/posts/classification-metrics/</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://halideyilmaz.com/en/posts/unsupervised-learning-clustering/</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://halideyilmaz.com/en/posts/feature-engineering/</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://halideyilmaz.com/en/posts/model-interpretability-xai/</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://halideyilmaz.com/en/posts/synthetic-data-generation/</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://halideyilmaz.com/en/posts/model-monitoring-drift/</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://halideyilmaz.com/en/posts/attention-mechanism-explained/</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://halideyilmaz.com/en/posts/tokenization-turkish-challenges/</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://halideyilmaz.com/en/posts/embedding-models-semantic-similarity/</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://halideyilmaz.com/en/posts/rag-chunking-strategies/</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://halideyilmaz.com/en/posts/reranking-hybrid-search/</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://halideyilmaz.com/en/posts/context-window-long-documents/</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://halideyilmaz.com/en/posts/llm-agents-tool-use/</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://halideyilmaz.com/en/posts/knowledge-graph-rag/</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://halideyilmaz.com/en/posts/model-inference-scaling/</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://halideyilmaz.com/en/posts/data-quality-labeling/</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
 </urlset>

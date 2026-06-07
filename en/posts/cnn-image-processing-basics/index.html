@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>CNNs and the Basics of Image Processing: How Does a Machine &quot;See&quot; an Image? — Halide Yılmaz</title>
+<meta name="description" content="An intuitive guide to CNNs through filters, convolution, pooling and layers: how a machine actually parses and &quot;sees&quot; an image, with a short code sketch." />
+<link rel="canonical" href="https://halideyilmaz.com/en/posts/cnn-image-processing-basics/" /><link rel="alternate" hreflang="tr" href="https://halideyilmaz.com/posts/cnn-goruntu-isleme/" /><meta name="theme-color" content="#7CB342" />
+<meta property="og:type" content="article" /><meta property="og:title" content="CNNs and the Basics of Image Processing: How Does a Machine &quot;See&quot; an Image?" /><meta property="og:description" content="An intuitive guide to CNNs through filters, convolution, pooling and layers: how a machine actually parses and &quot;sees&quot; an image, with a short code sketch." /><meta property="og:image" content="https://halideyilmaz.com/image/bimg-01.jpg" />
+<link rel="icon" type="image/png" href="../../../image/hatsontech_logo.png" />
+<link rel="preconnect" href="https://fonts.googleapis.com" /><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&family=Newsreader:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet" />
+<script>(function(){try{var k="hy-theme",t=localStorage.getItem(k),m=window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches;document.documentElement.setAttribute("data-theme",t||(m?"dark":"light"));}catch(e){}})();</script>
+<link rel="stylesheet" href="../../../css/style.css" />
+</head>
+<body>
+<div class="progress"></div>
+  <nav class="nav" id="nav">
+    <div class="wrap">
+      <a class="brand" href="../../" aria-label="Home"><img src="../../../image/hatsontech_logo.png" alt="HatsonTech" /><span>Halide Yılmaz<small>HatsonTech · Co-Founder</small></span></a>
+      <div class="nav-links" id="navLinks">
+        <a href="../../#about">About</a>
+        <a href="../../#what-i-do">What I Do</a>
+        <a href="../../#expertise">Expertise</a>
+        <a href="../../blog/">Articles</a>
+        <a href="../../#contact">Contact</a>
+      </div>
+      <div class="nav-actions">
+        <a class="lang-switch" href="../../../posts/cnn-goruntu-isleme/">TR</a>
+        <button class="icon-btn theme-toggle" data-theme-toggle aria-label="Theme"><svg class="sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M6.3 17.7l-1.4 1.4M19.1 4.9l-1.4 1.4"/></svg><svg class="moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg></button>
+        <button class="icon-btn nav-toggle" data-nav-toggle aria-label="Menu"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 6h18M3 12h18M3 18h18"/></svg></button>
+      </div>
+    </div>
+  </nav>
+<article>
+  <div class="wrap narrow article-head">
+    <div class="breadcrumb"><a href="../../">Home</a> <span>/</span>
+        <a href="../../blog/">Articles</a> <span>/</span>
+        <span>Vision</span></div>
+    <span class="tag">Vision</span>
+    <h1>CNNs and the Basics of Image Processing: How Does a Machine &quot;See&quot; an Image?</h1>
+    <div class="article-meta"><div class="author"><span class="ava">HY</span><div><div style="color:var(--text);font-weight:600">Halide Yılmaz</div><div>HatsonTech · Co-Founder</div></div></div><span>· 9 min read</span></div>
+  </div>
+  <div class="wrap narrow"><div class="article-hero"><img src="../../../image/bimg-01.jpg" alt="CNNs and the Basics of Image Processing: How Does a Machine &quot;See&quot; an Image?"></div></div>
+  <div class="wrap narrow" style="padding-top:36px;padding-bottom:36px">
+    <div class="prose">
+<div class="prose">
+<p class="lead-p">When you glance at a photo, saying "cat" takes a fraction of a second. To a computer, though, that same photo is just a giant table of millions of numbers. Convolutional neural networks (CNNs) are one of the most effective ways to turn that pile of numbers into meaningful concepts. In this post we'll walk through filters, convolution, pooling and layers using everyday analogies, so that by the end you have an intuitive grasp of how a machine "sees" an image.</p>
+
+<div class="toc"><h4>Contents</h4><ol>
+<li><a href="#b1">What is an image to a machine?</a></li>
+<li><a href="#b2">Filters: tiny pattern detectors</a></li>
+<li><a href="#b3">Convolution: sliding the filter across the image</a></li>
+<li><a href="#b4">Pooling: keep what matters, simplify the rest</a></li>
+<li><a href="#b5">Layers: a hierarchy from simple to complex</a></li>
+<li><a href="#b6">A small code example</a></li>
+<li><a href="#b7">So does the machine really "see"?</a></li>
+</ol></div>
+
+<h2 id="b1">What is an image to a machine?</h2>
+<p>A digital image is made of tiny dots of color, called pixels, arranged in a grid. In a grayscale image each pixel is a single number representing brightness, usually from 0 (black) to 255 (white). In color images each pixel carries three numbers: the red, green and blue channels (RGB). So a 224x224 color photo is, to a computer, nothing more than a table of over 150,000 numbers.</p>
+<p>An analogy helps: think of the image as an enormous spreadsheet where every cell holds a brightness value. A human eye looking at the sheet from a distance instantly catches the pattern; a computer, however, only sees individual cells. The job of a CNN is to find and interpret the <em>local patterns</em> among those cells.</p>
+
+<blockquote>The machine sees pixels; the CNN learns the relationships between them. The real intelligence lies not in single numbers, but in the patterns they form together.</blockquote>
+
+<h2 id="b2">Filters: tiny pattern detectors</h2>
+<p>A filter (also called a kernel) is usually a small square of numbers, often 3x3 or 5x5. Each filter is sensitive to a specific pattern: some catch vertical edges, others horizontal edges, and others corners or color transitions. You can picture a filter as a small stencil with a particular shape drawn on it. Press the stencil onto a region of the image, and the more that region matches the stencil, the stronger the response it produces.</p>
+<p>A classic example is a filter that detects vertical edges. If you fill its left column with negative values and its right column with positive ones, the filter responds strongly where there is a dark-to-light transition, and stays near zero on a flat surface. The beautiful part is this: in CNNs we don't write these filter values by hand; the network learns them from the data during training.</p>
+
+<div class="callout"><strong>Tip:</strong> If you visualize the filters in the first layer of a CNN, you'll often see edge and color-blob detectors, much like the early stages of the human visual system.</div>
+
+<h2 id="b3">Convolution: sliding the filter across the image</h2>
+<p>Convolution is the operation of sliding the filter step by step, starting from the top-left corner of the image. At each stop the filter is multiplied with the pixels beneath it, the results are summed, and a single number is produced. That number tells us how closely that region resembles the pattern the filter is looking for. Once the filter has scanned the whole image, the result is a new table called a <strong>feature map</strong>.</p>
+<p>Two concepts matter here. <em>Stride</em> is how many pixels the filter moves at each step; a larger stride produces a smaller output. <em>Padding</em> is the border of zeros added around the image to preserve information at the edges. Another crucial idea is <em>parameter sharing</em>: because the same filter is used across the whole image, we can recognize an edge whether it appears in the top-left or the bottom-right. This dramatically reduces the number of parameters to learn and gives the model a sense of position independence.</p>
+<p>An everyday analogy: imagine you hold a piece of cardboard with a hole in it (the filter) and slide it across a newspaper from left to right, top to bottom. At each stop you read the letters visible through the hole and jot down a note. By the end you've produced a "reading map" of the entire newspaper. That is exactly what convolution does.</p>
+
+<h2 id="b4">Pooling: keep what matters, simplify the rest</h2>
+<p>Feature maps can still be large. Pooling shrinks these maps, which both lightens the computation and adds robustness to small shifts in position. The most common type is <em>max pooling</em>: for example, within a 2x2 window the highest value is kept and the rest are discarded. The logic is: "Was the pattern I'm looking for strongly present in this region? If so, exactly which pixel it sat on matters less."</p>
+<p>You can compare this to summarizing. It's like reading a long paragraph and saying, "the most striking sentence here was this one." You lose some detail, but you keep the main idea and shorten the text. Pooling does a similar kind of summarization across the image.</p>
+
+<ul>
+<li><strong>Max pooling:</strong> takes the largest value in the window; emphasizes the dominant feature.</li>
+<li><strong>Average pooling:</strong> takes the average of the values in the window; produces a softer summary.</li>
+<li><strong>Result:</strong> smaller maps, less computation, and a model more robust to small shifts.</li>
+</ul>
+
+<h2 id="b5">Layers: a hierarchy from simple to complex</h2>
+<p>The real power of CNNs comes from stacking these operations on top of one another. The first convolutional layers learn simple things: edges, corners, color transitions. The next layer combines these simple parts to capture textures and basic shapes. Deeper layers begin to represent object parts like an eye, a wheel or a door handle, and at the very top whole concepts such as "cat" or "car."</p>
+<p>This resembles how a child learns to draw: first lines, then shapes from lines, then faces from shapes. Each layer takes the output of the one below as its input and produces a more abstract representation. A typical flow looks like this: a block of <em>convolution → activation (e.g. ReLU) → pooling</em> repeats several times, then the resulting features are flattened and fed into fully connected layers, and the final layer produces a class probability.</p>
+
+<h3>Why is activation needed?</h3>
+<p>Convolution and summation are linear operations; if you only stack them, no matter how many layers you add, the result is still equivalent to a single linear operation. A nonlinear activation like ReLU (a simple rule that zeroes out negative values) steps in between and gives the network the ability to learn curved, complex relationships. Without nonlinearity, depth would be pointless.</p>
+
+<h2 id="b6">A small code example</h2>
+<p>The simplified pseudocode below shows the essence of convolution for a single filter. Its purpose is to clarify the logic of the operation rather than to be run as is.</p>
+
+<pre><code>// 3x3 vertical edge filter (simple example)
+filter = [[-1, 0, 1],
+          [-1, 0, 1],
+          [-1, 0, 1]]
+
+feature_map = empty_table()
+
+for each (y, x) position scanning the image:
+    total = 0
+    for each (i, j) over the filter:
+        total += image[y+i][x+j] * filter[i][j]
+    feature_map[y][x] = max(0, total)   // ReLU: zero out negatives
+
+// Then pooling:
+for each 2x2 block over feature_map:
+    output[block] = largest_value(block)   // max pooling
+</code></pre>
+
+<p>In real libraries (such as PyTorch or TensorFlow) you don't write these loops by hand; a single layer call handles the whole thing, and the filter values are learned through training. But the underlying idea is exactly this: multiply, sum, pass through a nonlinear threshold, summarize, repeat.</p>
+
+<h2 id="b7">So does the machine really "see"?</h2>
+<p>The short answer: no, at least not in the way we mean it. A CNN converts an image into increasingly abstract numerical representations and, from those, produces the statistically most likely label. It does not grasp meaning, intent or context the way we do; what it "sees" is a reflection of the patterns in the data it was trained on. That's why, if the training data is imbalanced or incomplete, the model can make surprising mistakes.</p>
+<p>Even so, this approach is incredibly powerful: anomaly detection in medical images, quality control on production lines, document digitization and much more are all built on these foundations. If you're curious about how artificial intelligence is woven into everyday life, you can browse the content at <a href="../how-hatsontech-started/">HatsonTech</a>.</p>
+
+<div class="takeaways"><h4>Key takeaways</h4><ul>
+<li>To a computer, an image is a table of numbers made of pixel brightness values.</li>
+<li>Filters are tiny pattern detectors; a CNN learns their values from data.</li>
+<li>Convolution slides a filter across the image to produce feature maps; parameter sharing brings efficiency.</li>
+<li>Pooling shrinks the maps and adds robustness to small shifts in position.</li>
+<li>Layers build a hierarchy from simple edges to complex objects; nonlinear activation makes this possible.</li>
+<li>A CNN doesn't "see"; it produces probabilities from statistical patterns, so data quality is critical.</li>
+</ul></div>
+
+<div class="faq">
+<details><summary>Do I have to set the filter values myself?</summary><p>No. Classic image processing used hand-designed filters, but in CNNs the filter values are learned automatically from data during training. What you decide are architectural choices like the number and size of filters.</p></details>
+<details><summary>What's the difference between convolution and pooling?</summary><p>Convolution detects patterns to produce new feature maps and has learnable parameters. Pooling only shrinks and summarizes those maps; it has no learned parameters and usually works by taking the largest value.</p></details>
+<details><summary>Are CNNs only used for images?</summary><p>No. The same "capture local patterns" idea can be applied to audio waveforms, time series and even text. Still, the most common and intuitive use case is image and video processing.</p></details>
+</div>
+
+<hr>
+</div>
+    </div>
+    <div class="article-tags"><span class="tag">Vision</span><span class="tag">AI</span></div>
+    <div class="author-box"><span class="ava">HY</span><div><h4>Halide Yılmaz</h4><div class="role">HatsonTech Teknoloji A.Ş. · Co-Founder</div><p>A graduate of METU Computer Engineering; co-founder working in computing and AI.</p></div></div>
+    <div class="post-nav"><a href="../../blog/"><div class="dir">← Back</div><div class="ttl">All articles</div></a><a class="next" href="../rnn-lstm-to-transformer/"><div class="dir">Next →</div><div class="ttl">From RNNs and LSTMs to the Transformer: The Evolution of Sequence Architectures</div></a></div>
+  </div>
+</article>
+  <footer class="footer"><div class="wrap"><div class="footer-bottom" style="border:none;margin:0;padding:0"><span>© <span data-year>2026</span> Halide Yılmaz · All rights reserved.</span><span><a href="../../privacy/">Cookie Policy</a> · Ankara · METU Technopark 🌿</span></div></div></footer>
+  <button class="icon-btn to-top" aria-label="Top"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5M5 12l7-7 7 7"/></svg></button>
+  <script src="../../../js/main.js"></script>
+</body>
+</html>
