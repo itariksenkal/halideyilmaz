@@ -1,14 +1,11 @@
 <!DOCTYPE html>
 <html lang="tr" data-theme="light">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>Reranking ve Hibrit Arama: BM25 ile Semantik Aramayı Birleştirmek — Halide Yılmaz</title>
 <meta name="description" content="BM25 ile semantik aramayı birleştiren hibrit arama, RRF ile skor füzyonu ve cross-encoder ile reranking'i kısa kod örnekleriyle sezgisel olarak anlatıyoruz." />
-<link rel="canonical" href="https://halideyilmaz.com/posts/reranking-hibrit-arama.html" />
-<link rel="alternate" hreflang="en" href="https://halideyilmaz.com/en/posts/reranking-hibrit-arama.html" />
-<meta name="theme-color" content="#7CB342" />
-<meta property="og:type" content="article" /><meta property="og:title" content="Reranking ve Hibrit Arama: BM25 ile Semantik Aramayı Birleştirmek" /><meta property="og:description" content="BM25 ile semantik aramayı birleştiren hibrit arama, RRF ile skor füzyonu ve cross-encoder ile reranking'i kısa kod örnekleriyle sezgisel olarak anlatıyoruz." /><meta property="og:image" content="https://halideyilmaz.com/image/ai-h-05.svg" />
+<link rel="canonical" href="https://halideyilmaz.com/posts/reranking-hibrit-arama.html" /><link rel="alternate" hreflang="en" href="https://halideyilmaz.com/en/posts/reranking-hibrit-arama.html" /><meta name="theme-color" content="#7CB342" />
+<meta property="og:type" content="article" /><meta property="og:title" content="Reranking ve Hibrit Arama: BM25 ile Semantik Aramayı Birleştirmek" /><meta property="og:description" content="BM25 ile semantik aramayı birleştiren hibrit arama, RRF ile skor füzyonu ve cross-encoder ile reranking'i kısa kod örnekleriyle sezgisel olarak anlatıyoruz." /><meta property="og:image" content="https://halideyilmaz.com/image/bimg-15.jpg" />
 <link rel="icon" type="image/png" href="../image/hatsontech_logo.png" />
 <link rel="preconnect" href="https://fonts.googleapis.com" /><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&family=Newsreader:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet" />
@@ -43,7 +40,7 @@
     <h1>Reranking ve Hibrit Arama: BM25 ile Semantik Aramayı Birleştirmek</h1>
     <div class="article-meta"><div class="author"><span class="ava">HY</span><div><div style="color:var(--text);font-weight:600">Halide Yılmaz</div><div>HatsonTech · Kurucu Ortak</div></div></div><span>· 7 dakika okuma</span></div>
   </div>
-  <div class="wrap narrow"><div class="article-hero"><img src="../image/ai-h-05.svg" alt="Reranking ve Hibrit Arama: BM25 ile Semantik Aramayı Birleştirmek"></div></div>
+  <div class="wrap narrow"><div class="article-hero"><img src="../image/bimg-15.jpg" alt="Reranking ve Hibrit Arama: BM25 ile Semantik Aramayı Birleştirmek"></div></div>
   <div class="wrap narrow" style="padding-top:36px;padding-bottom:36px">
     <div class="prose">
 <p class="lead-p">Bir kütüphaneye girip "ucuz uçuş bulmanın yolları" diye sorduğunuzu düşünün. Bir görevli rafları kelime kelime tarayıp başlığında "uçuş" geçen kitapları getirir; bir diğeri ise ne demek istediğinizi anlayıp "seyahat bütçesi" kitabını uzatır. En iyi sonucu ikisini birleştirip, getirilen yığını dikkatle yeniden gözden geçirerek alırsınız. İşte hibrit arama ve reranking tam olarak budur. Bu yazıda anahtar kelime ile semantik aramayı nasıl harmanlayacağımızı ve cross-encoder ile getirim kalitesini nasıl yükselteceğimizi sezgisel biçimde anlatacağız.</p>

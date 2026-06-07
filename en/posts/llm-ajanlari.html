@@ -1,14 +1,11 @@
 <!DOCTYPE html>
 <html lang="en" data-theme="light">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>LLM Agents and Tool Use: Planning, MCP, and Multi-Step Tasks — Halide Yılmaz</title>
 <meta name="description" content="How do LLM agents call tools, plan, and run multi-step tasks? We explain MCP, the opportunities, and the risks with plain, everyday analogies." />
-<link rel="canonical" href="https://halideyilmaz.com/en/posts/llm-ajanlari.html" />
-<link rel="alternate" hreflang="tr" href="https://halideyilmaz.com/posts/llm-ajanlari.html" />
-<meta name="theme-color" content="#7CB342" />
-<meta property="og:type" content="article" /><meta property="og:title" content="LLM Agents and Tool Use: Planning, MCP, and Multi-Step Tasks" /><meta property="og:description" content="How do LLM agents call tools, plan, and run multi-step tasks? We explain MCP, the opportunities, and the risks with plain, everyday analogies." /><meta property="og:image" content="https://halideyilmaz.com/image/ai-h-07.svg" />
+<link rel="canonical" href="https://halideyilmaz.com/en/posts/llm-ajanlari.html" /><link rel="alternate" hreflang="tr" href="https://halideyilmaz.com/posts/llm-ajanlari.html" /><meta name="theme-color" content="#7CB342" />
+<meta property="og:type" content="article" /><meta property="og:title" content="LLM Agents and Tool Use: Planning, MCP, and Multi-Step Tasks" /><meta property="og:description" content="How do LLM agents call tools, plan, and run multi-step tasks? We explain MCP, the opportunities, and the risks with plain, everyday analogies." /><meta property="og:image" content="https://halideyilmaz.com/image/bimg-17.jpg" />
 <link rel="icon" type="image/png" href="../../image/hatsontech_logo.png" />
 <link rel="preconnect" href="https://fonts.googleapis.com" /><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&family=Newsreader:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet" />
@@ -43,7 +40,7 @@
     <h1>LLM Agents and Tool Use: Planning, MCP, and Multi-Step Tasks</h1>
     <div class="article-meta"><div class="author"><span class="ava">HY</span><div><div style="color:var(--text);font-weight:600">Halide Yılmaz</div><div>HatsonTech · Co-Founder</div></div></div><span>· 9 min read</span></div>
   </div>
-  <div class="wrap narrow"><div class="article-hero"><img src="../../image/ai-h-07.svg" alt="LLM Agents and Tool Use: Planning, MCP, and Multi-Step Tasks"></div></div>
+  <div class="wrap narrow"><div class="article-hero"><img src="../../image/bimg-17.jpg" alt="LLM Agents and Tool Use: Planning, MCP, and Multi-Step Tasks"></div></div>
   <div class="wrap narrow" style="padding-top:36px;padding-bottom:36px">
     <div class="prose">
 <p class="lead-p">Ask a language model a question and it writes you a sentence. Give an <em>agent</em> a task and it gets work done: it opens the calendar, finds a free slot, sends the invite, then reports back. The difference is like asking a consultant for advice versus telling an assistant “handle this.” In this article we’ll explore — intuitively — how LLM agents think and use tools, why MCP (the Model Context Protocol) matters, and the opportunities and risks of multi-step tasks.</p>

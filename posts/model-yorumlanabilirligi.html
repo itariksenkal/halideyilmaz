@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="tr" data-theme="light">
+<head>
+<meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Model Yorumlanabilirliği (XAI): Bir Model Neden Böyle Karar Verdi? — Halide Yılmaz</title>
+<meta name="description" content="SHAP, LIME ve dikkat görselleştirmesini sezgisel örneklerle anlatıyoruz: bir model neden böyle karar verir ve bu açıklamalar güven ile hesap verebilirliği nasıl güçlendirir?" />
+<link rel="canonical" href="https://halideyilmaz.com/posts/model-yorumlanabilirligi.html" /><link rel="alternate" hreflang="en" href="https://halideyilmaz.com/en/posts/model-yorumlanabilirligi.html" /><meta name="theme-color" content="#7CB342" />
+<meta property="og:type" content="article" /><meta property="og:title" content="Model Yorumlanabilirliği (XAI): Bir Model Neden Böyle Karar Verdi?" /><meta property="og:description" content="SHAP, LIME ve dikkat görselleştirmesini sezgisel örneklerle anlatıyoruz: bir model neden böyle karar verir ve bu açıklamalar güven ile hesap verebilirliği nasıl güçlendirir?" /><meta property="og:image" content="https://halideyilmaz.com/image/bimg-08.jpg" />
+<link rel="icon" type="image/png" href="../image/hatsontech_logo.png" />
+<link rel="preconnect" href="https://fonts.googleapis.com" /><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&family=Newsreader:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet" />
+<script>(function(){try{var k="hy-theme",t=localStorage.getItem(k),m=window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches;document.documentElement.setAttribute("data-theme",t||(m?"dark":"light"));}catch(e){}})();</script>
+<link rel="stylesheet" href="../css/style.css" />
+</head>
+<body>
+<div class="progress"></div>
+  <nav class="nav" id="nav">
+    <div class="wrap">
+      <a class="brand" href="../index.html" aria-label="Home"><img src="../image/hatsontech_logo.png" alt="HatsonTech" /><span>Halide Yılmaz<small>HatsonTech · Co-Founder</small></span></a>
+      <div class="nav-links" id="navLinks">
+        <a href="../index.html#hakkinda">Kimdir</a>
+        <a href="../index.html#ne-yapiyor">Ne Yapıyor</a>
+        <a href="../index.html#uzmanlik">Uzmanlık</a>
+        <a href="../blog.html">Yazılar</a>
+        <a href="../index.html#iletisim">İletişim</a>
+      </div>
+      <div class="nav-actions">
+        <a class="lang-switch" href="../en/posts/model-yorumlanabilirligi.html">EN</a>
+        <button class="icon-btn theme-toggle" data-theme-toggle aria-label="Theme"><svg class="sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M6.3 17.7l-1.4 1.4M19.1 4.9l-1.4 1.4"/></svg><svg class="moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg></button>
+        <button class="icon-btn nav-toggle" data-nav-toggle aria-label="Menu"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 6h18M3 12h18M3 18h18"/></svg></button>
+      </div>
+    </div>
+  </nav>
+<article>
+  <div class="wrap narrow article-head">
+    <div class="breadcrumb"><a href="../index.html">Ana sayfa</a> <span>/</span>
+        <a href="../blog.html">Yazılar</a> <span>/</span>
+        <span>Yorumlama</span></div>
+    <span class="tag">Yorumlama</span>
+    <h1>Model Yorumlanabilirliği (XAI): Bir Model Neden Böyle Karar Verdi?</h1>
+    <div class="article-meta"><div class="author"><span class="ava">HY</span><div><div style="color:var(--text);font-weight:600">Halide Yılmaz</div><div>HatsonTech · Kurucu Ortak</div></div></div><span>· 5 dakika okuma</span></div>
+  </div>
+  <div class="wrap narrow"><div class="article-hero"><img src="../image/bimg-08.jpg" alt="Model Yorumlanabilirliği (XAI): Bir Model Neden Böyle Karar Verdi?"></div></div>
+  <div class="wrap narrow" style="padding-top:36px;padding-bottom:36px">
+    <div class="prose">
+<div class="prose">
+<p class="lead-p">Bir model "kredini reddediyorum" dediğinde, asıl soru "doğru mu?" değildir; asıl soru "neden?" sorusudur. Model yorumlanabilirliği (XAI), bir tahminin ardındaki gerekçeyi insan diliyle açıklamayı hedefler. Bu yazıda SHAP, LIME ve dikkat görselleştirmesini sezgisel biçimde ele alıyor; yorumlanabilirliğin güven ve hesap verebilirlikle nasıl iç içe olduğunu konuşuyoruz.</p>
+
+<div class="toc"><h4>İçindekiler</h4><ol>
+<li><a href="#b1">Neden "neden" sorusu önemli?</a></li>
+<li><a href="#b2">SHAP: katkı payını adil bölmek</a></li>
+<li><a href="#b3">LIME: yerel ve basit bir vekil</a></li>
+<li><a href="#b4">Dikkat görselleştirmesi: model nereye baktı?</a></li>
+<li><a href="#b5">Güven, hesap verebilirlik ve tuzaklar</a></li>
+</ol></div>
+
+<h2 id="b1">Neden "neden" sorusu önemli?</h2>
+<p>Bir doktorun "bu tahlil iyi görünüyor" demesiyle, "şu üç değer normalin üzerinde, o yüzden ek test istiyorum" demesi arasındaki fark açıklanabilirliktir. İlki sonucu verir; ikincisi gerekçeyi de verir. Yapay zeka modelleri çoğu zaman birinci doktor gibi davranır: yüksek doğrulukla bir sayı üretir ama bu sayının nasıl oluştuğunu söylemez.</p>
+<p>Karmaşık modeller (derin ağlar, gradyan artırmalı ağaçlar) milyonlarca parametreyi iç içe kullanır. Bu yüzden bunlara çoğu zaman "kara kutu" denir. Yorumlanabilirlik, kutunun içine ışık tutmak için geliştirilen yöntemler bütünüdür. İki temel ihtiyaç vardır:</p>
+<ul>
+<li><strong>Yerel açıklama:</strong> "Bu tek tahmin neden böyle çıktı?"</li>
+<li><strong>Genel açıklama:</strong> "Model genel olarak hangi özelliklere ağırlık veriyor?"</li>
+</ul>
+<blockquote>Doğruluk modelin <em>ne kadar</em> isabetli olduğunu söyler; yorumlanabilirlik <em>neden</em> isabetli (ya da isabetsiz) olduğunu söyler.</blockquote>
+
+<h2 id="b2">SHAP: katkı payını adil bölmek</h2>
+<p>SHAP (SHapley Additive exPlanations), kökünü işbirlikçi oyun teorisinden alan Shapley değerlerinden alır. Sezgi şudur: bir takım maç kazandı; her oyuncunun galibiyete katkısını adilce nasıl paylaştırırız? Cevap, her oyuncuyu takıma farklı sıralarda ekleyip getirdiği ek katkının ortalamasını almaktır.</p>
+<p>Modelde "oyuncular" özelliklerdir (yaş, gelir, geçmiş ödeme...), "galibiyet" ise tahmin değeridir. SHAP, her özelliğin tahmini ortalama bir taban değerden ne kadar ittiğini ölçer. Güzel yanı, katkıların toplamının tam olarak tahmine eşit olmasıdır:</p>
+
+<pre><code>tahmin = taban_değer + Σ shap_değeri[özellik]
+
+# Örnek: kredi skoru tahmini (yüksek = onay olasılığı)
+taban_değer            = 0.50
+shap[gelir]            = +0.18   # geliri itti
+shap[geçmiş_gecikme]   = -0.22   # gecikmeler aşağı çekti
+shap[yaş]              = +0.04
+# ----------------------------------
+tahmin = 0.50 + 0.18 - 0.22 + 0.04 = 0.50</code></pre>
+
+<p>Bu tabloyu okumak kolaydır: geçmiş gecikmeler bu başvuruyu en çok aşağı çeken etmen olmuş. SHAP'in en güçlü yanı tutarlı (consistent) ve toplamsal (additive) olmasıdır; yani açıklamalar matematiksel olarak tahminle uyumludur, sezgiyle uydurulmaz.</p>
+<div class="callout"><strong>İpucu:</strong> SHAP tam hesaplaması özellik sayısıyla üstel büyür. Pratikte ağaç tabanlı modeller için TreeSHAP, diğerleri için örneklemeye dayalı yaklaşımlar kullanılır; bu sayede hesaplama ölçeklenebilir kalır.</div>
+
+<h2 id="b3">LIME: yerel ve basit bir vekil</h2>
+<p>LIME (Local Interpretable Model-agnostic Explanations) farklı bir sezgiyle çalışır. Karmaşık bir modeli bütün olarak açıklamak zordur; ama tek bir tahminin <em>çevresinde</em>, model neredeyse doğrusal davranır. LIME bu küçük bölgede modeli taklit eden basit bir vekil (örneğin doğrusal regresyon) eğitir.</p>
+<p>Analoji: kıvrımlı bir dağ yolunun tamamını bir denklemle anlatamazsınız; ama durduğunuz noktada yolun eğimi tek bir sayıyla ifade edilebilir. LIME, "tam burada" eğimi ölçer.</p>
+<ol>
+<li>Açıklanacak örneğin etrafında küçük değişikliklerle yeni örnekler türet.</li>
+<li>Asıl karmaşık modelden bu örneklerin tahminlerini al.</li>
+<li>Örneği merkeze yakınlığa göre ağırlıklandır.</li>
+<li>Bu ağırlıklı veriye basit, yorumlanabilir bir model uydur.</li>
+</ol>
+<p>LIME modelden bağımsızdır (model-agnostic): içeriden hiçbir şey bilmeden, yalnızca girdi-çıktı davranışına bakarak çalışır. Bu esneklik avantaj; ama dezavantajı da var: rastgele örnekleme nedeniyle açıklamalar çalıştırmadan çalıştırmaya hafifçe değişebilir. SHAP daha kararlı, LIME daha hızlı ve sezgiseldir.</p>
+
+<h2 id="b4">Dikkat görselleştirmesi: model nereye baktı?</h2>
+<p>Metin ve görüntü modellerinde (özellikle Transformer'larda) "dikkat" (attention) mekanizması, modelin her adımda girdinin hangi parçalarına ağırlık verdiğini gösteren bir ağırlık dağılımı üretir. Bunu ısı haritası olarak çizmek güçlü bir görsel açıklama sunar: bir çeviri modeli "kalem" kelimesini üretirken kaynaktaki "pen" kelimesine yoğunlaştıysa, bu bağlantıyı renklerle görebiliriz.</p>
+<p>Görüntü modellerinde benzer şekilde Grad-CAM gibi yöntemler, modelin "kedi" kararını verirken görüntünün hangi bölgesine baktığını sıcak renklerle işaretler. Kulaklara ve bıyıklara odaklandıysa içimiz rahat eder; arka plandaki çimene odaklandıysa modeli sorgularız.</p>
+<blockquote>Önemli uyarı: dikkat ağırlıkları her zaman "açıklama" değildir. Yüksek dikkat, o parçanın karara <em>nedensel</em> katkısını kanıtlamaz; yalnızca işlem sırasında oraya bakıldığını gösterir. Bunu bir ipucu olarak kullanın, kesin kanıt olarak değil.</blockquote>
+
+<h2 id="b5">Güven, hesap verebilirlik ve tuzaklar</h2>
+<p>Yorumlanabilirlik teknik bir lüks değil; çoğu alanda hukuki ve etik bir gerekliliktir. Kredi, sigorta, sağlık ve işe alım gibi yüksek riskli kararlarda, etkilenen kişinin gerekçeyi öğrenme hakkı vardır. Açıklanabilir bir model şunları mümkün kılar:</p>
+<ul>
+<li><strong>Güven:</strong> Uzmanlar gerekçeyi gördüğünde modeli denetleyip onaylayabilir.</li>
+<li><strong>Hata ayıklama:</strong> Model yanlış nedenle doğru cevabı veriyorsa (örneğin veri sızıntısı) bunu fark edersiniz.</li>
+<li><strong>Adalet denetimi:</strong> Yasak bir özelliğin (örneğin posta kodu üzerinden dolaylı ayrımcılık) karara sızıp sızmadığını görürsünüz.</li>
+<li><strong>Hesap verebilirlik:</strong> İtiraz edilebilen, belgelenebilen kararlar oluşur.</li>
+</ul>
+<p>Yine de açıklamalar mükemmel değildir. Bir açıklama yanıltıcı olabilir; sadeleştirilmiş bir vekil, asıl modelin tüm inceliklerini taşımaz. "Açıklanabilir" ile "doğru" aynı şey değildir: ikna edici görünen bir açıklama, yanlış bir modeli haklı çıkarmaz. Bu yüzden açıklamaları model değerlendirmesinin yerine değil, yanında kullanmak gerekir.</p>
+<p>Sorumlu yapay zeka tasarımı ve denetlenebilir sistemler konusunda daha fazla bağlam için <a href="hatsontech-nedir.html">HatsonTech</a> yaklaşımına göz atabilirsiniz.</p>
+
+<div class="takeaways"><h4>Öne çıkanlar</h4><ul>
+<li>Yorumlanabilirlik "ne" değil "neden" sorusuna yanıt verir; doğruluğu tamamlar, yerine geçmez.</li>
+<li>SHAP, oyun teorisinden gelir; tutarlı ve toplamsaldır, katkıların toplamı tahmine eşittir.</li>
+<li>LIME, tek tahminin etrafında basit bir vekil model eğitir; hızlı ve model-bağımsızdır ama daha az kararlıdır.</li>
+<li>Dikkat ve Grad-CAM "nereye bakıldığını" gösterir, ama yüksek dikkat nedensellik kanıtı değildir.</li>
+<li>Yüksek riskli kararlarda açıklanabilirlik güven, adalet denetimi ve hesap verebilirlik için zorunludur.</li>
+</ul></div>
+
+<div class="faq">
+<details><summary>SHAP mı LIME mı kullanmalıyım?</summary><p>Kararlılık ve matematiksel tutarlılık öncelikse ve yeterli hesap kaynağınız varsa SHAP tercih edilir; özellikle ağaç tabanlı modellerde TreeSHAP çok verimlidir. Hızlı, sezgisel ve modelden bağımsız bir açıklama gerekiyorsa LIME pratiktir. İkisini birlikte kullanıp tutarlılığı çapraz kontrol etmek de yaygın bir uygulamadır.</p></details>
+<details><summary>Dikkat ağırlıkları modelin gerçek gerekçesi mi?</summary><p>Tam olarak değil. Dikkat, modelin işlem sırasında girdinin hangi kısımlarına ağırlık verdiğini gösterir; ama bu mutlaka nedensel açıklama anlamına gelmez. Faydalı bir ipucu olarak görün, kesin kanıt olarak değil; mümkünse SHAP gibi yöntemlerle destekleyin.</p></details>
+<details><summary>Yorumlanabilirlik doğruluğu düşürür mü?</summary><p>Yöntemin türüne bağlı. SHAP ve LIME gibi post-hoc yöntemler eğitilmiş modeli değiştirmeden onu açıklar, dolayısıyla doğruluğu etkilemez. Doğal olarak yorumlanabilir basit modeller (doğrusal modeller, sığ ağaçlar) bazen daha düşük doğruluk verebilir; bu, açıklanabilirlik ile başarım arasındaki klasik dengeyi gündeme getirir.</p></details>
+</div>
+
+<hr>
+</div>
+    </div>
+    <div class="article-tags"><span class="tag">Yorumlama</span><span class="tag">Yapay Zeka</span></div>
+    <div class="author-box"><span class="ava">HY</span><div><h4>Halide Yılmaz</h4><div class="role">HatsonTech Teknoloji A.Ş. · Kurucu Ortak</div><p>ODTÜ Bilgisayar Mühendisliği mezunu; bilgisayar ve yapay zeka alanında deneyimli kurucu ortak.</p></div></div>
+    <div class="post-nav"><a href="ozellik-muhendisligi.html"><div class="dir">← Önceki</div><div class="ttl">Özellik Mühendisliği: Ham Veriden Anlamlı Sinyaller ve Sızıntı Tuzakları</div></a><a class="next" href="sentetik-veri.html"><div class="dir">Sıradaki →</div><div class="ttl">Sentetik Veri Üretimi: Veri Kıtlığını Aşmak, Gizliliği Korumak ve Model Çöküşünden Kaçınmak</div></a></div>
+  </div>
+</article>
+  <footer class="footer"><div class="wrap"><div class="footer-bottom" style="border:none;margin:0;padding:0"><span>© <span data-year>2026</span> Halide Yılmaz · Tüm hakları saklıdır.</span><span><a href="../gizlilik.html">Çerez Politikası</a> · Ankara · ODTÜ Teknokent 🌿</span></div></div></footer>
+  <button class="icon-btn to-top" aria-label="Top"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5M5 12l7-7 7 7"/></svg></button>
+  <script src="../js/main.js"></script>
+</body>
+</html>

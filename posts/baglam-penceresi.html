@@ -1,14 +1,11 @@
 <!DOCTYPE html>
 <html lang="tr" data-theme="light">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>Bağlam Penceresi ve Uzun Belgeler: Token Sınırı, Ortada Kaybolma, Uzun Bağlam vs RAG — Halide Yılmaz</title>
 <meta name="description" content="Bağlam penceresi nedir? Token sınırı, &quot;ortada kaybolma&quot; sorunu, uzun bağlam mı RAG mi ve özetleme zincirleri (map-reduce, refine) sezgisel analojilerle anlatıldı." />
-<link rel="canonical" href="https://halideyilmaz.com/posts/baglam-penceresi.html" />
-<link rel="alternate" hreflang="en" href="https://halideyilmaz.com/en/posts/baglam-penceresi.html" />
-<meta name="theme-color" content="#7CB342" />
-<meta property="og:type" content="article" /><meta property="og:title" content="Bağlam Penceresi ve Uzun Belgeler: Token Sınırı, Ortada Kaybolma, Uzun Bağlam vs RAG" /><meta property="og:description" content="Bağlam penceresi nedir? Token sınırı, &quot;ortada kaybolma&quot; sorunu, uzun bağlam mı RAG mi ve özetleme zincirleri (map-reduce, refine) sezgisel analojilerle anlatıldı." /><meta property="og:image" content="https://halideyilmaz.com/image/ai-h-06.svg" />
+<link rel="canonical" href="https://halideyilmaz.com/posts/baglam-penceresi.html" /><link rel="alternate" hreflang="en" href="https://halideyilmaz.com/en/posts/baglam-penceresi.html" /><meta name="theme-color" content="#7CB342" />
+<meta property="og:type" content="article" /><meta property="og:title" content="Bağlam Penceresi ve Uzun Belgeler: Token Sınırı, Ortada Kaybolma, Uzun Bağlam vs RAG" /><meta property="og:description" content="Bağlam penceresi nedir? Token sınırı, &quot;ortada kaybolma&quot; sorunu, uzun bağlam mı RAG mi ve özetleme zincirleri (map-reduce, refine) sezgisel analojilerle anlatıldı." /><meta property="og:image" content="https://halideyilmaz.com/image/bimg-16.jpg" />
 <link rel="icon" type="image/png" href="../image/hatsontech_logo.png" />
 <link rel="preconnect" href="https://fonts.googleapis.com" /><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&family=Newsreader:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet" />
@@ -43,7 +40,7 @@
     <h1>Bağlam Penceresi ve Uzun Belgeler: Token Sınırı, Ortada Kaybolma, Uzun Bağlam vs RAG</h1>
     <div class="article-meta"><div class="author"><span class="ava">HY</span><div><div style="color:var(--text);font-weight:600">Halide Yılmaz</div><div>HatsonTech · Kurucu Ortak</div></div></div><span>· 7 dakika okuma</span></div>
   </div>
-  <div class="wrap narrow"><div class="article-hero"><img src="../image/ai-h-06.svg" alt="Bağlam Penceresi ve Uzun Belgeler: Token Sınırı, Ortada Kaybolma, Uzun Bağlam vs RAG"></div></div>
+  <div class="wrap narrow"><div class="article-hero"><img src="../image/bimg-16.jpg" alt="Bağlam Penceresi ve Uzun Belgeler: Token Sınırı, Ortada Kaybolma, Uzun Bağlam vs RAG"></div></div>
   <div class="wrap narrow" style="padding-top:36px;padding-bottom:36px">
     <div class="prose">
 <p class="lead-p">Bir dil modeline ne kadar çok metin verebileceğinizin bir sınırı vardır; üstelik bu sınıra dayanmasanız bile, model bağlamın ortasında kalan bilgileri kıyıdakilere göre daha kolay gözden kaçırır. Bu yazıda bağlam penceresini (context window) günlük analojilerle ele alıyor; token sınırını, "ortada kaybolma" sorununu, uzun bağlam ile RAG arasındaki tercihi ve özetleme zincirlerini sezgisel biçimde inceliyoruz.</p>

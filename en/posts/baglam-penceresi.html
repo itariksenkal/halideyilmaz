@@ -1,14 +1,11 @@
 <!DOCTYPE html>
 <html lang="en" data-theme="light">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>The Context Window and Long Documents: Token Limits, Lost in the Middle, Long Context vs RAG — Halide Yılmaz</title>
 <meta name="description" content="What is a context window? Token limits, the &quot;lost in the middle&quot; problem, long context vs RAG, and summarization chains (map-reduce, refine) explained with intuitive analogies." />
-<link rel="canonical" href="https://halideyilmaz.com/en/posts/baglam-penceresi.html" />
-<link rel="alternate" hreflang="tr" href="https://halideyilmaz.com/posts/baglam-penceresi.html" />
-<meta name="theme-color" content="#7CB342" />
-<meta property="og:type" content="article" /><meta property="og:title" content="The Context Window and Long Documents: Token Limits, Lost in the Middle, Long Context vs RAG" /><meta property="og:description" content="What is a context window? Token limits, the &quot;lost in the middle&quot; problem, long context vs RAG, and summarization chains (map-reduce, refine) explained with intuitive analogies." /><meta property="og:image" content="https://halideyilmaz.com/image/ai-h-06.svg" />
+<link rel="canonical" href="https://halideyilmaz.com/en/posts/baglam-penceresi.html" /><link rel="alternate" hreflang="tr" href="https://halideyilmaz.com/posts/baglam-penceresi.html" /><meta name="theme-color" content="#7CB342" />
+<meta property="og:type" content="article" /><meta property="og:title" content="The Context Window and Long Documents: Token Limits, Lost in the Middle, Long Context vs RAG" /><meta property="og:description" content="What is a context window? Token limits, the &quot;lost in the middle&quot; problem, long context vs RAG, and summarization chains (map-reduce, refine) explained with intuitive analogies." /><meta property="og:image" content="https://halideyilmaz.com/image/bimg-16.jpg" />
 <link rel="icon" type="image/png" href="../../image/hatsontech_logo.png" />
 <link rel="preconnect" href="https://fonts.googleapis.com" /><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&family=Newsreader:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet" />
@@ -43,7 +40,7 @@
     <h1>The Context Window and Long Documents: Token Limits, Lost in the Middle, Long Context vs RAG</h1>
     <div class="article-meta"><div class="author"><span class="ava">HY</span><div><div style="color:var(--text);font-weight:600">Halide Yılmaz</div><div>HatsonTech · Co-Founder</div></div></div><span>· 10 min read</span></div>
   </div>
-  <div class="wrap narrow"><div class="article-hero"><img src="../../image/ai-h-06.svg" alt="The Context Window and Long Documents: Token Limits, Lost in the Middle, Long Context vs RAG"></div></div>
+  <div class="wrap narrow"><div class="article-hero"><img src="../../image/bimg-16.jpg" alt="The Context Window and Long Documents: Token Limits, Lost in the Middle, Long Context vs RAG"></div></div>
   <div class="wrap narrow" style="padding-top:36px;padding-bottom:36px">
     <div class="prose">
 <p class="lead-p">There's a limit to how much text you can feed a language model — and even when you stay under it, the model tends to overlook information stranded in the middle of the context far more easily than information at the edges. In this article we explore the context window with everyday analogies, examining the token limit, the "lost in the middle" problem, the choice between long context and RAG, and summarization chains.</p>

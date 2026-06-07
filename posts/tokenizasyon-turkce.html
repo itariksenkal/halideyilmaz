@@ -1,14 +1,11 @@
 <!DOCTYPE html>
 <html lang="tr" data-theme="light">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>Tokenizasyon ve Türkçe'nin Zorlukları: Eklemeli Dil, Kelime Patlaması ve Verimli Tokenizasyon — Halide Yılmaz</title>
 <meta name="description" content="Türkçe neden daha fazla token tüketir? Eklemeli dil, kelime patlaması, BPE ve SentencePiece ile verimli tokenizasyonun maliyet ve hıza etkisi." />
-<link rel="canonical" href="https://halideyilmaz.com/posts/tokenizasyon-turkce.html" />
-<link rel="alternate" hreflang="en" href="https://halideyilmaz.com/en/posts/tokenizasyon-turkce.html" />
-<meta name="theme-color" content="#7CB342" />
-<meta property="og:type" content="article" /><meta property="og:title" content="Tokenizasyon ve Türkçe'nin Zorlukları: Eklemeli Dil, Kelime Patlaması ve Verimli Tokenizasyon" /><meta property="og:description" content="Türkçe neden daha fazla token tüketir? Eklemeli dil, kelime patlaması, BPE ve SentencePiece ile verimli tokenizasyonun maliyet ve hıza etkisi." /><meta property="og:image" content="https://halideyilmaz.com/image/ai-h-02.svg" />
+<link rel="canonical" href="https://halideyilmaz.com/posts/tokenizasyon-turkce.html" /><link rel="alternate" hreflang="en" href="https://halideyilmaz.com/en/posts/tokenizasyon-turkce.html" /><meta name="theme-color" content="#7CB342" />
+<meta property="og:type" content="article" /><meta property="og:title" content="Tokenizasyon ve Türkçe'nin Zorlukları: Eklemeli Dil, Kelime Patlaması ve Verimli Tokenizasyon" /><meta property="og:description" content="Türkçe neden daha fazla token tüketir? Eklemeli dil, kelime patlaması, BPE ve SentencePiece ile verimli tokenizasyonun maliyet ve hıza etkisi." /><meta property="og:image" content="https://halideyilmaz.com/image/bimg-12.jpg" />
 <link rel="icon" type="image/png" href="../image/hatsontech_logo.png" />
 <link rel="preconnect" href="https://fonts.googleapis.com" /><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&family=Newsreader:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet" />
@@ -43,7 +40,7 @@
     <h1>Tokenizasyon ve Türkçe'nin Zorlukları: Eklemeli Dil, Kelime Patlaması ve Verimli Tokenizasyon</h1>
     <div class="article-meta"><div class="author"><span class="ava">HY</span><div><div style="color:var(--text);font-weight:600">Halide Yılmaz</div><div>HatsonTech · Kurucu Ortak</div></div></div><span>· 6 dakika okuma</span></div>
   </div>
-  <div class="wrap narrow"><div class="article-hero"><img src="../image/ai-h-02.svg" alt="Tokenizasyon ve Türkçe'nin Zorlukları: Eklemeli Dil, Kelime Patlaması ve Verimli Tokenizasyon"></div></div>
+  <div class="wrap narrow"><div class="article-hero"><img src="../image/bimg-12.jpg" alt="Tokenizasyon ve Türkçe'nin Zorlukları: Eklemeli Dil, Kelime Patlaması ve Verimli Tokenizasyon"></div></div>
   <div class="wrap narrow" style="padding-top:36px;padding-bottom:36px">
     <div class="prose">
 <p class="lead-p">Bir yapay zeka modeli metni doğrudan "okumaz"; önce onu küçük parçalara, yani <em>token</em>lara böler. Bu görünüşte basit adım, Türkçe gibi eklemeli diller için sessiz ama büyük bir maliyet kaynağıdır. Aynı cümle Türkçe yazıldığında, İngilizcesine kıyasla çok daha fazla token tüketebilir; bu da daha yavaş, daha pahalı ve bazen daha az isabetli sonuçlar demektir. Bu yazıda tokenizasyonun ne olduğunu, Türkçenin neden zorlu bir vaka olduğunu ve BPE ile SentencePiece gibi yöntemlerin işi nasıl çözmeye çalıştığını sezgisel biçimde anlatıyoruz.</p>

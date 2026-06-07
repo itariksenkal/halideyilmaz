@@ -1,14 +1,11 @@
 <!DOCTYPE html>
 <html lang="en" data-theme="light">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>Tokenization and the Challenges of Turkish: Agglutination, Vocabulary Explosion, and Efficient Tokenization — Halide Yılmaz</title>
 <meta name="description" content="Why does Turkish consume more tokens? Agglutination, vocabulary explosion, BPE and SentencePiece, and how efficient tokenization affects cost and speed." />
-<link rel="canonical" href="https://halideyilmaz.com/en/posts/tokenizasyon-turkce.html" />
-<link rel="alternate" hreflang="tr" href="https://halideyilmaz.com/posts/tokenizasyon-turkce.html" />
-<meta name="theme-color" content="#7CB342" />
-<meta property="og:type" content="article" /><meta property="og:title" content="Tokenization and the Challenges of Turkish: Agglutination, Vocabulary Explosion, and Efficient Tokenization" /><meta property="og:description" content="Why does Turkish consume more tokens? Agglutination, vocabulary explosion, BPE and SentencePiece, and how efficient tokenization affects cost and speed." /><meta property="og:image" content="https://halideyilmaz.com/image/ai-h-02.svg" />
+<link rel="canonical" href="https://halideyilmaz.com/en/posts/tokenizasyon-turkce.html" /><link rel="alternate" hreflang="tr" href="https://halideyilmaz.com/posts/tokenizasyon-turkce.html" /><meta name="theme-color" content="#7CB342" />
+<meta property="og:type" content="article" /><meta property="og:title" content="Tokenization and the Challenges of Turkish: Agglutination, Vocabulary Explosion, and Efficient Tokenization" /><meta property="og:description" content="Why does Turkish consume more tokens? Agglutination, vocabulary explosion, BPE and SentencePiece, and how efficient tokenization affects cost and speed." /><meta property="og:image" content="https://halideyilmaz.com/image/bimg-12.jpg" />
 <link rel="icon" type="image/png" href="../../image/hatsontech_logo.png" />
 <link rel="preconnect" href="https://fonts.googleapis.com" /><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&family=Newsreader:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet" />
@@ -43,7 +40,7 @@
     <h1>Tokenization and the Challenges of Turkish: Agglutination, Vocabulary Explosion, and Efficient Tokenization</h1>
     <div class="article-meta"><div class="author"><span class="ava">HY</span><div><div style="color:var(--text);font-weight:600">Halide Yılmaz</div><div>HatsonTech · Co-Founder</div></div></div><span>· 8 min read</span></div>
   </div>
-  <div class="wrap narrow"><div class="article-hero"><img src="../../image/ai-h-02.svg" alt="Tokenization and the Challenges of Turkish: Agglutination, Vocabulary Explosion, and Efficient Tokenization"></div></div>
+  <div class="wrap narrow"><div class="article-hero"><img src="../../image/bimg-12.jpg" alt="Tokenization and the Challenges of Turkish: Agglutination, Vocabulary Explosion, and Efficient Tokenization"></div></div>
   <div class="wrap narrow" style="padding-top:36px;padding-bottom:36px">
     <div class="prose">
 <p class="lead-p">A language model does not "read" text directly; first it breaks the text into small pieces called <em>tokens</em>. This seemingly simple step is a quiet but significant cost for agglutinative languages like Turkish. The same sentence written in Turkish can consume far more tokens than its English counterpart, which translates into slower, more expensive, and sometimes less accurate results. In this article we explain, intuitively, what tokenization is, why Turkish is a hard case, and how methods like BPE and SentencePiece try to solve it.</p>

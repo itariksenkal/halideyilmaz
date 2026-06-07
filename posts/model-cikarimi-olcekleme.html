@@ -1,14 +1,11 @@
 <!DOCTYPE html>
 <html lang="tr" data-theme="light">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>Model Çıkarımı ve Ölçekleme: Gecikme, Verim, Niceleme ve KV-Cache ile GPU Maliyetini Düşürmek — Halide Yılmaz</title>
 <meta name="description" content="Gecikme, verim, niceleme, KV-cache ve batching kavramlarını sezgisel analojilerle anlatan, GPU çıkarım maliyetini düşürmeye odaklı pratik bir rehber." />
-<link rel="canonical" href="https://halideyilmaz.com/posts/model-cikarimi-olcekleme.html" />
-<link rel="alternate" hreflang="en" href="https://halideyilmaz.com/en/posts/model-cikarimi-olcekleme.html" />
-<meta name="theme-color" content="#7CB342" />
-<meta property="og:type" content="article" /><meta property="og:title" content="Model Çıkarımı ve Ölçekleme: Gecikme, Verim, Niceleme ve KV-Cache ile GPU Maliyetini Düşürmek" /><meta property="og:description" content="Gecikme, verim, niceleme, KV-cache ve batching kavramlarını sezgisel analojilerle anlatan, GPU çıkarım maliyetini düşürmeye odaklı pratik bir rehber." /><meta property="og:image" content="https://halideyilmaz.com/image/ai-h-09.svg" />
+<link rel="canonical" href="https://halideyilmaz.com/posts/model-cikarimi-olcekleme.html" /><link rel="alternate" hreflang="en" href="https://halideyilmaz.com/en/posts/model-cikarimi-olcekleme.html" /><meta name="theme-color" content="#7CB342" />
+<meta property="og:type" content="article" /><meta property="og:title" content="Model Çıkarımı ve Ölçekleme: Gecikme, Verim, Niceleme ve KV-Cache ile GPU Maliyetini Düşürmek" /><meta property="og:description" content="Gecikme, verim, niceleme, KV-cache ve batching kavramlarını sezgisel analojilerle anlatan, GPU çıkarım maliyetini düşürmeye odaklı pratik bir rehber." /><meta property="og:image" content="https://halideyilmaz.com/image/bimg-19.jpg" />
 <link rel="icon" type="image/png" href="../image/hatsontech_logo.png" />
 <link rel="preconnect" href="https://fonts.googleapis.com" /><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&family=Newsreader:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet" />
@@ -43,7 +40,7 @@
     <h1>Model Çıkarımı ve Ölçekleme: Gecikme, Verim, Niceleme ve KV-Cache ile GPU Maliyetini Düşürmek</h1>
     <div class="article-meta"><div class="author"><span class="ava">HY</span><div><div style="color:var(--text);font-weight:600">Halide Yılmaz</div><div>HatsonTech · Kurucu Ortak</div></div></div><span>· 6 dakika okuma</span></div>
   </div>
-  <div class="wrap narrow"><div class="article-hero"><img src="../image/ai-h-09.svg" alt="Model Çıkarımı ve Ölçekleme: Gecikme, Verim, Niceleme ve KV-Cache ile GPU Maliyetini Düşürmek"></div></div>
+  <div class="wrap narrow"><div class="article-hero"><img src="../image/bimg-19.jpg" alt="Model Çıkarımı ve Ölçekleme: Gecikme, Verim, Niceleme ve KV-Cache ile GPU Maliyetini Düşürmek"></div></div>
   <div class="wrap narrow" style="padding-top:36px;padding-bottom:36px">
     <div class="prose">
 <p class="lead-p">Bir modeli eğitmek bir kerelik bir maratondur; onu her gün, her istekte çalıştırmak ise hiç bitmeyen bir koşudur. Üretimdeki asıl fatura çoğu zaman eğitimden değil, çıkarımdan (inference) gelir. Bu yazıda gecikme, verim, niceleme, KV-cache ve batching kavramlarını günlük analojilerle açıyor; GPU maliyetini nasıl düşürebileceğinizi pratik bir bakışla ele alıyoruz.</p>

@@ -1,14 +1,11 @@
 <!DOCTYPE html>
 <html lang="tr" data-theme="light">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>Embedding Modelleri ve Semantik Benzerlik: Metni Anlama Çeviren Vektörler — Halide Yılmaz</title>
 <meta name="description" content="Metinleri vektöre çevirme, kosinüs benzerliği, embedding modeli seçimi ve çok dilli embedding'leri sezgisel analojiler ve kısa bir kod örneğiyle anlatıyoruz." />
-<link rel="canonical" href="https://halideyilmaz.com/posts/embedding-semantik-benzerlik.html" />
-<link rel="alternate" hreflang="en" href="https://halideyilmaz.com/en/posts/embedding-semantik-benzerlik.html" />
-<meta name="theme-color" content="#7CB342" />
-<meta property="og:type" content="article" /><meta property="og:title" content="Embedding Modelleri ve Semantik Benzerlik: Metni Anlama Çeviren Vektörler" /><meta property="og:description" content="Metinleri vektöre çevirme, kosinüs benzerliği, embedding modeli seçimi ve çok dilli embedding'leri sezgisel analojiler ve kısa bir kod örneğiyle anlatıyoruz." /><meta property="og:image" content="https://halideyilmaz.com/image/ai-h-03.svg" />
+<link rel="canonical" href="https://halideyilmaz.com/posts/embedding-semantik-benzerlik.html" /><link rel="alternate" hreflang="en" href="https://halideyilmaz.com/en/posts/embedding-semantik-benzerlik.html" /><meta name="theme-color" content="#7CB342" />
+<meta property="og:type" content="article" /><meta property="og:title" content="Embedding Modelleri ve Semantik Benzerlik: Metni Anlama Çeviren Vektörler" /><meta property="og:description" content="Metinleri vektöre çevirme, kosinüs benzerliği, embedding modeli seçimi ve çok dilli embedding'leri sezgisel analojiler ve kısa bir kod örneğiyle anlatıyoruz." /><meta property="og:image" content="https://halideyilmaz.com/image/bimg-13.jpg" />
 <link rel="icon" type="image/png" href="../image/hatsontech_logo.png" />
 <link rel="preconnect" href="https://fonts.googleapis.com" /><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&family=Newsreader:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet" />
@@ -43,7 +40,7 @@
     <h1>Embedding Modelleri ve Semantik Benzerlik: Metni Anlama Çeviren Vektörler</h1>
     <div class="article-meta"><div class="author"><span class="ava">HY</span><div><div style="color:var(--text);font-weight:600">Halide Yılmaz</div><div>HatsonTech · Kurucu Ortak</div></div></div><span>· 6 dakika okuma</span></div>
   </div>
-  <div class="wrap narrow"><div class="article-hero"><img src="../image/ai-h-03.svg" alt="Embedding Modelleri ve Semantik Benzerlik: Metni Anlama Çeviren Vektörler"></div></div>
+  <div class="wrap narrow"><div class="article-hero"><img src="../image/bimg-13.jpg" alt="Embedding Modelleri ve Semantik Benzerlik: Metni Anlama Çeviren Vektörler"></div></div>
   <div class="wrap narrow" style="padding-top:36px;padding-bottom:36px">
     <div class="prose">
 <p class="lead-p">Bir arama kutusuna "uygun fiyatlı dizüstü bilgisayar" yazdığınızda, sonuçlar arasında "ekonomik laptop" başlıklı bir ürün de çıkar. Hiçbir kelime birebir eşleşmediği halde sistem ikisinin <em>aynı şeyi</em> kastettiğini anlar. Bu sezgiyi makinelere kazandıran teknolojinin adı: embedding'ler. Bu yazıda metinleri sayılara çevirmenin, anlam yakınlığını ölçmenin ve doğru modeli seçmenin mantığını sezgisel biçimde anlatacağız.</p>

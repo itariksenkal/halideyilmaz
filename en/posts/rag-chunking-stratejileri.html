@@ -1,14 +1,11 @@
 <!DOCTYPE html>
 <html lang="en" data-theme="light">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>Chunking Strategies for RAG: How Splitting Decides Quality — Halide Yılmaz</title>
 <meta name="description" content="RAG chunking strategies: fixed size, sentence/paragraph, overlap, semantic chunking, and preserving heading context. How splitting affects quality, explained intuitively." />
-<link rel="canonical" href="https://halideyilmaz.com/en/posts/rag-chunking-stratejileri.html" />
-<link rel="alternate" hreflang="tr" href="https://halideyilmaz.com/posts/rag-chunking-stratejileri.html" />
-<meta name="theme-color" content="#7CB342" />
-<meta property="og:type" content="article" /><meta property="og:title" content="Chunking Strategies for RAG: How Splitting Decides Quality" /><meta property="og:description" content="RAG chunking strategies: fixed size, sentence/paragraph, overlap, semantic chunking, and preserving heading context. How splitting affects quality, explained intuitively." /><meta property="og:image" content="https://halideyilmaz.com/image/ai-h-04.svg" />
+<link rel="canonical" href="https://halideyilmaz.com/en/posts/rag-chunking-stratejileri.html" /><link rel="alternate" hreflang="tr" href="https://halideyilmaz.com/posts/rag-chunking-stratejileri.html" /><meta name="theme-color" content="#7CB342" />
+<meta property="og:type" content="article" /><meta property="og:title" content="Chunking Strategies for RAG: How Splitting Decides Quality" /><meta property="og:description" content="RAG chunking strategies: fixed size, sentence/paragraph, overlap, semantic chunking, and preserving heading context. How splitting affects quality, explained intuitively." /><meta property="og:image" content="https://halideyilmaz.com/image/bimg-14.jpg" />
 <link rel="icon" type="image/png" href="../../image/hatsontech_logo.png" />
 <link rel="preconnect" href="https://fonts.googleapis.com" /><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&family=Newsreader:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet" />
@@ -43,7 +40,7 @@
     <h1>Chunking Strategies for RAG: How Splitting Decides Quality</h1>
     <div class="article-meta"><div class="author"><span class="ava">HY</span><div><div style="color:var(--text);font-weight:600">Halide Yılmaz</div><div>HatsonTech · Co-Founder</div></div></div><span>· 6 min read</span></div>
   </div>
-  <div class="wrap narrow"><div class="article-hero"><img src="../../image/ai-h-04.svg" alt="Chunking Strategies for RAG: How Splitting Decides Quality"></div></div>
+  <div class="wrap narrow"><div class="article-hero"><img src="../../image/bimg-14.jpg" alt="Chunking Strategies for RAG: How Splitting Decides Quality"></div></div>
   <div class="wrap narrow" style="padding-top:36px;padding-bottom:36px">
     <div class="prose">
 <p class="lead-p">Half the battle in a RAG system isn't won by the model — it's won by how you split your documents. Bad chunking can mislead even the most powerful language model; good chunking can turn an average model into an accurate researcher. In this article we explore chunking strategies intuitively, with everyday analogies.</p>

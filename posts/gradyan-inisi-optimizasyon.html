@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="tr" data-theme="light">
+<head>
+<meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Gradyan İnişi ve Optimizasyon: Bir Model Nasıl &quot;Öğrenir&quot;? — Halide Yılmaz</title>
+<meta name="description" content="Kayıp fonksiyonu, öğrenme oranı, SGD ve Adam üzerinden gradyan inişini sezgisel olarak anlatıyoruz: bir model hatasını ölçerek ve azaltarak gerçekte nasıl &quot;öğrenir&quot;?" />
+<link rel="canonical" href="https://halideyilmaz.com/posts/gradyan-inisi-optimizasyon.html" /><link rel="alternate" hreflang="en" href="https://halideyilmaz.com/en/posts/gradyan-inisi-optimizasyon.html" /><meta name="theme-color" content="#7CB342" />
+<meta property="og:type" content="article" /><meta property="og:title" content="Gradyan İnişi ve Optimizasyon: Bir Model Nasıl &quot;Öğrenir&quot;?" /><meta property="og:description" content="Kayıp fonksiyonu, öğrenme oranı, SGD ve Adam üzerinden gradyan inişini sezgisel olarak anlatıyoruz: bir model hatasını ölçerek ve azaltarak gerçekte nasıl &quot;öğrenir&quot;?" /><meta property="og:image" content="https://halideyilmaz.com/image/bimg-04.jpg" />
+<link rel="icon" type="image/png" href="../image/hatsontech_logo.png" />
+<link rel="preconnect" href="https://fonts.googleapis.com" /><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&family=Newsreader:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet" />
+<script>(function(){try{var k="hy-theme",t=localStorage.getItem(k),m=window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches;document.documentElement.setAttribute("data-theme",t||(m?"dark":"light"));}catch(e){}})();</script>
+<link rel="stylesheet" href="../css/style.css" />
+</head>
+<body>
+<div class="progress"></div>
+  <nav class="nav" id="nav">
+    <div class="wrap">
+      <a class="brand" href="../index.html" aria-label="Home"><img src="../image/hatsontech_logo.png" alt="HatsonTech" /><span>Halide Yılmaz<small>HatsonTech · Co-Founder</small></span></a>
+      <div class="nav-links" id="navLinks">
+        <a href="../index.html#hakkinda">Kimdir</a>
+        <a href="../index.html#ne-yapiyor">Ne Yapıyor</a>
+        <a href="../index.html#uzmanlik">Uzmanlık</a>
+        <a href="../blog.html">Yazılar</a>
+        <a href="../index.html#iletisim">İletişim</a>
+      </div>
+      <div class="nav-actions">
+        <a class="lang-switch" href="../en/posts/gradyan-inisi-optimizasyon.html">EN</a>
+        <button class="icon-btn theme-toggle" data-theme-toggle aria-label="Theme"><svg class="sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M6.3 17.7l-1.4 1.4M19.1 4.9l-1.4 1.4"/></svg><svg class="moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg></button>
+        <button class="icon-btn nav-toggle" data-nav-toggle aria-label="Menu"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 6h18M3 12h18M3 18h18"/></svg></button>
+      </div>
+    </div>
+  </nav>
+<article>
+  <div class="wrap narrow article-head">
+    <div class="breadcrumb"><a href="../index.html">Ana sayfa</a> <span>/</span>
+        <a href="../blog.html">Yazılar</a> <span>/</span>
+        <span>Eğitim</span></div>
+    <span class="tag">Eğitim</span>
+    <h1>Gradyan İnişi ve Optimizasyon: Bir Model Nasıl &quot;Öğrenir&quot;?</h1>
+    <div class="article-meta"><div class="author"><span class="ava">HY</span><div><div style="color:var(--text);font-weight:600">Halide Yılmaz</div><div>HatsonTech · Kurucu Ortak</div></div></div><span>· 7 dakika okuma</span></div>
+  </div>
+  <div class="wrap narrow"><div class="article-hero"><img src="../image/bimg-04.jpg" alt="Gradyan İnişi ve Optimizasyon: Bir Model Nasıl &quot;Öğrenir&quot;?"></div></div>
+  <div class="wrap narrow" style="padding-top:36px;padding-bottom:36px">
+    <div class="prose">
+<p class="lead-p">Sisli bir gecede, hiç görmediğiniz bir dağın yamacındasınız ve tek hedefiniz vadinin en dibine inmek. Ne haritanız var ne de uzağı görebiliyorsunuz. Yapabileceğiniz tek şey, ayağınızın altındaki eğime bakıp <em>en dik aşağı yönü</em> bulmak ve o yöne küçük bir adım atmak. Sonra tekrar bakmak, tekrar adım atmak. İşte bir yapay zekâ modelinin "öğrenmesi" tam olarak budur; ve bu yöntemin adı <strong>gradyan inişi</strong>.</p>
+
+<div class="toc">
+  <h4>İçindekiler</h4>
+  <ol>
+    <li><a href="#b1">Öğrenmek bir hata azaltma oyunudur</a></li>
+    <li><a href="#b2">Kayıp fonksiyonu: hata nasıl ölçülür?</a></li>
+    <li><a href="#b3">Gradyan inişi: dağdan inmenin matematiği</a></li>
+    <li><a href="#b4">Öğrenme oranı: adımı ne kadar büyük atmalı?</a></li>
+    <li><a href="#b5">SGD: tüm dağı görmek yerine bir avuç adımla</a></li>
+    <li><a href="#b6">Momentum ve Adam: daha akıllı adımlar</a></li>
+    <li><a href="#b7">Birkaç satırda öğrenme döngüsü</a></li>
+  </ol>
+</div>
+
+<h2 id="b1">Öğrenmek bir hata azaltma oyunudur</h2>
+<p>
+  Bir modelin içinde <strong>parametreler</strong> (ağırlıklar) vardır: başlangıçta rastgele atanmış milyonlarca sayı.
+  Model bir tahmin yapar, bu tahmin gerçek cevaptan ne kadar saparsa o kadar "yanılmış" olur. Öğrenmek, bu sapmayı
+  adım adım küçültmek için o milyonlarca sayıyı azar azar ayarlamaktan ibarettir. Yani model bir şeyi "anlamaz";
+  hatasını sürekli ölçer ve onu en aza indirecek yönde kendini düzeltir.
+</p>
+<p>
+  Bunu bir aşçının tuz ayarına benzetebiliriz. Çorbayı tadar, "biraz tuzsuz" der, azıcık tuz ekler; tekrar tadar,
+  tekrar ayarlar. Her seferinde hedefe (mükemmel tat) biraz daha yaklaşır. Modelin "tadı" sayısal bir hatadır,
+  "tuzu" ise parametreleridir.
+</p>
+
+<blockquote>"Öğrenmek, doğru cevabı bilmek değil; yanlış cevaptan doğru cevaba doğru sistemli biçimde yaklaşmaktır."</blockquote>
+
+<h2 id="b2">Kayıp fonksiyonu: hata nasıl ölçülür?</h2>
+<p>
+  Modeli düzeltmek için önce hatayı tek bir sayıyla ifade etmemiz gerekir. Bunu yapan şeye <strong>kayıp fonksiyonu</strong>
+  (loss function) denir. Kayıp, "tahminim gerçeğe ne kadar uzak?" sorusunun nicel cevabıdır. Kayıp büyükse model kötü,
+  küçükse iyi çalışıyor demektir. Tüm eğitimin amacı bu sayıyı olabildiğince küçültmektir.
+</p>
+<p>
+  Hangi kayıp fonksiyonunun kullanılacağı probleme bağlıdır:
+</p>
+<ul>
+  <li><strong>Regresyon</strong> (bir sayı tahmin etmek, örneğin ev fiyatı) için sık kullanılan ölçü <em>ortalama kare hata</em>dır: tahmin ile gerçek arasındaki farkın karesi alınır. Karesini almak, büyük hataları orantısız biçimde cezalandırır.</li>
+  <li><strong>Sınıflandırma</strong> (bir kategori tahmin etmek, örneğin "kedi mi köpek mi") için yaygın ölçü <em>çapraz entropi</em>dir: model doğru sınıfa ne kadar düşük olasılık verirse ceza o kadar artar.</li>
+</ul>
+<p>
+  Kayıp fonksiyonunu, dağın yüksekliğini veren bir yüzey gibi düşünün. Her parametre kombinasyonu bu yüzeyde bir
+  noktadır; yüksekliği o noktadaki hatadır. Vadinin dibi, hatanın en küçük olduğu yerdir. Görevimiz oraya inmek.
+</p>
+
+<div class="callout"><strong>İpucu:</strong> Kayıp fonksiyonu <em>türevlenebilir</em> (yani pürüzsüz, eğimi hesaplanabilir) olmalıdır. Çünkü inişin tüm sırrı, her noktada eğimi ölçebilmekte yatar.</div>
+
+<h2 id="b3">Gradyan inişi: dağdan inmenin matematiği</h2>
+<p>
+  <strong>Gradyan</strong>, çok boyutlu bir yüzeyde eğimin yönünü ve dikliğini veren matematiksel araçtır. Tek bir
+  tepenin eğimini düşünün: gradyan, "yukarı doğru en dik yön" oku gibidir. Aşağı inmek istiyorsak, basitçe bu okun
+  <em>tersi</em> yönde gideriz. Adımın adı buradan gelir: gradyanın negatif yönünde iniş.
+</p>
+<p>
+  Süreç şu döngüden ibarettir:
+</p>
+<ol>
+  <li><strong>Tahmin et:</strong> Mevcut parametrelerle çıktıyı hesapla.</li>
+  <li><strong>Kaybı ölç:</strong> Tahminin gerçeğe uzaklığını tek sayıya indir.</li>
+  <li><strong>Gradyanı hesapla:</strong> Her parametre kaybı hangi yöne ve ne kadar değiştiriyor? (Bu hesap, <em>geri yayılım</em> ile yapılır.)</li>
+  <li><strong>Güncelle:</strong> Her parametreyi, kaybı azaltan yönde küçük bir miktar oynat.</li>
+</ol>
+<p>
+  Bu döngü binlerce, milyonlarca kez tekrarlanır. Her turda kayıp biraz daha küçülür; model "biraz daha az yanlış"
+  hâle gelir. Yeterince tur sonunda parametreler, hatanın çok düşük olduğu bir noktaya yerleşir.
+</p>
+
+<h2 id="b4">Öğrenme oranı: adımı ne kadar büyük atmalı?</h2>
+<p>
+  Gradyan bize <em>hangi yöne</em> gideceğimizi söyler ama <em>ne kadar büyük adım</em> atacağımızı söylemez. İşte bu
+  adım boyutunu belirleyen sayıya <strong>öğrenme oranı</strong> (learning rate) denir ve eğitimdeki en kritik ayardır.
+</p>
+<ul>
+  <li><strong>Çok küçükse:</strong> Adımlar minicik olur; vadiye inmek çok yavaşlar. Sabırla ama isabetli yürürsünüz, yine de işiniz uzar.</li>
+  <li><strong>Çok büyükse:</strong> Dev adımlarla vadinin dibini ıskalayıp karşı yamaca çıkarsınız; bir o yana bir bu yana sekersiniz, hatta hiç inemeyebilirsiniz (ıraksama).</li>
+  <li><strong>İdealse:</strong> Hızlı ama kararlı şekilde dibe yaklaşırsınız.</li>
+</ul>
+<p>
+  Sisli dağ benzetmesinde öğrenme oranı, "her bakışta kaç metre yürüyeceğim?" kararıdır. Çoğu zaman eğitimin başında
+  daha büyük, ilerledikçe küçülen bir oran kullanmak işe yarar; buna <em>öğrenme oranı çizelgesi</em> (schedule) denir.
+</p>
+
+<h2 id="b5">SGD: tüm dağı görmek yerine bir avuç adımla</h2>
+<p>
+  Saf gradyan inişinde her adım için <em>tüm</em> veri kümesine bakıp gradyanı hesaplarız. Bu çok doğru ama milyonlarca
+  örnek olduğunda dayanılmaz derecede yavaştır. Çözüm, her adımda verinin rastgele küçük bir kısmını kullanmaktır.
+  Buna <strong>stokastik gradyan inişi</strong> (SGD) denir; "stokastik" sözcüğü buradaki rastgeleliği anlatır.
+</p>
+<p>
+  Pratikte genellikle tek bir örnek değil, küçük bir grup (örneğin 32 veya 64 örnek) kullanılır; bu gruplara
+  <em>mini-batch</em> denir. Bunun bedeli, gradyanın biraz "gürültülü" olmasıdır: her adım tam doğru yönü
+  göstermeyebilir. Ama bu gürültü çoğu zaman bir kusur değil, bir avantajdır:
+</p>
+<ul>
+  <li>Çok daha hızlı: her adım ucuz olduğu için aynı sürede çok daha fazla adım atılır.</li>
+  <li>Gürültü, modelin sığ ve kötü "çukurlara" (yerel minimumlara) takılıp kalmasına engel olabilir; küçük sarsıntılar onu daha iyi bir vadiye savurabilir.</li>
+</ul>
+
+<div class="callout"><strong>İpucu:</strong> "Batch boyutu" ile "öğrenme oranı" birbirine bağlıdır. Batch'i büyütürseniz çoğu zaman öğrenme oranını da artırmanız gerekir; ikisini birlikte ayarlamak iyi sonuç verir.</div>
+
+<h2 id="b6">Momentum ve Adam: daha akıllı adımlar</h2>
+<p>
+  Saf SGD bazen dar ve uzun bir vadide bir o yana bir bu yana zikzak çizerek ilerler; ileri yöndeki gerçek ilerleme
+  yavaş kalır. Bu sorunu çözmek için optimizasyon yöntemleri olgunlaştı.
+</p>
+<h3>Momentum</h3>
+<p>
+  Yamaçtan aşağı yuvarlanan bir topu düşünün: top, biriktirdiği hız sayesinde küçük tümsekleri aşar ve genel yönünü
+  korur. <strong>Momentum</strong> tam olarak bunu yapar: geçmiş adımların bir kısmını "hız" olarak biriktirir, böylece
+  tutarlı yönde hızlanır, zikzakları söndürür.
+</p>
+<h3>Adam</h3>
+<p>
+  Bugün en yaygın kullanılan yöntemlerden biri <strong>Adam</strong>'dır (Adaptive Moment Estimation). Adam iki fikri
+  birleştirir: momentum gibi geçmiş yönü hatırlar <em>ve</em> her parametre için adım boyutunu ayrı ayrı uyarlar.
+  Bazı parametreler hızlı, bazıları yavaş öğrenmeli; Adam bunu otomatik dengeler. Sonuç: çoğu problemde az ayarla
+  hızlı ve kararlı bir eğitim.
+</p>
+<p>
+  Bunu, her ayağını ayrı ayrı yöneten deneyimli bir dağcıya benzetebiliriz: kaygan yerde küçük, sağlam zeminde büyük
+  adım atar. Yine de Adam sihirli değnek değildir; bazı durumlarda iyi ayarlanmış SGD + momentum daha iyi
+  genelleyebilir. Doğru seçim probleme göre değişir.
+</p>
+
+<h2 id="b7">Birkaç satırda öğrenme döngüsü</h2>
+<p>Tüm fikri sözde-kodla görelim. Güncelleme kuralının kalbi tek satırdır: <code>parametre = parametre − oran × gradyan</code>.</p>
+<pre><code># Baslangic: parametreler rastgele
+parametreler = rastgele_baslat()
+oran = 0.01            # ogrenme orani
+
+her epoch icin:
+    veri karistir()
+    her mini_batch icin (veride):
+        tahmin = model(mini_batch, parametreler)
+        kayip  = kayip_fonksiyonu(tahmin, gercek)
+
+        # gradyan: kaybi her parametreye gore turevle (geri yayilim)
+        gradyan = turev(kayip, parametreler)
+
+        # gradyanin TERSI yonunde kucuk adim
+        parametreler = parametreler - oran * gradyan
+
+    yazdir("epoch sonu kayip:", kayip)
+</code></pre>
+<p>
+  Adam gibi gelişmiş yöntemler bu son satırı zenginleştirir: ham gradyan yerine, geçmişten süzülmüş ve parametre
+  başına uyarlanmış bir adım kullanırlar. Ama özü aynı kalır: <em>ölç, eğimi bul, ters yöne küçük bir adım at, tekrarla.</em>
+</p>
+
+<div class="takeaways">
+  <h4>Öne çıkanlar</h4>
+  <ul>
+    <li>Bir model "öğrenmez", hatasını ölçer ve onu en aza indirecek yönde parametrelerini ayarlar.</li>
+    <li>Kayıp fonksiyonu hatayı tek sayıya indirir; eğitim, bu sayıyı küçültme oyunudur.</li>
+    <li>Gradyan inişi, kaybın eğimini ters yönde izleyerek vadinin dibine yürür.</li>
+    <li>Öğrenme oranı adım boyudur: çok küçükse yavaş, çok büyükse kararsız.</li>
+    <li>SGD veriyi küçük gruplar hâlinde işleyerek hızlanır; momentum ve Adam adımları daha akıllı kılar.</li>
+  </ul>
+</div>
+
+<hr>
+<p>
+  Özetle bir modelin "öğrenmesi", sisli bir dağda dokunarak yön bulup adım adım dibe inmek gibidir: kaybı ölç, eğimi
+  hesapla, ters yöne küçük bir adım at, binlerce kez tekrarla. Öğrenme oranı bu adımın boyunu, SGD hızını, Adam ise
+  isabetini ayarlar. Basit ama derin bu döngü, bugünkü yapay zekâ sistemlerinin neredeyse tamamının kalbinde atar.
+  Bu fikirlerin gerçek ürünlere nasıl dönüştüğünü merak ediyorsanız, yapay zekâyı işlere uygulama tarafına bakan
+  <a href="hatsontech-nedir.html">HatsonTech</a>'a göz atabilirsiniz.
+</p>
+
+<div class="faq">
+  <details>
+    <summary>Gradyan tam olarak nedir?</summary>
+    <p>Gradyan, kaybın her parametreye göre kısmi türevlerinden oluşan bir vektördür. Çok boyutlu yüzeyde "en dik yukarı çıkış" yönünü gösterir; biz hatayı azaltmak için onun tersi yönde ilerleriz.</p>
+  </details>
+  <details>
+    <summary>SGD ile toplu (batch) gradyan inişi arasındaki fark nedir?</summary>
+    <p>Toplu gradyan inişi her adımda tüm veriye bakar; doğru ama yavaştır. SGD ise her adımda rastgele küçük bir grup (mini-batch) kullanır; biraz gürültülü ama çok daha hızlıdır ve genellikle daha iyi sonuç verir.</p>
+  </details>
+  <details>
+    <summary>Her zaman Adam mı kullanmalıyım?</summary>
+    <p>Adam çoğu durumda hızlı ve az ayarla iyi çalıştığı için güçlü bir başlangıçtır. Ancak iyi ayarlanmış SGD + momentum bazı problemlerde daha iyi genelleyebilir. En iyisi probleme göre denemektir; tek doğru yöntem yoktur.</p>
+  </details>
+</div>
+
+    </div>
+    <div class="article-tags"><span class="tag">Eğitim</span><span class="tag">Yapay Zeka</span></div>
+    <div class="author-box"><span class="ava">HY</span><div><h4>Halide Yılmaz</h4><div class="role">HatsonTech Teknoloji A.Ş. · Kurucu Ortak</div><p>ODTÜ Bilgisayar Mühendisliği mezunu; bilgisayar ve yapay zeka alanında deneyimli kurucu ortak.</p></div></div>
+    <div class="post-nav"><a href="overfitting-duzenlilestirme.html"><div class="dir">← Önceki</div><div class="ttl">Aşırı Öğrenme (Overfitting) ve Düzenlileştirme: Model Neden Ezberler?</div></a><a class="next" href="degerlendirme-metrikleri.html"><div class="dir">Sıradaki →</div><div class="ttl">Sınıflandırma Metrikleri: Doğruluk, Kesinlik, Duyarlılık, F1 ve ROC-AUC Ne Zaman Kullanılır?</div></a></div>
+  </div>
+</article>
+  <footer class="footer"><div class="wrap"><div class="footer-bottom" style="border:none;margin:0;padding:0"><span>© <span data-year>2026</span> Halide Yılmaz · Tüm hakları saklıdır.</span><span><a href="../gizlilik.html">Çerez Politikası</a> · Ankara · ODTÜ Teknokent 🌿</span></div></div></footer>
+  <button class="icon-btn to-top" aria-label="Top"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5M5 12l7-7 7 7"/></svg></button>
+  <script src="../js/main.js"></script>
+</body>
+</html>

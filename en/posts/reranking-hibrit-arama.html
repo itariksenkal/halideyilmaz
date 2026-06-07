@@ -1,14 +1,11 @@
 <!DOCTYPE html>
 <html lang="en" data-theme="light">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>Reranking and Hybrid Search: Combining BM25 with Semantic Search — Halide Yılmaz</title>
 <meta name="description" content="An intuitive guide to hybrid search blending BM25 and semantic search, score fusion with RRF, and reranking with a cross-encoder, with short code examples." />
-<link rel="canonical" href="https://halideyilmaz.com/en/posts/reranking-hibrit-arama.html" />
-<link rel="alternate" hreflang="tr" href="https://halideyilmaz.com/posts/reranking-hibrit-arama.html" />
-<meta name="theme-color" content="#7CB342" />
-<meta property="og:type" content="article" /><meta property="og:title" content="Reranking and Hybrid Search: Combining BM25 with Semantic Search" /><meta property="og:description" content="An intuitive guide to hybrid search blending BM25 and semantic search, score fusion with RRF, and reranking with a cross-encoder, with short code examples." /><meta property="og:image" content="https://halideyilmaz.com/image/ai-h-05.svg" />
+<link rel="canonical" href="https://halideyilmaz.com/en/posts/reranking-hibrit-arama.html" /><link rel="alternate" hreflang="tr" href="https://halideyilmaz.com/posts/reranking-hibrit-arama.html" /><meta name="theme-color" content="#7CB342" />
+<meta property="og:type" content="article" /><meta property="og:title" content="Reranking and Hybrid Search: Combining BM25 with Semantic Search" /><meta property="og:description" content="An intuitive guide to hybrid search blending BM25 and semantic search, score fusion with RRF, and reranking with a cross-encoder, with short code examples." /><meta property="og:image" content="https://halideyilmaz.com/image/bimg-15.jpg" />
 <link rel="icon" type="image/png" href="../../image/hatsontech_logo.png" />
 <link rel="preconnect" href="https://fonts.googleapis.com" /><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&family=Newsreader:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet" />
@@ -43,7 +40,7 @@
     <h1>Reranking and Hybrid Search: Combining BM25 with Semantic Search</h1>
     <div class="article-meta"><div class="author"><span class="ava">HY</span><div><div style="color:var(--text);font-weight:600">Halide Yılmaz</div><div>HatsonTech · Co-Founder</div></div></div><span>· 9 min read</span></div>
   </div>
-  <div class="wrap narrow"><div class="article-hero"><img src="../../image/ai-h-05.svg" alt="Reranking and Hybrid Search: Combining BM25 with Semantic Search"></div></div>
+  <div class="wrap narrow"><div class="article-hero"><img src="../../image/bimg-15.jpg" alt="Reranking and Hybrid Search: Combining BM25 with Semantic Search"></div></div>
   <div class="wrap narrow" style="padding-top:36px;padding-bottom:36px">
     <div class="prose">
 <p class="lead-p">Imagine walking into a library and asking, "ways to find cheap flights." One clerk scans the shelves word by word and hands you books with "flight" in the title; another understands what you actually mean and offers a book on "travel budgeting." You get the best result by combining both, then carefully reviewing the pile they bring back. That, in essence, is hybrid search and reranking. In this article we'll build an intuitive picture of blending keyword and semantic search, and of lifting retrieval quality with a cross-encoder.</p>

@@ -1,14 +1,11 @@
 <!DOCTYPE html>
 <html lang="tr" data-theme="light">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>RAG İçin Chunking Stratejileri: Parçalama Kaliteyi Nasıl Belirler? — Halide Yılmaz</title>
 <meta name="description" content="RAG'de chunking stratejileri: sabit boyut, cümle/paragraf, overlap, anlamsal chunking ve başlık-bağlamı koruma. Parçalama kaliteyi nasıl etkiler, sezgisel anlatım." />
-<link rel="canonical" href="https://halideyilmaz.com/posts/rag-chunking-stratejileri.html" />
-<link rel="alternate" hreflang="en" href="https://halideyilmaz.com/en/posts/rag-chunking-stratejileri.html" />
-<meta name="theme-color" content="#7CB342" />
-<meta property="og:type" content="article" /><meta property="og:title" content="RAG İçin Chunking Stratejileri: Parçalama Kaliteyi Nasıl Belirler?" /><meta property="og:description" content="RAG'de chunking stratejileri: sabit boyut, cümle/paragraf, overlap, anlamsal chunking ve başlık-bağlamı koruma. Parçalama kaliteyi nasıl etkiler, sezgisel anlatım." /><meta property="og:image" content="https://halideyilmaz.com/image/ai-h-04.svg" />
+<link rel="canonical" href="https://halideyilmaz.com/posts/rag-chunking-stratejileri.html" /><link rel="alternate" hreflang="en" href="https://halideyilmaz.com/en/posts/rag-chunking-stratejileri.html" /><meta name="theme-color" content="#7CB342" />
+<meta property="og:type" content="article" /><meta property="og:title" content="RAG İçin Chunking Stratejileri: Parçalama Kaliteyi Nasıl Belirler?" /><meta property="og:description" content="RAG'de chunking stratejileri: sabit boyut, cümle/paragraf, overlap, anlamsal chunking ve başlık-bağlamı koruma. Parçalama kaliteyi nasıl etkiler, sezgisel anlatım." /><meta property="og:image" content="https://halideyilmaz.com/image/bimg-14.jpg" />
 <link rel="icon" type="image/png" href="../image/hatsontech_logo.png" />
 <link rel="preconnect" href="https://fonts.googleapis.com" /><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&family=Newsreader:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet" />
@@ -43,7 +40,7 @@
     <h1>RAG İçin Chunking Stratejileri: Parçalama Kaliteyi Nasıl Belirler?</h1>
     <div class="article-meta"><div class="author"><span class="ava">HY</span><div><div style="color:var(--text);font-weight:600">Halide Yılmaz</div><div>HatsonTech · Kurucu Ortak</div></div></div><span>· 5 dakika okuma</span></div>
   </div>
-  <div class="wrap narrow"><div class="article-hero"><img src="../image/ai-h-04.svg" alt="RAG İçin Chunking Stratejileri: Parçalama Kaliteyi Nasıl Belirler?"></div></div>
+  <div class="wrap narrow"><div class="article-hero"><img src="../image/bimg-14.jpg" alt="RAG İçin Chunking Stratejileri: Parçalama Kaliteyi Nasıl Belirler?"></div></div>
   <div class="wrap narrow" style="padding-top:36px;padding-bottom:36px">
     <div class="prose">
 <p class="lead-p">RAG sistemlerinde başarının yarısı modelde değil, belgeleri nasıl parçaladığınızda gizlidir. Yanlış chunking, en güçlü dil modelini bile yanıltır; doğru chunking ise ortalama bir modeli isabetli bir araştırmacıya dönüştürür. Bu yazıda parçalama (chunking) stratejilerini günlük analojilerle, sezgisel biçimde ele alıyoruz.</p>
