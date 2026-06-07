@@ -50,4 +50,6 @@
   <url><loc>https://halideyilmaz.com/en/posts/knowledge-graph-rag/</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
   <url><loc>https://halideyilmaz.com/en/posts/model-inference-scaling/</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
   <url><loc>https://halideyilmaz.com/en/posts/data-quality-labeling/</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://halideyilmaz.com/gizlilik/</loc><changefreq>yearly</changefreq><priority>0.3</priority></url>
+  <url><loc>https://halideyilmaz.com/en/privacy/</loc><changefreq>yearly</changefreq><priority>0.3</priority></url>
 </urlset>
