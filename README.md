@@ -1,7 +1,7 @@
 # halideyilmaz.com — Halide Yılmaz · Kişisel Blog & Portföy
 
 Modern, açık/koyu temalı, tek sayfa + blog yapısında **statik** bir kişisel site.
-Halide Yılmaz'ı (HatsonTech Teknoloji A.Ş. kurucu ortağı, ODTÜ Bilgisayar Mühendisliği mezunu,
+Halide Yılmaz'ı (Hatson Teknoloji A.Ş. kurucu ortağı, ODTÜ Bilgisayar Mühendisliği mezunu,
 Caseon fikrinin öncülerinden) tanıtmak ve yapay zeka / mühendislik üzerine yazılar yayımlamak için tasarlandı.
 
 > HatsonTech ailesinin kardeş sitesi. [tariksenkal.com] ile aynı tasarım sistemini paylaşır;
@@ -36,7 +36,7 @@ halideyilmaz/
 │   └── turkce-yapay-zeka.html
 ├── css/style.css              # Tüm stiller + tema sistemi (teal aksan)
 ├── js/main.js                 # Tema, mobil menü, scroll-reveal, okuma çubuğu
-├── image/hatsontech_logo.png  # Logo / favicon
+├── image/caseon-lockup-black.svg  # Marka logosu (açık tema; koyu tema için -white)
 ├── CNAME                      # halideyilmaz.com
 ├── robots.txt · sitemap.xml   # SEO
 └── README.md
@@ -47,7 +47,7 @@ halideyilmaz/
 ## 🎨 Tasarım
 
 - **Tema:** Açık / koyu mod (sağ üstteki ☀️/🌙). Tercih `localStorage`'a kaydedilir.
-- **Renkler:** HatsonTech yeşili (`#7CB342`) ana aksan + **teal** (`#0E9D8C`) ikincil. `css/style.css` → `:root`.
+- **Renkler:** Site yeşili (`#7CB342`) ana aksan + **teal** (`#0E9D8C`) ikincil. `css/style.css` → `:root`.
 - **Tipografi:** Başlıklar **Sora**, gövde **Inter**, makaleler **Newsreader** (serif).
 
 ---
@@ -79,4 +79,4 @@ Repo → **Settings → Pages → Branch: main / root**. `CNAME` `halideyilmaz.c
 
 ---
 
-© 2024–2026 Halide Yılmaz · HatsonTech Teknoloji A.Ş. · Ankara, ODTÜ Teknokent 🌿
+© 2024–2026 Halide Yılmaz · Hatson Teknoloji A.Ş. · Ankara, ODTÜ Teknokent 🌿

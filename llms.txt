@@ -4,13 +4,13 @@
 
 Bu site Halide Yılmaz'ın kişisel blogudur; makine öğrenmesinin temelleri, attention/transformer mimarileri, RAG, model izleme ve özellik mühendisliği gibi konuları Türkçe ve İngilizce ele alır. — Personal site of Halide Yılmaz, covering machine-learning fundamentals, attention/transformer architectures, RAG, model monitoring and feature engineering, in Turkish and English.
 
-HatsonTech Teknoloji A.Ş. — Ankara, ODTÜ Teknokent merkezli, Türkçe odaklı yapay zeka Ar-Ge şirketi; amiral ürün Caseon (yapay zeka destekli hukuk teknolojisi platformu).
+Hatson Teknoloji A.Ş. — Ankara, ODTÜ Teknokent merkezli, Türkçe odaklı yapay zeka Ar-Ge şirketi; amiral ürün Caseon (yapay zeka destekli hukuk teknolojisi platformu).
 
 ## Hakkında / Background
-- [Halide Yılmaz kimdir?](https://halideyilmaz.com/posts/halide-yilmaz-kimdir/): Halide Yılmaz kimdir? HatsonTech Teknoloji A.Ş.'nin kurucu ortağı, ODTÜ Bilgisayar Mühendisliği mezunu, Türkçe yapay zeka ve hukuk teknolojileri üzerine çalışan mühendisin hikâyesi.
+- [Halide Yılmaz kimdir?](https://halideyilmaz.com/posts/halide-yilmaz-kimdir/): Halide Yılmaz kimdir? Hatson Teknoloji A.Ş.'nin kurucu ortağı, ODTÜ Bilgisayar Mühendisliği mezunu, Türkçe yapay zeka ve hukuk teknolojileri üzerine çalışan mühendisin hikâyesi.
 - [HatsonTech nasıl ortaya çıktı?](https://halideyilmaz.com/posts/hatsontech-nedir/): HatsonTech nasıl ortaya çıktı? 2024'te Ankara ODTÜ Teknokent'te kurulan Türkçe yapay zeka girişiminin doğuş hikâyesi: hangi sorundan yola çıkıldı, neden kendi ürünlerini geliştiriyor?
-- [Caseon nedir?](https://halideyilmaz.com/posts/caseon-nedir/): Caseon nedir? HatsonTech'ın amiral gemisi ürünü: avukatlar ve hukuk birimleri için içtihat araması, belge analizi ve akıllı hukuki asistanı bir araya getiren yapay zeka platformu.
-- [Who is Halide Yılmaz?](https://halideyilmaz.com/en/posts/who-is-halide-yilmaz/): Who is Halide Yılmaz? The story of a co-founder of HatsonTech Teknoloji A.Ş., a graduate of METU Computer Engineering and an engineer working on Turkish artificial intelligence and legal technologies.
+- [Caseon nedir?](https://halideyilmaz.com/posts/caseon-nedir/): Caseon nedir? HatsonTech'in amiral gemisi ürünü: avukatlar ve hukuk birimleri için içtihat araması, belge analizi ve akıllı hukuki asistanı bir araya getiren yapay zeka platformu.
+- [Who is Halide Yılmaz?](https://halideyilmaz.com/en/posts/who-is-halide-yilmaz/): Who is Halide Yılmaz? The story of a co-founder of Hatson Teknoloji A.Ş., a graduate of METU Computer Engineering and an engineer working on Turkish artificial intelligence and legal technologies.
 - [How did HatsonTech come about?](https://halideyilmaz.com/en/posts/how-hatsontech-started/): How did HatsonTech come about? The origin story of a Turkish AI startup founded in 2024 at ODTÜ Teknokent in Ankara: what problem it set out to solve, and why it builds its own products.
 - [What is Caseon?](https://halideyilmaz.com/en/posts/what-is-caseon/): What is Caseon? HatsonTech's flagship product: an AI platform that brings together case-law search, document analysis and a smart legal assistant for lawyers and legal departments.
 
@@ -66,8 +66,8 @@ HatsonTech Teknoloji A.Ş. — Ankara, ODTÜ Teknokent merkezli, Türkçe odakl�
 - [LinkedIn](https://www.linkedin.com/in/halide-y%C4%B1lmaz-6b48322b0/)
 - [GitHub](https://github.com/halideyilmaz)
 - [E-posta / Email](mailto:halide.yilmaz@hatsontech.com)
-- [HatsonTech](https://www.hatsontech.com)
-- [Caseon](https://www.caseon.com)
+- [HatsonTech](https://hatsontech.com)
+- [Caseon](https://caseon.ai)
 
 ## Optional
 - [Gizlilik Politikası (TR)](https://halideyilmaz.com/gizlilik/)
