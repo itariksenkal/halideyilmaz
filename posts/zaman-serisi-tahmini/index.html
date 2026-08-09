@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="tr" data-theme="light">
+<head>
+<meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Zaman Serisi Tahmini: Trend, Mevsimsellik ve Doğru Doğrulama — Halide Yılmaz</title>
+<meta name="description" content="Zaman serisi problemleri klasik makine öğrenmesinden farklı kurallara tabidir. Trend, mevsimsellik, durağanlık, taban çizgileri ve ileri yönlü doğrulama pratik örneklerle anlatılıyor." />
+<link rel="canonical" href="https://halideyilmaz.com/posts/zaman-serisi-tahmini/" /><link rel="alternate" hreflang="en" href="https://halideyilmaz.com/en/posts/time-series-forecasting/" /><meta name="theme-color" content="#3B6BF6" />
+<meta property="og:type" content="article" /><meta property="og:title" content="Zaman Serisi Tahmini: Trend, Mevsimsellik ve Doğru Doğrulama" /><meta property="og:description" content="Zaman serisi problemleri klasik makine öğrenmesinden farklı kurallara tabidir. Trend, mevsimsellik, durağanlık, taban çizgileri ve ileri yönlü doğrulama pratik örneklerle anlatılıyor." /><meta property="og:image" content="https://halideyilmaz.com/image/bimg-07.jpg" />
+<link rel="icon" href="/favicon.ico?v=20260809" sizes="32x32" />
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg?v=20260809" />
+  <link rel="icon" type="image/png" href="/favicon-192.png?v=20260809" sizes="192x192" />
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png?v=20260809" />
+<link rel="preconnect" href="https://fonts.googleapis.com" /><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&family=Newsreader:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet" />
+<script>(function(){try{var k="hy-theme",t=localStorage.getItem(k),m=window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches;document.documentElement.setAttribute("data-theme",t||(m?"dark":"light"));}catch(e){}})();</script>
+<link rel="stylesheet" href="../../css/style.css?v=20260809" />
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "headline": "Zaman Serisi Tahmini: Trend, Mevsimsellik ve Doğru Doğrulama",
+    "description": "Zaman serisi problemleri klasik makine öğrenmesinden farklı kurallara tabidir. Trend, mevsimsellik, durağanlık, taban çizgileri ve ileri yönlü doğrulama pratik örneklerle anlatılıyor.",
+    "mainEntityOfPage": { "@type": "WebPage", "@id": "https://halideyilmaz.com/posts/zaman-serisi-tahmini/" },
+    "datePublished": "2026-08-09",
+    "dateModified": "2026-08-09",
+    "author": {
+      "@type": "Person",
+      "name": "Halide Yılmaz",
+      "url": "https://halideyilmaz.com/",
+      "worksFor": { "@type": "Organization", "name": "Hatson Teknoloji A.Ş.", "url": "https://hatsontech.com/" }
+    },
+    "publisher": { "@type": "Organization", "name": "Hatson Teknoloji A.Ş.", "url": "https://hatsontech.com/" },
+    "image": "https://halideyilmaz.com/image/bimg-07.jpg",
+    "inLanguage": "tr"
+  }
+  </script>
+</head>
+<body>
+<div class="progress"></div>
+  <nav class="nav" id="nav">
+    <div class="wrap">
+      <a class="brand" href="../../" aria-label="Ana sayfa"><img class="logo-light" src="../../image/caseon-mark-light.svg" alt="Caseon" width="28" height="28" /><img class="logo-dark" src="../../image/caseon-mark-dark.svg" alt="Caseon" width="28" height="28" /><span>Halide Yılmaz</span></a>
+      <div class="nav-links" id="navLinks">
+        <a href="../../#hakkinda">Kimdir</a>
+        <a href="../../#ne-yapiyor">Ne Yapıyor</a>
+        <a href="../../#uzmanlik">Uzmanlık</a>
+        <a href="../../blog/">Yazılar</a>
+        <a href="../../#iletisim">İletişim</a>      </div>
+      <div class="nav-actions">
+        <a class="lang-switch" href="../../en/posts/time-series-forecasting/">EN</a>
+        <button class="icon-btn theme-toggle" data-theme-toggle aria-label="Theme"><svg class="sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M6.3 17.7l-1.4 1.4M19.1 4.9l-1.4 1.4"/></svg><svg class="moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg></button>
+        <button class="icon-btn nav-toggle" data-nav-toggle aria-label="Menu"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 6h18M3 12h18M3 18h18"/></svg></button>
+      </div>
+    </div>
+  </nav>
+<article>
+  <div class="wrap narrow article-head">
+    <div class="breadcrumb"><a href="../../">Ana sayfa</a> <span>/</span>
+        <a href="../../blog/">Yazılar</a> <span>/</span>
+        <span>Yöntem</span></div>
+    <span class="tag">Yöntem</span>
+    <h1>Zaman Serisi Tahmini: Trend, Mevsimsellik ve Doğru Doğrulama</h1>
+    <div class="article-meta"><div class="author"><span class="ava">HY</span><div><div style="color:var(--text);font-weight:600">Halide Yılmaz</div><div>HatsonTech · Kurucu Ortak</div></div></div><span>· 7 dakika okuma</span><span>· <time datetime="2026-08-09">Son güncelleme: 9 Ağustos 2026</time></span></div>
+  </div>
+  <div class="wrap narrow"><div class="article-hero"><img src="../../image/bimg-07.jpg" alt="Zaman Serisi Tahmini: Trend, Mevsimsellik ve Doğru Doğrulama"></div></div>
+  <div class="wrap narrow" style="padding-top:36px;padding-bottom:36px">
+    <div class="prose">
+<p class="lead-p">Zaman serisi tahmini, makine öğrenmesinin alışkanlıkların en çok yanılttığı alanıdır. Veriyi karıştıramazsınız, geleceği eğitimde kullanamazsınız ve gözlemler birbirinden bağımsız değildir. Bu üç kısıt, tüm iş akışını değiştirir.</p>
+
+<div class="toc">
+  <h4>İçindekiler</h4>
+  <ol>
+    <li><a href="#b1">Bir seriyi oluşturan bileşenler</a></li>
+    <li><a href="#b2">Durağanlık</a></li>
+    <li><a href="#b3">Taban çizgileri ciddiye alın</a></li>
+    <li><a href="#b4">Doğru doğrulama</a></li>
+    <li><a href="#b5">Hangi metrik</a></li>
+    <li><a href="#b6">Sık sorulanlar</a></li>
+  </ol>
+</div>
+
+<h2 id="b1">Bir seriyi oluşturan bileşenler</h2>
+<p>Çoğu seri üç parçaya ayrılabilir: uzun vadeli <strong>trend</strong>, tekrar eden <strong>mevsimsellik</strong> ve açıklanamayan <strong>artık</strong>. Bu ayrıştırma, modellemeden önce yapılması gereken ilk iştir; çünkü hangi bileşenin baskın olduğunu görmek yöntem seçimini belirler.</p>
+<p>Bir seride birden fazla mevsimsellik olabilir: günlük, haftalık ve yıllık desenler aynı anda bulunabilir. Perakende satışlarında üçü de vardır.</p>
+
+<h2 id="b2">Durağanlık</h2>
+<p>Klasik istatistiksel yöntemlerin çoğu, serinin istatistiklerinin zamanla değişmediğini varsayar. Trend ya da değişen oynaklık bu varsayımı bozar. Fark alma (differencing) ve logaritmik dönüşüm en yaygın düzeltmelerdir.</p>
+
+<div class="callout">
+  <strong>Dikkat:</strong> Ağaç tabanlı modeller trendi doğrudan öğrenemez; gördükleri aralığın dışına çıkamazlar. Yükselen bir trend varsa ya fark alın ya da trendi ayrı modelleyin.
+</div>
+
+<h2 id="b3">Taban çizgileri ciddiye alın</h2>
+<p>Zaman serisinde iki taban çizgisi şaşırtıcı derecede güçlüdür:</p>
+<ul>
+  <li><strong>Naif:</strong> Yarın bugünle aynı olacak.</li>
+  <li><strong>Mevsimsel naif:</strong> Bu salı, geçen salıyla aynı olacak.</li>
+</ul>
+<p>Karmaşık bir model bu ikisini net biçimde geçemiyorsa, karmaşıklığın bedeli boşuna ödeniyor demektir. Birçok projede bu karşılaştırma hiç yapılmaz ve sonuç fazla iyimser yorumlanır.</p>
+
+<h2 id="b4">Doğru doğrulama</h2>
+<p>Rastgele K-katlı çapraz doğrulama burada geçersizdir; geleceği eğitime sokar. Doğru yaklaşım ileri yönlü doğrulamadır: her katman yalnızca kendinden önceki veriyle eğitilir, sonraki pencerede test edilir ve pencere ileri kaydırılır.</p>
+<p>Ayrıca tahmin ufkunu gerçek kullanımla eşleştirin. Bir gün sonrasını tahmin etmekle otuz gün sonrasını tahmin etmek çok farklı problemlerdir ve aynı modelle ölçülmemelidir.</p>
+
+<h2 id="b5">Hangi metrik</h2>
+<table class="cmp-table">
+  <thead><tr><th>Metrik</th><th>Avantaj</th><th>Zayıflık</th></tr></thead>
+  <tbody>
+    <tr><td>MAE</td><td class="yes">Yorumlanabilir, sağlam</td><td>Büyük hatayı cezalandırmaz</td></tr>
+    <tr><td>RMSE</td><td class="yes">Büyük hataya duyarlı</td><td>Aykırı değerlere hassas</td></tr>
+    <tr><td>MAPE</td><td class="yes">Yüzde olarak karşılaştırılabilir</td><td class="no">Sıfıra yakın değerlerde patlar</td></tr>
+    <tr><td>MASE</td><td class="yes">Naif tabana göre ölçekli</td><td>Daha az bilinir</td></tr>
+  </tbody>
+</table>
+
+<h2 id="b6">Sık sorulanlar</h2>
+<div class="faq">
+  <details>
+    <summary>Derin öğrenme klasik yöntemleri geçer mi?</summary>
+    <p>Çok sayıda ilişkili seri varsa evet, genellikle geçer. Tek ve kısa bir seride klasik yöntemler hâlâ çok rekabetçidir.</p>
+  </details>
+  <details>
+    <summary>Tatiller ve kampanyalar nasıl ele alınır?</summary>
+    <p>Takvim etkilerini açık özellik olarak verin. Modelin bunları veriden çıkarmasını beklemek, özellikle kısa serilerde gerçekçi değildir.</p>
+  </details>
+  <details>
+    <summary>Nokta tahmini yeterli mi?</summary>
+    <p>Çoğu karar için değil. Tahmin aralığı verin; stok, kapasite ve risk kararları belirsizliğin büyüklüğüne bağlıdır.</p>
+  </details>
+</div>
+
+<hr />
+<p>Zaman serisinde en sık yapılan hata teknik değil yöntemseldir: yanlış bölme, eksik taban çizgisi ve gerçek kullanımla eşleşmeyen ufuk. Devamı için <a href="../veri-sizintisi-capraz-dogrulama/">veri sızıntısı ve çapraz doğrulama</a> yazısına bakabilirsiniz.</p>
+      </div>
+      <div class="article-tags"><span class="tag">Yöntem</span><span class="tag">Yapay Zeka</span></div>
+      <div class="author-box"><span class="ava">HY</span><div><h4>Halide Yılmaz</h4><div class="role">Hatson Teknoloji A.Ş. · Kurucu Ortak</div><p>ODTÜ Bilgisayar Mühendisliği mezunu; bilgisayar ve yapay zeka alanında deneyimli kurucu ortak.</p></div></div>
+      <div class="post-nav"><a href="../anomali-tespiti/"><div class="dir">← Önceki</div><div class="ttl">Önceki yazı</div></a><a class="next" href="../oneri-sistemleri/"><div class="dir">Sıradaki →</div><div class="ttl">Sonraki yazı</div></a></div>
+    </div>
+  </article>
+    <footer class="footer"><div class="wrap"><div class="footer-bottom" style="border:none;margin:0;padding:0"><span>© <span data-year>2026</span> Halide Yılmaz · Tüm hakları saklıdır.</span><span><a href="../../gizlilik/">Çerez Politikası</a> · Ankara · ODTÜ Teknokent 🌿</span></div></div></footer>
+    <button class="icon-btn to-top" aria-label="Top"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5M5 12l7-7 7 7"/></svg></button>
+    <script src="../../js/main.js"></script>
+  </body>
+  </html>

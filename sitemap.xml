@@ -52,4 +52,25 @@
   <url><loc>https://halideyilmaz.com/en/posts/data-quality-labeling/</loc><lastmod>2026-08-09</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
   <url><loc>https://halideyilmaz.com/gizlilik/</loc><lastmod>2026-08-09</lastmod><changefreq>yearly</changefreq><priority>0.3</priority></url>
   <url><loc>https://halideyilmaz.com/en/privacy/</loc><lastmod>2026-08-09</lastmod><changefreq>yearly</changefreq><priority>0.3</priority></url>
+
+  <url><loc>https://halideyilmaz.com/posts/veri-merkezli-yapay-zeka/</loc><lastmod>2026-08-09</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://halideyilmaz.com/en/posts/data-centric-ai/</loc><lastmod>2026-08-09</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://halideyilmaz.com/posts/sinif-dengesizligi/</loc><lastmod>2026-08-09</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://halideyilmaz.com/en/posts/class-imbalance/</loc><lastmod>2026-08-09</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://halideyilmaz.com/posts/aktif-ogrenme/</loc><lastmod>2026-08-09</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://halideyilmaz.com/en/posts/active-learning/</loc><lastmod>2026-08-09</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://halideyilmaz.com/posts/veri-sizintisi-capraz-dogrulama/</loc><lastmod>2026-08-09</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://halideyilmaz.com/en/posts/data-leakage-cross-validation/</loc><lastmod>2026-08-09</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://halideyilmaz.com/posts/onyargi-ve-adalet/</loc><lastmod>2026-08-09</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://halideyilmaz.com/en/posts/bias-and-fairness/</loc><lastmod>2026-08-09</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://halideyilmaz.com/posts/anomali-tespiti/</loc><lastmod>2026-08-09</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://halideyilmaz.com/en/posts/anomaly-detection/</loc><lastmod>2026-08-09</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://halideyilmaz.com/posts/zaman-serisi-tahmini/</loc><lastmod>2026-08-09</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://halideyilmaz.com/en/posts/time-series-forecasting/</loc><lastmod>2026-08-09</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://halideyilmaz.com/posts/oneri-sistemleri/</loc><lastmod>2026-08-09</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://halideyilmaz.com/en/posts/recommender-systems/</loc><lastmod>2026-08-09</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://halideyilmaz.com/posts/gizlilik-korumali-ogrenme/</loc><lastmod>2026-08-09</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://halideyilmaz.com/en/posts/privacy-preserving-learning/</loc><lastmod>2026-08-09</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://halideyilmaz.com/posts/model-kartlari-yonetisim/</loc><lastmod>2026-08-09</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://halideyilmaz.com/en/posts/model-cards-governance/</loc><lastmod>2026-08-09</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
 </urlset>

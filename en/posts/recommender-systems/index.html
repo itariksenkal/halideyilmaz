@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Recommender Systems: Collaborative Filtering, Content-Based Methods and Cold Start — Halide Yılmaz</title>
+<meta name="description" content="Recommenders rest on two ideas: similar users and similar items. Collaborative filtering, content-based methods, hybrids, the cold-start problem and the diversity trade-off." />
+<link rel="canonical" href="https://halideyilmaz.com/en/posts/recommender-systems/" /><link rel="alternate" hreflang="tr" href="https://halideyilmaz.com/posts/oneri-sistemleri/" /><meta name="theme-color" content="#3B6BF6" />
+<meta property="og:type" content="article" /><meta property="og:title" content="Recommender Systems: Collaborative Filtering, Content-Based Methods and Cold Start" /><meta property="og:description" content="Recommenders rest on two ideas: similar users and similar items. Collaborative filtering, content-based methods, hybrids, the cold-start problem and the diversity trade-off." /><meta property="og:image" content="https://halideyilmaz.com/image/bimg-08.jpg" />
+<link rel="icon" href="/favicon.ico?v=20260809" sizes="32x32" />
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg?v=20260809" />
+  <link rel="icon" type="image/png" href="/favicon-192.png?v=20260809" sizes="192x192" />
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png?v=20260809" />
+<link rel="preconnect" href="https://fonts.googleapis.com" /><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&family=Newsreader:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet" />
+<script>(function(){try{var k="hy-theme",t=localStorage.getItem(k),m=window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches;document.documentElement.setAttribute("data-theme",t||(m?"dark":"light"));}catch(e){}})();</script>
+<link rel="stylesheet" href="../../../css/style.css?v=20260809" />
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "headline": "Recommender Systems: Collaborative Filtering, Content-Based Methods and Cold Start",
+    "description": "Recommenders rest on two ideas: similar users and similar items. Collaborative filtering, content-based methods, hybrids, the cold-start problem and the diversity trade-off.",
+    "mainEntityOfPage": { "@type": "WebPage", "@id": "https://halideyilmaz.com/en/posts/recommender-systems/" },
+    "datePublished": "2026-08-09",
+    "dateModified": "2026-08-09",
+    "author": {
+      "@type": "Person",
+      "name": "Halide Yılmaz",
+      "url": "https://halideyilmaz.com/",
+      "worksFor": { "@type": "Organization", "name": "Hatson Teknoloji A.Ş.", "url": "https://hatsontech.com/" }
+    },
+    "publisher": { "@type": "Organization", "name": "Hatson Teknoloji A.Ş.", "url": "https://hatsontech.com/" },
+    "image": "https://halideyilmaz.com/image/bimg-08.jpg",
+    "inLanguage": "en"
+  }
+  </script>
+</head>
+<body>
+<div class="progress"></div>
+  <nav class="nav" id="nav">
+    <div class="wrap">
+      <a class="brand" href="../../" aria-label="Home"><img class="logo-light" src="../../../image/caseon-mark-light.svg" alt="Caseon" width="28" height="28" /><img class="logo-dark" src="../../../image/caseon-mark-dark.svg" alt="Caseon" width="28" height="28" /><span>Halide Yılmaz</span></a>
+      <div class="nav-links" id="navLinks">
+        <a href="../../#about">About</a>
+        <a href="../../#what-i-do">What I Do</a>
+        <a href="../../#expertise">Expertise</a>
+        <a href="../../blog/">Articles</a>
+        <a href="../../#contact">Contact</a>      </div>
+      <div class="nav-actions">
+        <a class="lang-switch" href="../../../posts/oneri-sistemleri/">TR</a>
+        <button class="icon-btn theme-toggle" data-theme-toggle aria-label="Theme"><svg class="sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M6.3 17.7l-1.4 1.4M19.1 4.9l-1.4 1.4"/></svg><svg class="moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg></button>
+        <button class="icon-btn nav-toggle" data-nav-toggle aria-label="Menu"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 6h18M3 12h18M3 18h18"/></svg></button>
+      </div>
+    </div>
+  </nav>
+<article>
+  <div class="wrap narrow article-head">
+    <div class="breadcrumb"><a href="../../">Home</a> <span>/</span>
+        <a href="../../blog/">Articles</a> <span>/</span>
+        <span>Methods</span></div>
+    <span class="tag">Methods</span>
+    <h1>Recommender Systems: Collaborative Filtering, Content-Based Methods and Cold Start</h1>
+    <div class="article-meta"><div class="author"><span class="ava">HY</span><div><div style="color:var(--text);font-weight:600">Halide Yılmaz</div><div>HatsonTech · Co-Founder</div></div></div><span>· 7 min read</span><span>· <time datetime="2026-08-09">Last updated: 9 August 2026</time></span></div>
+  </div>
+  <div class="wrap narrow"><div class="article-hero"><img src="../../../image/bimg-08.jpg" alt="Recommender Systems: Collaborative Filtering, Content-Based Methods and Cold Start"></div></div>
+  <div class="wrap narrow" style="padding-top:36px;padding-bottom:36px">
+    <div class="prose">
+<p class="lead-p">A recommender answers one simple question at scale: <em>what will this person be interested in next?</em> The answer has two classical sources — other users who behave similarly, and other items that share features. Modern systems combine both.</p>
+
+<div class="toc">
+  <h4>Contents</h4>
+  <ol>
+    <li><a href="#b1">Collaborative filtering</a></li>
+    <li><a href="#b2">Content-based methods</a></li>
+    <li><a href="#b3">Hybrids and the two-stage architecture</a></li>
+    <li><a href="#b4">Cold start</a></li>
+    <li><a href="#b5">Accuracy is not enough: diversity</a></li>
+    <li><a href="#b6">Frequently asked questions</a></li>
+  </ol>
+</div>
+
+<h2 id="b1">Collaborative filtering</h2>
+<p>The intuition: things liked by people who liked what you liked, and which you have not seen yet, probably suit you too. To do this you build a user-item interaction matrix and factorise that sparse matrix into two low-dimensional ones. Every user and every item becomes a vector; the prediction is their dot product.</p>
+<p>Its strength is working without knowing anything about the content. Its weakness is having nothing to say about new users and new items.</p>
+
+<h2 id="b2">Content-based methods</h2>
+<p>Here the items' own attributes are used: text, category, tags, imagery. You build a feature profile from what the user engaged with and recommend items with similar profiles. <a href="../embedding-models-semantic-similarity/">Embedding models</a> are today's standard way to measure that similarity.</p>
+<p>This works well for new items but tends to trap users inside their own history — the filter bubble originates precisely here.</p>
+
+<div class="callout">
+  <strong>In practice:</strong> large systems are two-stage. Millions of candidates are cut quickly to a few hundred (candidate generation), then an expensive model ranks that small set (reranking). This split is the key to holding a latency budget.
+</div>
+
+<h2 id="b3">Hybrids and the two-stage architecture</h2>
+<table class="cmp-table">
+  <thead><tr><th>Approach</th><th>New user</th><th>New item</th><th>Serendipity</th></tr></thead>
+  <tbody>
+    <tr><td>Collaborative</td><td class="no">Weak</td><td class="no">Weak</td><td class="yes">High</td></tr>
+    <tr><td>Content-based</td><td class="no">Weak</td><td class="yes">Strong</td><td class="no">Low</td></tr>
+    <tr><td>Hybrid</td><td class="yes">Good</td><td class="yes">Good</td><td class="yes">Balanced</td></tr>
+  </tbody>
+</table>
+
+<h2 id="b4">Cold start</h2>
+<p>What should the system recommend to a user it knows nothing about? The practical answers are simple and effective: start with popular content, ask for a few preferences at sign-up, use contextual signals such as device and locale, and weight the first session towards exploration so the system learns quickly.</p>
+
+<h2 id="b5">Accuracy is not enough: diversity</h2>
+<p>A system that maximises click probability alone looks good briefly and then narrows: it shows the same kind of content repeatedly, the user tires, and discovery stops. Production systems therefore track three further criteria alongside accuracy — diversity, novelty and coverage.</p>
+<p>There is also a <em>feedback loop</em> risk: whatever the system shows generates the data, and that data pushes the system further in the same direction. Breaking the loop requires deliberate exploration.</p>
+
+<h2 id="b6">Frequently asked questions</h2>
+<div class="faq">
+  <details>
+    <summary>Are offline metrics enough?</summary>
+    <p>No. Offline ranking metrics give direction, but the real decision comes from an A/B test. Plenty of changes that look good offline lose in production.</p>
+  </details>
+  <details>
+    <summary>Implicit feedback or explicit ratings?</summary>
+    <p>Implicit signals such as clicks and dwell time are far more plentiful and more useful in practice. But "clicked" is not "liked", and the model should reflect that.</p>
+  </details>
+  <details>
+    <summary>What are the privacy considerations?</summary>
+    <p>Behavioural data is personal. Purpose limitation, retention limits and user visibility are essential; explainable recommendations build trust here.</p>
+  </details>
+</div>
+
+<hr />
+<p>A good recommender is not the one with the highest accuracy but the one that broadens the user over time. For more, see <a href="../reranking-hybrid-search/">reranking and hybrid search</a> and <a href="../embedding-models-semantic-similarity/">embedding models</a>.</p>
+      </div>
+      <div class="article-tags"><span class="tag">Methods</span><span class="tag">AI</span></div>
+      <div class="author-box"><span class="ava">HY</span><div><h4>Halide Yılmaz</h4><div class="role">Hatson Teknoloji A.Ş. · Co-Founder</div><p>A METU Computer Engineering graduate and co-founder working on computing and artificial intelligence.</p></div></div>
+      <div class="post-nav"><a href="../time-series-forecasting/"><div class="dir">← Previous</div><div class="ttl">Previous article</div></a><a class="next" href="../privacy-preserving-learning/"><div class="dir">Next →</div><div class="ttl">Next article</div></a></div>
+    </div>
+  </article>
+    <footer class="footer"><div class="wrap"><div class="footer-bottom" style="border:none;margin:0;padding:0"><span>© <span data-year>2026</span> Halide Yılmaz · All rights reserved.</span><span><a href="../../privacy/">Cookie Policy</a> · Ankara · METU Technopark 🌿</span></div></div></footer>
+    <button class="icon-btn to-top" aria-label="Top"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5M5 12l7-7 7 7"/></svg></button>
+    <script src="../../../js/main.js"></script>
+  </body>
+  </html>

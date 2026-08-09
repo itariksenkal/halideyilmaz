@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="tr" data-theme="light">
+<head>
+<meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Veri Merkezli Yapay Zeka: Modeli Değil Veriyi İyileştirmek — Halide Yılmaz</title>
+<meta name="description" content="Veri merkezli yapay zeka, modeli sabit tutup veriyi sistematik olarak iyileştirme yaklaşımıdır. Etiket tutarlılığı, kapsam boşlukları ve hata analizi ile aynı mimariden nasıl daha yüksek doğruluk çıkar, sezgisel örneklerle anlatıyoruz." />
+<link rel="canonical" href="https://halideyilmaz.com/posts/veri-merkezli-yapay-zeka/" /><link rel="alternate" hreflang="en" href="https://halideyilmaz.com/en/posts/data-centric-ai/" /><meta name="theme-color" content="#3B6BF6" />
+<meta property="og:type" content="article" /><meta property="og:title" content="Veri Merkezli Yapay Zeka: Modeli Değil Veriyi İyileştirmek" /><meta property="og:description" content="Veri merkezli yapay zeka, modeli sabit tutup veriyi sistematik olarak iyileştirme yaklaşımıdır. Etiket tutarlılığı, kapsam boşlukları ve hata analizi ile aynı mimariden nasıl daha yüksek doğruluk çıkar, sezgisel örneklerle anlatıyoruz." /><meta property="og:image" content="https://halideyilmaz.com/image/bimg-01.jpg" />
+<link rel="icon" href="/favicon.ico?v=20260809" sizes="32x32" />
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg?v=20260809" />
+  <link rel="icon" type="image/png" href="/favicon-192.png?v=20260809" sizes="192x192" />
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png?v=20260809" />
+<link rel="preconnect" href="https://fonts.googleapis.com" /><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&family=Newsreader:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet" />
+<script>(function(){try{var k="hy-theme",t=localStorage.getItem(k),m=window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches;document.documentElement.setAttribute("data-theme",t||(m?"dark":"light"));}catch(e){}})();</script>
+<link rel="stylesheet" href="../../css/style.css?v=20260809" />
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "headline": "Veri Merkezli Yapay Zeka: Modeli Değil Veriyi İyileştirmek",
+    "description": "Veri merkezli yapay zeka, modeli sabit tutup veriyi sistematik olarak iyileştirme yaklaşımıdır. Etiket tutarlılığı, kapsam boşlukları ve hata analizi ile aynı mimariden nasıl daha yüksek doğruluk çıkar, sezgisel örneklerle anlatıyoruz.",
+    "mainEntityOfPage": { "@type": "WebPage", "@id": "https://halideyilmaz.com/posts/veri-merkezli-yapay-zeka/" },
+    "datePublished": "2026-08-09",
+    "dateModified": "2026-08-09",
+    "author": {
+      "@type": "Person",
+      "name": "Halide Yılmaz",
+      "url": "https://halideyilmaz.com/",
+      "worksFor": { "@type": "Organization", "name": "Hatson Teknoloji A.Ş.", "url": "https://hatsontech.com/" }
+    },
+    "publisher": { "@type": "Organization", "name": "Hatson Teknoloji A.Ş.", "url": "https://hatsontech.com/" },
+    "image": "https://halideyilmaz.com/image/bimg-01.jpg",
+    "inLanguage": "tr"
+  }
+  </script>
+</head>
+<body>
+<div class="progress"></div>
+  <nav class="nav" id="nav">
+    <div class="wrap">
+      <a class="brand" href="../../" aria-label="Ana sayfa"><img class="logo-light" src="../../image/caseon-mark-light.svg" alt="Caseon" width="28" height="28" /><img class="logo-dark" src="../../image/caseon-mark-dark.svg" alt="Caseon" width="28" height="28" /><span>Halide Yılmaz</span></a>
+      <div class="nav-links" id="navLinks">
+        <a href="../../#hakkinda">Kimdir</a>
+        <a href="../../#ne-yapiyor">Ne Yapıyor</a>
+        <a href="../../#uzmanlik">Uzmanlık</a>
+        <a href="../../blog/">Yazılar</a>
+        <a href="../../#iletisim">İletişim</a>      </div>
+      <div class="nav-actions">
+        <a class="lang-switch" href="../../en/posts/data-centric-ai/">EN</a>
+        <button class="icon-btn theme-toggle" data-theme-toggle aria-label="Theme"><svg class="sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M6.3 17.7l-1.4 1.4M19.1 4.9l-1.4 1.4"/></svg><svg class="moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg></button>
+        <button class="icon-btn nav-toggle" data-nav-toggle aria-label="Menu"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 6h18M3 12h18M3 18h18"/></svg></button>
+      </div>
+    </div>
+  </nav>
+<article>
+  <div class="wrap narrow article-head">
+    <div class="breadcrumb"><a href="../../">Ana sayfa</a> <span>/</span>
+        <a href="../../blog/">Yazılar</a> <span>/</span>
+        <span>Veri</span></div>
+    <span class="tag">Veri</span>
+    <h1>Veri Merkezli Yapay Zeka: Modeli Değil Veriyi İyileştirmek</h1>
+    <div class="article-meta"><div class="author"><span class="ava">HY</span><div><div style="color:var(--text);font-weight:600">Halide Yılmaz</div><div>HatsonTech · Kurucu Ortak</div></div></div><span>· 8 dakika okuma</span><span>· <time datetime="2026-08-09">Son güncelleme: 9 Ağustos 2026</time></span></div>
+  </div>
+  <div class="wrap narrow"><div class="article-hero"><img src="../../image/bimg-01.jpg" alt="Veri Merkezli Yapay Zeka: Modeli Değil Veriyi İyileştirmek"></div></div>
+  <div class="wrap narrow" style="padding-top:36px;padding-bottom:36px">
+    <div class="prose">
+<p class="lead-p">Bir modelin doğruluğu beklediğinizin altında kaldığında ilk refleks genellikle aynıdır: daha büyük bir mimari denemek, katman eklemek, hiperparametre taramak. Oysa üretimde çalışan ekiplerin deneyimi çoğu zaman başka bir yöne işaret eder — kazancın büyük kısmı modelden değil, <strong>veriden</strong> gelir. Veri merkezli yapay zeka tam olarak bunu söyler: mimariyi sabitleyin, enerjinizi veri kümesini sistematik biçimde iyileştirmeye harcayın.</p>
+
+<div class="toc">
+  <h4>İçindekiler</h4>
+  <ol>
+    <li><a href="#b1">Model merkezli ve veri merkezli yaklaşım</a></li>
+    <li><a href="#b2">Etiket tutarlılığı: sessiz tavan</a></li>
+    <li><a href="#b3">Kapsam boşlukları</a></li>
+    <li><a href="#b4">Hata analizi bir döngüdür</a></li>
+    <li><a href="#b5">Küçük ve temiz mi, büyük ve gürültülü mü?</a></li>
+    <li><a href="#b6">Sık sorulanlar</a></li>
+  </ol>
+</div>
+
+<h2 id="b1">Model merkezli ve veri merkezli yaklaşım</h2>
+<p>Model merkezli çalışmada veri kümesi sabittir ve siz mimariyi değiştirirsiniz. Veri merkezli çalışmada ise tam tersi olur: mimari sabittir, veri kümesi üzerinde çalışırsınız. İkisi rakip değildir, ama sıralama önemlidir. Mimari değişiklikleri genellikle azalan getiri verirken, veri kalitesindeki iyileştirmeler çoğu zaman doğrudan ve ölçülebilir bir sıçrama yaratır.</p>
+<p>Bunu bir teleskopla düşünün. Merceği büyütmek belli bir noktaya kadar işe yarar; ama camda leke varsa, daha büyük mercek lekeyi de büyütür. Etiket gürültüsü tam olarak o lekedir.</p>
+
+<div class="callout">
+  <strong>Pratik kural:</strong> Modelinizin hata yaptığı 100 örneği elle inceleyin. Bu hataların önemli bir kısmı yanlış etiketlenmişse, sorununuz mimaride değil veri kümesindedir.
+</div>
+
+<h2 id="b2">Etiket tutarlılığı: sessiz tavan</h2>
+<p>Bir veri kümesinde aynı örnek iki farklı etiketleyici tarafından farklı etiketlenmişse, model bu çelişkiyi öğrenemez — yalnızca ortalamasını alır ve kararsız kalır. Bu, doğruluğa görünmez bir tavan koyar. Etiketleyiciler arası uyum (inter-annotator agreement) ölçmek, bu tavanın nerede olduğunu gösterir.</p>
+<p>Uyum düşükse çözüm daha fazla veri değildir; <em>daha net bir etiketleme kılavuzudur</em>. Sınır durumlar için açık kurallar yazmak, çoğu zaman binlerce yeni örnek toplamaktan daha çok kazandırır.</p>
+
+<h2 id="b3">Kapsam boşlukları</h2>
+<p>Veri kümeniz gerçek kullanımın hangi bölümlerini temsil etmiyor? Bu soru, doğruluk metriğinin gizlediği şeyi ortaya çıkarır. Genel doğruluk yüzde doksanken, kullanıcıların gerçekten önemsediği bir alt kümede yüzde elli olabilir.</p>
+<p>Dilimlere ayırarak ölçmek (slice-based evaluation) burada kritiktir: veriyi uzunluk, alan, kaynak, dil ya da kullanıcı tipine göre bölün ve her dilim için ayrı ayrı bakın. Toplam metrik iyi görünürken bir dilimin çökmüş olması çok yaygındır.</p>
+
+<h2 id="b4">Hata analizi bir döngüdür</h2>
+<p>Veri merkezli çalışma tek seferlik bir temizlik değil, tekrar eden bir döngüdür:</p>
+<ol>
+  <li>Modeli eğit ve hataları topla.</li>
+  <li>Hataları elle kategorilere ayır — yanlış etiket, eksik kapsam, gerçek zorluk.</li>
+  <li>En büyük kategoriye yönelik hedefli veri ekle ya da düzelt.</li>
+  <li>Yeniden eğit ve aynı dilimlerde karşılaştır.</li>
+</ol>
+<p>Bu döngünün gücü, çabayı en çok kazandıracak yere yönlendirmesidir. Rastgele bin örnek eklemek yerine, hataların yoğunlaştığı yere yüz örnek eklemek çoğu zaman daha etkilidir.</p>
+
+<h2 id="b5">Küçük ve temiz mi, büyük ve gürültülü mü?</h2>
+<table class="cmp-table">
+  <thead><tr><th>Boyut</th><th>Küçük ve temiz</th><th>Büyük ve gürültülü</th></tr></thead>
+  <tbody>
+    <tr><td>Eğitim maliyeti</td><td class="yes">Düşük</td><td class="no">Yüksek</td></tr>
+    <tr><td>Hata ayıklama</td><td class="yes">Kolay, izlenebilir</td><td class="no">Zor</td></tr>
+    <tr><td>Nadir durumlar</td><td class="no">Eksik kalabilir</td><td class="yes">Doğal olarak kapsanır</td></tr>
+    <tr><td>Tavan doğruluk</td><td class="yes">Etiket kalitesiyle sınırlı</td><td class="no">Gürültüyle sınırlı</td></tr>
+  </tbody>
+</table>
+<p>Doğru cevap ikisinin ortasındadır: geniş bir taban toplayın, ama <em>değerlendirme kümesini</em> titizlikle temizleyin. Ölçtüğünüz şeye güvenemiyorsanız, hiçbir iyileştirmenin gerçek olup olmadığını bilemezsiniz.</p>
+
+<div class="callout">
+  <strong>Sık yapılan hata:</strong> Eğitim kümesini temizleyip değerlendirme kümesini olduğu gibi bırakmak. Kirli bir test kümesi, iyi bir modeli kötü, kötü bir modeli iyi gösterebilir.
+</div>
+
+<h2 id="b6">Sık sorulanlar</h2>
+<div class="faq">
+  <details>
+    <summary>Veri merkezli yaklaşım büyük modelleri gereksiz mi kılıyor?</summary>
+    <p>Hayır. İkisi birbirini tamamlar. Ama sabit bir bütçeniz varsa, veri kalitesine harcanan ilk saatler genellikle mimariye harcanan ilk saatlerden daha çok kazandırır.</p>
+  </details>
+  <details>
+    <summary>Etiket kalitesini nasıl ölçerim?</summary>
+    <p>Bir alt kümeyi birden fazla kişiye etiketletip uyum oranına bakın. Ayrıca modelin en emin olduğu halde yanıldığı örnekleri inceleyin — bunlar çoğu zaman yanlış etiketlerdir.</p>
+  </details>
+  <details>
+    <summary>Ne kadar veri yeterlidir?</summary>
+    <p>Sabit bir sayı yoktur. Öğrenme eğrisine bakın: veri iki katına çıktığında hata anlamlı biçimde düşmüyorsa, sorun miktarda değil kalitede ya da kapsamdadır.</p>
+  </details>
+</div>
+
+<hr />
+<p>Veri merkezli yapay zeka, dikkati parlak mimarilerden sıkıcı ama belirleyici ayrıntılara çevirir: kim etiketledi, hangi kural uygulandı, hangi durum hiç temsil edilmedi. Türkçe veriyle çalışırken bu ayrıntıların önemi daha da artar; ilgili konular için <a href="../veri-kalitesi-etiketleme/">veri kalitesi ve etiketleme</a> ile <a href="../degerlendirme-metrikleri/">sınıflandırma metrikleri</a> yazılarına göz atabilirsiniz.</p>
+      </div>
+      <div class="article-tags"><span class="tag">Veri</span><span class="tag">Yapay Zeka</span></div>
+      <div class="author-box"><span class="ava">HY</span><div><h4>Halide Yılmaz</h4><div class="role">Hatson Teknoloji A.Ş. · Kurucu Ortak</div><p>ODTÜ Bilgisayar Mühendisliği mezunu; bilgisayar ve yapay zeka alanında deneyimli kurucu ortak.</p></div></div>
+      <div class="post-nav"><a href="../model-kartlari-yonetisim/"><div class="dir">← Önceki</div><div class="ttl">Önceki yazı</div></a><a class="next" href="../sinif-dengesizligi/"><div class="dir">Sıradaki →</div><div class="ttl">Sonraki yazı</div></a></div>
+    </div>
+  </article>
+    <footer class="footer"><div class="wrap"><div class="footer-bottom" style="border:none;margin:0;padding:0"><span>© <span data-year>2026</span> Halide Yılmaz · Tüm hakları saklıdır.</span><span><a href="../../gizlilik/">Çerez Politikası</a> · Ankara · ODTÜ Teknokent 🌿</span></div></div></footer>
+    <button class="icon-btn to-top" aria-label="Top"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5M5 12l7-7 7 7"/></svg></button>
+    <script src="../../js/main.js"></script>
+  </body>
+  </html>
