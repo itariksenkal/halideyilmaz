@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="tr" data-theme="light">
+<head>
+<meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Türkçe Yapay Zekâda Veri Kalitesi ve Kıyaslama: Elimizde Gerçekte Ne Var? — Halide Yılmaz</title>
+<meta name="description" content="Türkçe kaynak manzarası dağınık GitHub listelerine ve arXiv makalelerine sıkışmış durumda. Elimizde gerçekte ne var, hangi kıyaslama neyi ölçüyor, Cetvel'in ters bulgusu ne anlatıyor ve kendi değerlendirme setinizi nasıl kurarsınız?" />
+<link rel="canonical" href="https://halideyilmaz.com/posts/turkce-veri-kalitesi-kiyaslama/" /><link rel="alternate" hreflang="en" href="https://halideyilmaz.com/en/posts/turkish-nlp-data-quality-benchmarks/" /><meta name="theme-color" content="#3B6BF6" />
+<meta property="og:type" content="article" /><meta property="og:title" content="Türkçe Yapay Zekâda Veri Kalitesi ve Kıyaslama: Elimizde Gerçekte Ne Var?" /><meta property="og:description" content="Türkçe kaynak manzarası dağınık GitHub listelerine ve arXiv makalelerine sıkışmış durumda. Elimizde gerçekte ne var, hangi kıyaslama neyi ölçüyor, Cetvel'in ters bulgusu ne anlatıyor ve kendi değerlendirme setinizi nasıl kurarsınız?" /><meta property="og:image" content="https://halideyilmaz.com/image/bimg-04.jpg" />
+<link rel="icon" href="/favicon.ico?v=20260809" sizes="32x32" />
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg?v=20260809" />
+  <link rel="icon" type="image/png" href="/favicon-192.png?v=20260809" sizes="192x192" />
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png?v=20260809" />
+<link rel="preconnect" href="https://fonts.googleapis.com" /><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&family=Newsreader:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet" />
+<script>(function(){try{var k="hy-theme",t=localStorage.getItem(k),m=window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches;document.documentElement.setAttribute("data-theme",t||(m?"dark":"light"));}catch(e){}})();</script>
+<link rel="stylesheet" href="../../css/style.css?v=20260809" />
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "headline": "Türkçe Yapay Zekâda Veri Kalitesi ve Kıyaslama: Elimizde Gerçekte Ne Var?",
+    "description": "Türkçe kaynak manzarası dağınık GitHub listelerine ve arXiv makalelerine sıkışmış durumda. Elimizde gerçekte ne var, hangi kıyaslama neyi ölçüyor, Cetvel'in ters bulgusu ne anlatıyor ve kendi değerlendirme setinizi nasıl kurarsınız?",
+    "mainEntityOfPage": { "@type": "WebPage", "@id": "https://halideyilmaz.com/posts/turkce-veri-kalitesi-kiyaslama/" },
+    "dateModified": "2026-08-13",
+
+    "author": {
+      "@type": "Person",
+      "name": "Halide Yılmaz",
+      "url": "https://halideyilmaz.com/",
+      "worksFor": { "@type": "Organization", "name": "Hatson Teknoloji A.Ş.", "url": "https://hatsontech.com/" }
+    },
+    "publisher": { "@type": "Organization", "name": "Hatson Teknoloji A.Ş.", "url": "https://hatsontech.com/" },
+    "image": "https://halideyilmaz.com/image/bimg-04.jpg",
+    "inLanguage": "tr"
+  }
+  </script>
+</head>
+<body>
+<div class="progress"></div>
+  <nav class="nav" id="nav">
+    <div class="wrap">
+      <a class="brand" href="../../" aria-label="Home"><img class="logo-light" src="../../image/caseon-mark-light.svg" alt="Caseon" width="28" height="28" /><img class="logo-dark" src="../../image/caseon-mark-dark.svg" alt="Caseon" width="28" height="28" /><span>Halide Yılmaz</span></a>
+      <div class="nav-links" id="navLinks">
+        <a href="../../#hakkinda">Kimdir</a>
+        <a href="../../#ne-yapiyor">Ne Yapıyor</a>
+        <a href="../../#uzmanlik">Uzmanlık</a>
+        <a href="../../blog/">Yazılar</a>
+        <a href="../../#iletisim">İletişim</a>
+      </div>
+      <div class="nav-actions">
+        <a class="lang-switch" href="../../en/posts/turkish-nlp-data-quality-benchmarks/">EN</a>
+        <button class="icon-btn theme-toggle" data-theme-toggle aria-label="Theme"><svg class="sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M6.3 17.7l-1.4 1.4M19.1 4.9l-1.4 1.4"/></svg><svg class="moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg></button>
+        <button class="icon-btn nav-toggle" data-nav-toggle aria-label="Menu"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 6h18M3 12h18M3 18h18"/></svg></button>
+      </div>
+    </div>
+  </nav>
+<article>
+  <div class="wrap narrow article-head">
+    <div class="breadcrumb"><a href="../../">Ana sayfa</a> <span>/</span>
+        <a href="../../blog/">Yazılar</a> <span>/</span>
+        <span>Türkçe NLP</span></div>
+    <span class="tag">Türkçe NLP</span>
+    <h1>Türkçe Yapay Zekâda Veri Kalitesi ve Kıyaslama: Elimizde Gerçekte Ne Var?</h1>
+    <div class="article-meta"><div class="author"><span class="ava">HY</span><div><div style="color:var(--text);font-weight:600">Halide Yılmaz</div><div>HatsonTech · Kurucu Ortak</div></div></div><span>· 11 dakika okuma</span></div>
+  </div>
+  <div class="wrap narrow"><div class="article-hero"><img src="../../image/bimg-04.jpg" alt="Türkçe Yapay Zekâda Veri Kalitesi ve Kıyaslama: Elimizde Gerçekte Ne Var?"></div></div>
+  <div class="wrap narrow" style="padding-top:36px;padding-bottom:36px">
+    <div class="prose">
+<p class="lead-p">Türkçe için hangi veri kümeleri var, hangi kıyaslama neyi ölçüyor, bir modelin “Türkçesi iyi” demek ne demek? Bu soruların cevabı bugün tek bir yerde durmuyor; birkaç GitHub listesine, birkaç arXiv makalesine ve kulaktan dolma bilgilere dağılmış durumda. Bu yazıda o manzarayı bir araya getiriyoruz: elimizde ne var, ne ölçüyor, nerede ince ve kendi ekibiniz bunun karşısında ne yapmalı. Her sayıyı raporlayan çalışmaya bağlayacağım, çünkü bu alanda en çok tekrarlanan hatalar kaynaksız sayılardan geliyor.</p>
+
+<div class="toc"><h4>İçindekiler</h4><ol>
+<li><a href="#b1">Türkçe gerçekten düşük kaynaklı mı? Sayılarla bakalım</a></li>
+<li><a href="#b2">Kıyaslama karmaşası: benzer isimler, farklı ölçüler</a></li>
+<li><a href="#b3">Cetvel'in rahatsız edici bulgusu</a></li>
+<li><a href="#b4">Hukuk alanı: yakından bakılmış somut bir örnek</a></li>
+<li><a href="#b5">Nerede ince — ve bu yazının tokenizasyondan farkı</a></li>
+<li><a href="#b6">Kendi Türkçe değerlendirme setinizi kurmak</a></li>
+</ol></div>
+
+<h2 id="b1">Türkçe gerçekten düşük kaynaklı mı? Sayılarla bakalım</h2>
+<p>“Düşük kaynaklı dil” ifadesi çok kullanılıyor ama nadiren niceliksel karşılığı veriliyor. Bir referans noktası: <a href="https://meta.wikimedia.org/wiki/List_of_Wikipedias" target="_blank" rel="noopener">Vikipedi listesine göre</a> Türkçe Vikipedi 694.568 maddeyle 26. sırada; İngilizce Vikipedi ise 7.223.792 maddede. Yani aynı platformda, aynı ölçüte göre on katından fazla bir fark var. Türkçe ne gerçekten kıt bir dil ne de İngilizceyle aynı ligde; ortada, sıkışık bir yerde.</p>
+<p>İkinci bir gösterge, uluslararası değerlendirme setlerinde yer alıp almadığınız. Burada doğrulanmış bir olumsuzluk var: OpenAI'nin çok dilli değerlendirme seti <a href="https://huggingface.co/datasets/openai/MMMLU" target="_blank" rel="noopener">MMMLU</a> 14 yerel ayarı kapsıyor ve Türkçe bunların arasında değil. Bir dilin uluslararası bir kıyaslamada bulunmaması, o dilde model performansı hakkında konuşurken elinizde ortak bir zemin olmadığı anlamına gelir.</p>
+<p>Buna karşılık envanter boş değil. En görünür kalem <a href="https://huggingface.co/dbmdz/bert-base-turkish-cased" target="_blank" rel="noopener">BERTurk</a>: 35 GB, yaklaşık 44 milyar tokenlık bir veriyle eğitilmiş, ayda yaklaşık 150 bin indirme alan ve üzerine 188 türev model kurulmuş bir temel. Türkçe NLP'de bugün hâlâ çok sayıda üretim hattının altında bu model duruyor.</p>
+<p>Korpus tarafında <a href="https://tscorpus.com/" target="_blank" rel="noopener">TS Corpus</a> 25'ten fazla derlem ve 1,8 milyardan fazla token sunuyor; akademik tarafta <a href="https://github.com/boun-tabi" target="_blank" rel="noopener">BOUN TABI</a> yayınları, görev odaklı veri kümeleri ve araçlar için ilk bakılacak yerlerden biri. Manzara şu: elde ciddi kaynaklar var, ama bunlar tek bir kataloğa toplanmamış, sürüm ve lisans bilgileri dağınık ve pek çoğunun belgelenmesi kullanıcının inisiyatifine bırakılmış.</p>
+
+<h2 id="b2">Kıyaslama karmaşası: benzer isimler, farklı ölçüler</h2>
+<p>Türkçe değerlendirmede en somut pratik sorun, benzer isimli ve birbirinin yerine kullanılan kıyaslamalar. Üçünü ayırmakta fayda var, çünkü üçü farklı şeyler ölçüyor ve skorları karşılaştırılamaz.</p>
+<ul>
+<li><strong><a href="https://arxiv.org/abs/2407.12402" target="_blank" rel="noopener">TurkishMMLU</a></strong> (Yüksel, Köksal, Şenel, Korhonen, Schütze; EMNLP 2024 Findings): Türk lise müfredatından derlenmiş, 9 ders üzerinde 10.000'den fazla soru. Ölçtüğü şey, müfredat bilgisidir.</li>
+<li><strong><a href="https://arxiv.org/abs/2501.00593" target="_blank" rel="noopener">TR-MMLU</a></strong> (Bayram ve arkadaşları, Ocak 2025): <em>farklı</em> bir kıyaslama. 67 disiplini kapsayan 280.000 soruluk bir havuzdan seçilmiş, 62 bölüme dağılmış 6.200 çoktan seçmeli soru.</li>
+<li><strong><a href="https://arxiv.org/abs/2508.16431" target="_blank" rel="noopener">Cetvel</a></strong> (KUIS AI, Koç Üniversitesi; arXiv 22 Ağustos 2025, EACL 2026): 7 kategoriye dağılmış 23 görev üzerinde, 70 milyar parametreye kadar 33 açık ağırlıklı büyük dil modelini değerlendiriyor. Çoktan seçmeli sınav mantığının ötesine geçen, görev çeşitliliği en yüksek düzenek.</li>
+</ul>
+<div class="callout"><strong>İpucu:</strong> Biri size “model Türkçe MMLU'da şu skoru aldı” dediğinde tek bir soru sorun: <em>hangisi?</em> TurkishMMLU ve TR-MMLU farklı yapılara, farklı soru sayılarına ve farklı kaynaklara sahip iki ayrı kıyaslamadır. İkisinin skorunu yan yana koymak, iki farklı sınavın notunu karşılaştırmakla aynı şeydir. Rapor ederken kıyaslamanın adını, sürümünü ve makalesini birlikte yazın.</div>
+<p>Bir de hepsinin ortak sınırı var: bu kıyaslamalar genel dil ve bilgi yetkinliğini ölçer. Sizin üretim göreviniz — bir dilekçeyi sınıflandırmak, bir çağrı özetini çıkarmak, bir sözleşme maddesini bulmak — hiçbirinde yok. Kıyaslama skoru aday elemek için iyidir; karar vermek için değil.</p>
+
+<h2 id="b3">Cetvel'in rahatsız edici bulgusu</h2>
+<p>Cetvel çalışmasının en dikkat çekici sonucu, alandaki yaygın varsayımın tersini söylüyor: Türkçe-merkezli talimat ayarlı (instruction-tuned) modeller, genel amaçlı çok dilli modellerin genellikle gerisinde kalıyor. Yani “Türkçe için ayrıca eğitilmiş model, Türkçede daha iyidir” cümlesi otomatik olarak doğru değil.</p>
+<p>Bu bulgu, pratikte çok şey değiştirir. Türkçe bir uygulama kuran ekiplerin refleksi genellikle “Türkçe bir model bulalım” olur. Cetvel'in ölçtüğü tabloda bu refleks, en iyi seçeneği kaçırmanıza yol açabilir. En azından, Türkçe etiketli olması bir modeli otomatik olarak listenin başına koymamalı.</p>
+<p>Sonucun nedeni tek bir cümleyle açıklanamaz ve makalenin ölçtüğü şey neden değil, sonuçtur. Akla gelen ihtimaller şunlar — ölçülmüş açıklamalar değil, sınanması gereken hipotezler olarak okuyun: talimat ayarında kullanılan Türkçe verinin çoğunun makine çevirisi olması ve çeviri artefaktları taşıması; ince ayarın, geniş çok dilli ön eğitimden gelen genel yeteneği aşındırması; ve Türkçe veri kümelerinin çeşitlilik bakımından dar kalması.</p>
+<blockquote>Bir dil için model eğitmek, o dilde veri toplamakla değil, o dilde <em>iyi</em> veri toplamakla başlar. Türkçede bağlayıcı kısıt uzun süredir miktar değil, kalite.</blockquote>
+<p>Bu, <a href="../veri-kalitesi-etiketleme/">veri kalitesi ve etiketleme</a> yazısında anlattığımız argümanın Türkçeye özgü hâli. Ham metin toplamak bugün kolay; temiz, tekilleştirilmiş, lisansı belli, alan dengesi kurulmuş ve tutarlı biçimde etiketlenmiş bir veri kümesi kurmak hâlâ zor. Türkçe'nin asıl açığı gigabaytlarda değil, bu ikinci listede.</p>
+
+<h2 id="b4">Hukuk alanı: yakından bakılmış somut bir örnek</h2>
+<p>Alan modelleri (domain model) tarafında Türkçe için en somut ilerleme hukuk alanında görünüyor. Bizim de <a href="../caseon-nedir/">İctihub</a> tarafında günlük olarak içinde çalıştığımız alan bu olduğu için, buradaki tabloyu yakından izliyoruz. İki çalışmayı sayılarıyla birlikte aktarayım.</p>
+<ul>
+<li><strong><a href="https://arxiv.org/abs/2604.04790" target="_blank" rel="noopener">HukukBERT</a></strong> (arXiv, 6 Nisan 2026): 19 GB temizlenmiş hukuk metniyle eğitilmiş bir Türkçe hukuk dili modeli. 48 bin öğeli bir WordPiece sözlüğü kullanıyor; hukuk alanındaki boşluk doldurma (cloze) görevinde %84,40 Top-1 ve yapısal bölütlemede %92,8 geçiş oranı raporluyor.</li>
+<li><strong><a href="https://arxiv.org/abs/2601.16018" target="_blank" rel="noopener">Mecellem</a></strong> (arXiv, 22 Ocak 2026): 112,7 milyar tokenlık bir korpus üzerinde sürekli ön eğitim (continual pretraining) uygulayarak Türkçe hukuk metninde %36,2 şaşkınlık (perplexity) azalması raporluyor.</li>
+</ul>
+<p>Bu sayıları okurken iki temkin gerekiyor. Birincisi, şaşkınlık azalması ve boşluk doldurma başarısı <em>içsel</em> metriklerdir: modelin alan diline uyum sağladığını gösterir, sizin görevinizde iyi çalışacağını göstermez. Alan uyarlamasının kazandırdığı şey genellikle bir başlangıç avantajıdır, bir garanti değil.</p>
+<p>İkincisi, alan sözlüğünün genişletilmesi (HukukBERT'te 48 bin öğelik WordPiece sözlüğü) tek başına bir sonuç değil, bir tasarım tercihidir. Alan terimlerinin daha az parçaya bölünmesi bağlam kullanımını verimli kılar; ama bunun etkisini ancak kendi görevinizde ölçerek görürsünüz.</p>
+<p>Yine de tablo cesaret verici: birkaç yıl önce Türkçe hukuk alanında karşılaştırılabilir sayı üreten yayın neredeyse yoktu. Bugün en azından üzerine konuşulabilecek, kaynağı gösterilebilir sonuçlar var. Bir alanın olgunlaşması tam olarak böyle görünür.</p>
+
+<h2 id="b5">Nerede ince — ve bu yazının tokenizasyondan farkı</h2>
+<p>Önce bir sınır çizelim. <a href="../tokenizasyon-turkce/">Türkçede tokenizasyon</a> yazısı, dilin biçimbilimsel yapısının alt sözcük parçalanmasını nasıl etkilediğini, yani mekanizmayı anlatıyor. Bu yazı ise veri kümeleri ve kıyaslamalar hakkında. İkisi sık sık birbirine karıştırılıyor: tokenizasyon Türkçe modellerin <em>maliyetini</em> ve bağlam verimliliğini etkiler, veri kalitesi ise ne öğrendiklerini belirler. Farklı problemler, farklı çözümler.</p>
+<p>Envantere bakıldığında en çok göze çarpan boşluklar şunlar. Bunlar ölçülmüş iddialar değil, mevcut kaynakların kapsamına dair gözlemler:</p>
+<ul>
+<li><strong>Görev çeşitliliği:</strong> kamuya açık değerlendirme büyük ölçüde çoktan seçmeli sınav biçiminde. Üretimde ihtiyaç duyduğunuz özetleme, çıkarım, yapılandırılmış bilgi çıkarma gibi görevlerin standart bir Türkçe karşılığı seyrek.</li>
+<li><strong>Üretim değerlendirmesi:</strong> serbest metin üretiminin Türkçede nasıl değerlendirileceği — hangi referansla, hangi ölçütle — ortak bir kabule kavuşmuş değil.</li>
+<li><strong>Alan kapsamı:</strong> hukuk tarafında somut çalışmalar var; sağlık, finans ve kamu yönetimi gibi alanlarda karşılaştırılabilir kamuya açık kaynak çok daha az.</li>
+<li><strong>Etiketleme belgeleri:</strong> etiketleme yönergesi, etiketleyiciler arası uyum (inter-annotator agreement) ölçümü ve sürüm geçmişi paylaşılan veri kümesi azınlıkta.</li>
+<li><strong>Lisans ve köken netliği:</strong> bir veri kümesinin nereden derlendiği ve hangi koşullarla kullanılabileceği, kullanmadan önce her seferinde ayrıca araştırılması gereken bir konu.</li>
+</ul>
+<p>Bu listeye bakınca ortaya çıkan tablo şu: Türkçe için ham metin bulmak artık ana darboğaz değil. Darboğaz, <strong>ölçebileceğiniz ve belgeleyebileceğiniz</strong> veri. İyi haber, bunun büyük ölçüde disiplin işi olması — ve dış kaynak beklemeden kendi ekibinizde çözülebilmesi.</p>
+
+<h2 id="b6">Kendi Türkçe değerlendirme setinizi kurmak</h2>
+<p>Kamuya açık kıyaslamalar sizin alanınızı kapsamıyorsa — ki çoğu zaman kapsamıyor — yapılacak iş bellidir: kendi değerlendirme setinizi kurarsınız. Bu, bir araştırma projesi değil; iki haftalık disiplinli bir çalışmayla anlamlı bir sürüm çıkarabilirsiniz.</p>
+<h3>Sıra</h3>
+<ul>
+<li><strong>Görevi gerçek trafikten tanımlayın.</strong> Hayali örnek yazmayın; sisteminize gelen gerçek girdilerden örnekleyin. Değerlendirme setinin değeri, kullanım dağılımını yansıtmasından gelir.</li>
+<li><strong>Katmanlı örnekleyin.</strong> Kolay örnekler baskın gelmesin; nadir ama önemli durumları bilinçli olarak dahil edin ve bu katmanları etiketleyin ki alt grup skorlarını ayrı ayrı okuyabilesiniz.</li>
+<li><strong>Yönergeyi sınır örnekleriyle yazın.</strong> Kararın nerede zorlaştığını gösteren örnekler olmadan yönerge işlemez. “Emin değilim” seçeneğini bırakın.</li>
+<li><strong>Bir alt kümeyi çift etiketleyin</strong> ve etiketleyiciler arası uyumu ölçün. Düşük uyum, modelin değil yönergenin sorunlu olduğunun ilk işaretidir.</li>
+<li><strong>Dondurun ve sürümleyin.</strong> Çekirdek set sabit kalmalı; yeni kapsam eklemek istediğinizde eskisini değiştirmeyin, yeni sürüm çıkarın.</li>
+<li><strong>Kirlenmeyi kontrol edin.</strong> Değerlendirdiğiniz model, kamuya açık bir veri kümesini ön eğitiminde görmüş olabilir — bu, <a href="../kiyaslama-kirlenmesi/">kıyaslama kirlenmesi</a> problemidir ve kamuya açık Türkçe kaynak sayısı sınırlı olduğu için burada risk daha da yüksektir.</li>
+</ul>
+<h3>Türkçeye özgü tuzaklar</h3>
+<p>Değerlendirme seti kurarken Türkçede tekrarlayan birkaç teknik ayrıntı var ve gözden kaçtıklarında skorunuzu sessizce bozarlar: noktalı ve noktasız i'nin büyük-küçük harf dönüşümü (I/ı ve İ/i), Türkçe karakterlerin ASCII'ye indirgenmiş hâlleriyle karışık gelen metinler, özel adlara gelen eklerin kesme işaretiyle yazımındaki tutarsızlık, taranmış belgelerden gelen OCR hataları ve Türkçe-İngilizce karışık kullanılan alan terimleri. Bunları normalleştirme kurallarınıza yazın ve <em>kuralı da sürümleyin</em>.</p>
+<pre><code># Turkce degerlendirme seti kurma dongusu (pseudocode)
+ham = gercek_trafikten_ornekle(n=1200, katman=["kolay","sinir","nadir"])
+ham = normallestir(ham)          # I/i donusumu, ASCII karisimi, OCR temizligi
+ham = tekillestir(ham)           # neredeyse ayni metinler de cikarilir
+alt_kume = ornekle(ham, 200)
+for ornek in alt_kume:
+    etiket_a = etiketle(ornek, kisi=1)
+    etiket_b = etiketle(ornek, kisi=2)
+    if etiket_a != etiket_b:
+        yonerge_kuyruguna_ekle(ornek)   # once yonerge duzeltilir, sonra etiket
+uyum = etiketleyiciler_arasi_uyum(alt_kume)
+if uyum < esik:
+    dur()                        # yonerge hazir degilse set de hazir degildir
+dondur_ve_surumle(ham, surum="v1", belge=veri_seti_kunyesi())</code></pre>
+<blockquote>Kamuya açık bir kıyaslamada iyi skor almak, ürününüzün iyi çalıştığını göstermez. Kendi alanınızda kurduğunuz dürüst bir değerlendirme seti ise tam olarak bunu gösterir — ve bu yüzden çok daha değerlidir.</blockquote>
+
+<div class="takeaways"><h4>Öne çıkanlar</h4><ul>
+<li>Türkçe Vikipedi 694.568 maddeyle 26. sırada, İngilizce 7.223.792 maddede; Türkçe kıt değil ama aynı ligde de değil.</li>
+<li>TurkishMMLU ve TR-MMLU farklı kıyaslamalardır; skorları yan yana koymak iki farklı sınavın notunu karşılaştırmaktır.</li>
+<li>Cetvel çalışması, Türkçe-merkezli talimat ayarlı modellerin genel amaçlı çok dilli modellerin genellikle gerisinde kaldığını raporluyor.</li>
+<li>Hukuk alanında HukukBERT ve Mecellem gibi kaynaklandırılabilir sonuçlar var, ama içsel metrikler görev başarısını garanti etmez.</li>
+<li>Türkçede bağlayıcı kısıt ham metin miktarı değil; ölçülebilir, belgelenmiş ve sürümlenmiş veridir.</li>
+</ul></div>
+
+<div class="faq">
+<details><summary>Türkçe bir uygulama için mutlaka Türkçe eğitilmiş bir model mi seçmeliyim?</summary><p>Otomatik olarak değil. Cetvel çalışması, Türkçe-merkezli talimat ayarlı modellerin genel amaçlı çok dilli modellerin genellikle gerisinde kaldığını raporluyor. Doğru yaklaşım, Türkçe etiketini bir ön eleme kriteri saymak yerine hem Türkçe hem çok dilli adayları kendi değerlendirme setinizde aynı koşullarda ölçmektir.</p></details>
+<details><summary>Türkçe için hangi kıyaslamayı kullanmalıyım?</summary><p>Amacınıza göre değişir. Müfredat bilgisi için TurkishMMLU, geniş disiplin kapsamı için TR-MMLU, çoktan seçmeli sınav biçiminin ötesinde görev çeşitliliği için Cetvel bakılacak yerlerdir. Ancak hiçbiri sizin üretim görevinizi ölçmez; kamuya açık kıyaslamayı aday elemek için, kararı ise kendi setinizle vermek için kullanın.</p></details>
+<details><summary>Kendi değerlendirme setimi kurmak çok mu pahalı?</summary><p>Sanıldığı kadar değil. Birkaç yüz iyi seçilmiş ve iki kişi tarafından etiketlenmiş örnek, çoğu ekip için binlerce özensiz örnekten daha faydalıdır. Asıl maliyet örnek sayısında değil, sınır durumlarını içeren bir yönerge yazmakta ve uyumu ölçmektedir; o iş bittiğinde etiketleme hızlanır.</p></details>
+</div>
+
+<hr>
+<p>Özetle: Türkçe için elimizde sanılandan fazla kaynak, sanılandan az ortak zemin var. Kıyaslamalar birbirine karıştırılıyor, sayılar kaynaksız dolaşıyor ve “Türkçe model” etiketi hak etmediği bir güven taşıyor. Bu tabloda bir ekibin yapabileceği en yüksek getirili iş, yeni bir model aramak değil; kendi alanında dürüst, belgelenmiş ve sürümlenmiş bir değerlendirme seti kurmaktır.</p>
+    </div>
+    <div class="article-tags"><span class="tag">Türkçe NLP</span><span class="tag">Yapay Zeka</span></div>
+    <div class="author-box"><span class="ava">HY</span><div><h4>Halide Yılmaz</h4><div class="role">Hatson Teknoloji A.Ş. · Kurucu Ortak</div><p>ODTÜ Bilgisayar Mühendisliği mezunu; bilgisayar ve yapay zeka alanında deneyimli kurucu ortak.</p></div></div>
+    <div class="post-nav"><a href="../zaman-serisi-temel-modelleri/"><div class="dir">← Önceki</div><div class="ttl">Zaman Serisi Temel Modelleri: Sıfır-Atış Tahmin Artık Klasik Yöntemleri Geçiyor — Peki Sizin Verinizde de Geçer mi?</div></a><a class="next" href="../../blog/"><div class="dir">Devamı →</div><div class="ttl">Tüm yazılara dön</div></a></div>
+  </div>
+</article>
+  <footer class="footer"><div class="wrap"><div class="footer-bottom" style="border:none;margin:0;padding:0"><span>© <span data-year>2026</span> Halide Yılmaz · Tüm hakları saklıdır.</span><span><a href="../../gizlilik/">Çerez Politikası</a> · Ankara · ODTÜ Teknokent 🌿</span></div></div></footer>
+  <button class="icon-btn to-top" aria-label="Top"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5M5 12l7-7 7 7"/></svg></button>
+  <script src="../../js/main.js"></script>
+</body>
+</html>

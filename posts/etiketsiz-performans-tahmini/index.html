@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="tr" data-theme="light">
+<head>
+<meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Etiket Gelmeden Modelin Bozulduğunu Anlamak: Etiketsiz Performans Tahmini — Halide Yılmaz</title>
+<meta name="description" content="Etiketler doksan gün sonra geliyorsa model bugün bozuldu mu? Etiketsiz performans tahmininin nasıl çalıştığını, hangi varsayımlara dayandığını ve tam da o varsayımlar çöktüğünde neden sessiz kaldığını anlatıyoruz." />
+<link rel="canonical" href="https://halideyilmaz.com/posts/etiketsiz-performans-tahmini/" /><link rel="alternate" hreflang="en" href="https://halideyilmaz.com/en/posts/performance-estimation-without-labels/" /><meta name="theme-color" content="#3B6BF6" />
+<meta property="og:type" content="article" /><meta property="og:title" content="Etiket Gelmeden Modelin Bozulduğunu Anlamak: Etiketsiz Performans Tahmini" /><meta property="og:description" content="Etiketler doksan gün sonra geliyorsa model bugün bozuldu mu? Etiketsiz performans tahmininin nasıl çalıştığını, hangi varsayımlara dayandığını ve tam da o varsayımlar çöktüğünde neden sessiz kaldığını anlatıyoruz." /><meta property="og:image" content="https://halideyilmaz.com/image/bimg-19.jpg" />
+<link rel="icon" href="/favicon.ico?v=20260809" sizes="32x32" />
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg?v=20260809" />
+  <link rel="icon" type="image/png" href="/favicon-192.png?v=20260809" sizes="192x192" />
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png?v=20260809" />
+<link rel="preconnect" href="https://fonts.googleapis.com" /><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&family=Newsreader:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet" />
+<script>(function(){try{var k="hy-theme",t=localStorage.getItem(k),m=window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches;document.documentElement.setAttribute("data-theme",t||(m?"dark":"light"));}catch(e){}})();</script>
+<link rel="stylesheet" href="../../css/style.css?v=20260809" />
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "headline": "Etiket Gelmeden Modelin Bozulduğunu Anlamak: Etiketsiz Performans Tahmini",
+    "description": "Etiketler doksan gün sonra geliyorsa model bugün bozuldu mu? Etiketsiz performans tahmininin nasıl çalıştığını, hangi varsayımlara dayandığını ve tam da o varsayımlar çöktüğünde neden sessiz kaldığını anlatıyoruz.",
+    "mainEntityOfPage": { "@type": "WebPage", "@id": "https://halideyilmaz.com/posts/etiketsiz-performans-tahmini/" },
+    "dateModified": "2026-08-13",
+
+    "author": {
+      "@type": "Person",
+      "name": "Halide Yılmaz",
+      "url": "https://halideyilmaz.com/",
+      "worksFor": { "@type": "Organization", "name": "Hatson Teknoloji A.Ş.", "url": "https://hatsontech.com/" }
+    },
+    "publisher": { "@type": "Organization", "name": "Hatson Teknoloji A.Ş.", "url": "https://hatsontech.com/" },
+    "image": "https://halideyilmaz.com/image/bimg-19.jpg",
+    "inLanguage": "tr"
+  }
+  </script>
+</head>
+<body>
+<div class="progress"></div>
+  <nav class="nav" id="nav">
+    <div class="wrap">
+      <a class="brand" href="../../" aria-label="Home"><img class="logo-light" src="../../image/caseon-mark-light.svg" alt="Caseon" width="28" height="28" /><img class="logo-dark" src="../../image/caseon-mark-dark.svg" alt="Caseon" width="28" height="28" /><span>Halide Yılmaz</span></a>
+      <div class="nav-links" id="navLinks">
+        <a href="../../#hakkinda">Kimdir</a>
+        <a href="../../#ne-yapiyor">Ne Yapıyor</a>
+        <a href="../../#uzmanlik">Uzmanlık</a>
+        <a href="../../blog/">Yazılar</a>
+        <a href="../../#iletisim">İletişim</a>
+      </div>
+      <div class="nav-actions">
+        <a class="lang-switch" href="../../en/posts/performance-estimation-without-labels/">EN</a>
+        <button class="icon-btn theme-toggle" data-theme-toggle aria-label="Theme"><svg class="sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M6.3 17.7l-1.4 1.4M19.1 4.9l-1.4 1.4"/></svg><svg class="moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg></button>
+        <button class="icon-btn nav-toggle" data-nav-toggle aria-label="Menu"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 6h18M3 12h18M3 18h18"/></svg></button>
+      </div>
+    </div>
+  </nav>
+<article>
+  <div class="wrap narrow article-head">
+    <div class="breadcrumb"><a href="../../">Ana sayfa</a> <span>/</span>
+        <a href="../../blog/">Yazılar</a> <span>/</span>
+        <span>Üretim</span></div>
+    <span class="tag">Üretim</span>
+    <h1>Etiket Gelmeden Modelin Bozulduğunu Anlamak: Etiketsiz Performans Tahmini</h1>
+    <div class="article-meta"><div class="author"><span class="ava">HY</span><div><div style="color:var(--text);font-weight:600">Halide Yılmaz</div><div>HatsonTech · Kurucu Ortak</div></div></div><span>· 10 dakika okuma</span></div>
+  </div>
+  <div class="wrap narrow"><div class="article-hero"><img src="../../image/bimg-19.jpg" alt="Etiket Gelmeden Modelin Bozulduğunu Anlamak: Etiketsiz Performans Tahmini"></div></div>
+  <div class="wrap narrow" style="padding-top:36px;padding-bottom:36px">
+    <div class="prose">
+<p class="lead-p">Üretimdeki bir modelin doğruluğunu ölçmek için gerçek sonucu beklemeniz gerekir. Sorun şu ki gerçek sonuç çoğu zaman aylar sonra gelir: kredinin geri ödenip ödenmediği, aboneliğin iptal edilip edilmediği, ters ibrazın açılıp açılmadığı. O arada model çalışmaya, karar üretmeye ve o kararların sonucunu doğurmaya devam eder. Bu yazıda etiket gelmeden model sağlığını tahmin etmenin yollarını anlatıyoruz; ama sıralamayı bilerek tersine çeviriyoruz. Önce bu yöntemlerin hangi varsayımlara dayandığını konuşacağız, çünkü etiketsiz tahmin ediciler tam da insanların onlara en çok ihtiyaç duyduğunu sandığı senaryoda sessizce yanılır.</p>
+
+<div class="toc"><h4>İçindekiler</h4><ol>
+<li><a href="#b1">Etiket gecikmesi bir tasarım kısıtıdır</a></li>
+<li><a href="#b2">Önce varsayımlar, sonra yöntem</a></li>
+<li><a href="#b3">Nasıl çalışır: skor dağılımından beklenen karışıklık matrisi</a></li>
+<li><a href="#b4">Neden ortak değişken kayması kurtarılabilir, kavram kayması kurtarılamaz</a></li>
+<li><a href="#b5">Kısmi etiketiniz varken: vekil sinyaller</a></li>
+<li><a href="#b6">Varsayım tutmadığında ne yaparsınız</a></li>
+</ol></div>
+
+<h2 id="b1">Etiket gecikmesi bir tasarım kısıtıdır</h2>
+<p>Çoğu ekip etiket gecikmesini bir aksilik gibi görür: &ldquo;etiketler gelince bakarız&rdquo;. Oysa gecikme, sistemin kalıcı bir özelliğidir ve mimarinin girdisi olmalıdır. Bir kredi modelinde sonuç aylar sonra netleşir. Abonelik iptalinde tanım gereği doksan günlük bir pencere beklersiniz. Sağlıkta sonuç, tedavi tamamlanmadan bilinmez.</p>
+<p>Bazı durumlarda etiket hiç gelmez. Reddettiğiniz başvurunun geri ödenip ödenmeyeceğini asla öğrenemezsiniz; modelin kararı, o kararın sonucunu görmenizi engellemiştir. Bu yüzden &ldquo;gerçek performans&rdquo; dediğiniz şey çoğu üretim sisteminde yalnızca bir alt küme için ölçülebilir ve o alt küme modelin kendi kararlarıyla şekillendiği için rastgele de değildir.</p>
+<p>Bu boşluğun maliyeti soyut değil. Doksan günlük bir körlük penceresinde model on binlerce karar üretir; bunların çoğu geri alınamaz, bir kısmı da müşteriye doğrudan yansır. Yani soru &ldquo;etiketsiz tahmin yapmalı mıyız&rdquo; değil, &ldquo;o doksan günde neye bakacağız&rdquo; sorusudur.</p>
+<p>Bu boşlukta ne yaparsınız? Yaygın refleks, girdi dağılımını izlemektir. <a href="../model-izleme-drift/">Üretimde model izleme ve veri kayması</a> yazısında anlattığımız gibi bu değerli bir erken uyarıdır, ama sınırlıdır: size girdilerin değiştiğini söyler, modelin kötüleştiğini söylemez. Bunlar farklı sorulardır ve ekiplerin çoğu ikincisini sorup birincisinin cevabıyla yetinir.</p>
+<blockquote>Bir izleme planının değeri, bozulmayı ne kadar erken görebildiğiyle ölçülür. Etiketler doksan gün sonra geliyorsa, yalnızca etiketlere bakan bir plan doksan gün boyunca hiçbir şey söylemiyor demektir.</blockquote>
+
+<h2 id="b2">Önce varsayımlar, sonra yöntem</h2>
+<p>Etiketsiz performans tahmini gerçek ve kullanışlı bir yöntem ailesidir. Ama çoğu tanıtımda varsayımlar en sona, küçük puntoya bırakılır. Tersini yapalım, çünkü bu yöntemin nerede işe yaramadığını bilmek nasıl çalıştığını bilmekten daha kıymetlidir.</p>
+<p>Dört varsayım vardır ve dördü de gerçekten gereklidir.</p>
+<ul>
+<li><strong>Kavram kayması yok.</strong> Girdiyle çıktı arasındaki ilişki, yani <em>P(Y|X)</em>, aynı kalmalıdır. Değişmesine izin verilen tek şey girdilerin dağılımıdır; buna ortak değişken kayması (covariate shift) denir.</li>
+<li><strong>Skorlar kalibre.</strong> Model 0,8 diyorsa, o gruptaki örneklerin gerçekten yaklaşık yüzde 80&rsquo;i pozitif olmalıdır. <a href="../model-kalibrasyonu/">Model kalibrasyonu</a> burada bir iyileştirme değil, yöntemin taşıyıcı kolonudur.</li>
+<li><strong>Model ve karar eşiği sabit.</strong> Tahmini metrikler belirli bir model sürümü ve belirli bir eşik için geçerlidir; ikisi de sessizce değişebilen şeylerdir.</li>
+<li><strong>Yeterli örtüşme.</strong> Bugünkü girdiler, referans dönemin kapsadığı bölgelerin içinde kalmalıdır. Modelin hiç örnek görmediği bir bölgeye taşındıysanız, tahmin edicinin dayanacağı bir geçmiş yoktur.</li>
+</ul>
+<p>Şimdi ironiye gelelim. Ekipler bu yöntemlere genellikle şu korkuyla başvurur: &ldquo;dünya değişti, model artık doğru çalışmıyor olabilir&rdquo;. Ama &ldquo;dünyanın değişmesi&rdquo; ilişkiyi bozacak biçimde olduysa, yani kavram kayması varsa, yöntemin birinci varsayımı çökmüştür. Tahmin edici bu durumda hata vermez; sakin sakin yanlış bir sayı üretir. En tehlikeli izleme aracı, yanıldığında sessiz kalandır.</p>
+<p>Bu, yöntemi kullanmayın demek değil. Varsayımları bir kapı gibi düşünün: kapıyı görmeden içeri giren, odanın boş olduğunu sanır. Varsayımları panoya yazın, her tahmini metriğin yanında hangi koşullar altında geçerli olduğunu gösterin ve varsayımların kendisini de ayrıca izleyin. Bu yazının geri kalanı büyük ölçüde bunun nasıl yapılacağı hakkında.</p>
+
+<h2 id="b3">Nasıl çalışır: skor dağılımından beklenen karışıklık matrisi</h2>
+<p>Fikir, kalibrasyonun tanımından çıkar. Skorlar kalibreyse, 0,8 skoru zaten &ldquo;bu örneğin pozitif olma olasılığı yüzde 80&rdquo; demektir. O hâlde etikete ihtiyacınız yoktur: her tahmin, kendi doğruluk olasılığını beraberinde taşır.</p>
+<p>Bir eşik seçin. Eşiğin üstünde kalan ve skoru <em>p</em> olan her örnek, beklenen doğru pozitife <em>p</em> kadar, beklenen yanlış pozitife <em>1-p</em> kadar katkı verir. Eşiğin altındakiler için tersi geçerlidir. Bunları bütün yığın boyunca toplayınca elinizde <strong>beklenen karışıklık matrisi</strong> olur ve <a href="../degerlendirme-metrikleri/">sınıflandırma metriklerinin</a> tamamı bu matristen türetilir: kesinlik, duyarlılık, F1, doğruluk. Eşiği baştan sona tarayarak aynı mantıkla tahmini bir ROC AUC de elde edersiniz.</p>
+<p>Bu yaklaşımın belgelenmiş adı <strong>CBPE</strong>&rsquo;dir (Confidence-Based Performance Estimation) ve sınıflandırma için tasarlanmıştır. Regresyon tarafında ise <strong>DLE</strong> (Direct Loss Estimation) vardır: birinci modelin hatasını, girdilerden ve tahminin kendisinden yola çıkarak öngörmeyi öğrenen ikinci bir model. İkisi de <a href="https://github.com/NannyML/nannyml" target="_blank" rel="noopener">NannyML</a> tarafından belgelenmiş, gerçek yöntemlerdir.</p>
+<h3>Kalibrasyon burada süs değil</h3>
+<p>Model 0,8 diyorken gerçekte oran yüzde 60 ise, beklenen karışıklık matrisinin her hücresi aynı yöne doğru yanlıdır ve türetilen bütün metrikler o yanlılığı miras alır. Daha ince bir tuzak da şudur: eğitim popülasyonunda kalibre olan bir model, girdi dağılımı kaydığında otomatik olarak kalibre kalmaz. Yani kalibrasyon bir kez yapılıp unutulacak bir adım değil, izlenmesi gereken bir büyüklüktür.</p>
+<pre><code># Etiketsiz performans tahmini (sözde-kod)
+# Varsayim: skorlar kalibre ve P(Y|X) degismedi.
+tp = fp = tn = fn = 0.0
+for p in kalibre_skorlar(bugunku_tahminler):   # p = pozitif olma olasiligi
+    if p &gt;= esik:
+        tp += p          # beklenen dogru pozitif
+        fp += 1 - p      # beklenen yanlis pozitif
+    else:
+        fn += p          # beklenen yanlis negatif
+        tn += 1 - p      # beklenen dogru negatif
+
+tahmini_kesinlik   = tp / (tp + fp)
+tahmini_duyarlilik = tp / (tp + fn)
+# Esigi tarayarak ayni mantikla tahmini ROC AUC de cikarilir.
+# Kalibrasyon bozulursa butun bu sayilar ayni yone yanlilanir.</code></pre>
+<div class="callout"><strong>İpucu:</strong> Tahmini metriği tek bir sayı olarak yayımlamayın. Küçük yığınlarda beklenen karışıklık matrisi gürültülüdür; yanına bir belirsizlik aralığı koyun ve aralık yeterince darsa karar alın. Aksi hâlde tahmin ediciyi, yerine geçtiği ölçümden daha kesinmiş gibi sunmuş olursunuz.</div>
+
+<h2 id="b4">Neden ortak değişken kayması kurtarılabilir, kavram kayması kurtarılamaz</h2>
+<p>Bu ayrım yöntemin kalbidir ve bir mühendislik eksikliği değil, bir bilgi sınırıdır.</p>
+<p><strong>Ortak değişken kaymasında</strong> girdilerin dağılımı değişir ama girdiyle çıktı arasındaki kural aynı kalır. Bu durumda etiketsiz girdiler işe yarar bilgi taşır: hangi bölgeye kaydığınızı görür, modelin o bölgedeki bilinen davranışını kullanır ve beklenen performansı yeniden hesaplarsınız. Sınavın soru dağılımı değişmiştir ama cevap anahtarı aynıdır.</p>
+<p><strong>Kavram kaymasında</strong> ise cevap anahtarı değişmiştir. Aynı girdi artık farklı bir sonuca işaret eder: dolandırıcılar taktik değiştirir, bir mevzuat kalemi yeniden tanımlanır, rakip fiyat politikasını değiştirir. Elinizde ne kadar etiketsiz girdi olursa olsun, hiçbiri size bu değişimi anlatamaz; çünkü değişen şey girdilerde değil, girdiden sonuca giden eşlemededir.</p>
+<blockquote>Etiketsiz veri, girdinin nereye gittiğini anlatır; o girdinin karşılığının ne olduğunu anlatamaz. Cevap anahtarı değiştiyse, sınav kâğıtlarına ne kadar bakarsanız bakın bunu göremezsiniz.</blockquote>
+<p>Aradaki farkı ölçmenin doğrudan bir yolu olmadığını da kabul etmek gerekir. Etiketsiz veriyle bakarken iki durum aynı görünür: girdiler kaydı ve model hâlâ doğru, ya da girdiler kaydı ve kural da değişti. Ayrımı ancak az sayıda gerçek etiket ya da alan bilgisi yapabilir; &ldquo;bu sektörde geçen ay mevzuat değişti&rdquo; cümlesi, çoğu istatistikten daha güçlü bir kanıttır.</p>
+<p>Pratikte bir uyarı daha: <a href="../sinif-dengesizligi/">sınıf dengesizliği</a> bu tahminlerin varyansını büyütür. Azınlık sınıfı yüzde birlik bir paydaysa, beklenen karışıklık matrisinin ilgili hücreleri az sayıda örneğin skorundan beslenir ve tahmini duyarlılık oynak hâle gelir. Bu tür kurulumlarda tahmini metriği günlük değil, yeterli hacim biriktiren pencerelerde okuyun.</p>
+
+<h2 id="b5">Kısmi etiketiniz varken: vekil sinyaller</h2>
+<p>Etiketlerin tamamı geç gelse de, çoğu sistemde bir kısmı erken gelir ya da az sayıda etiketi satın alabilirsiniz. Bu parçaları doğru kullanmak, etiketsiz tahmini tek başına kullanmaktan çok daha sağlamdır.</p>
+<h3>Erken gelen alt kümeler</h3>
+<p>Bazı sonuçlar hızlı belli olur: ilk taksitte gerçekleşen temerrütler, birkaç gün içinde açılan ters ibrazlar, ilk hafta iptalleri. Bunlar hızlıdır ama yanlıdır; popülasyonun rastgele bir örneklemi değil, uç bölgesidir. Erken alt kümeyi öncü gösterge olarak kullanın, popülasyon tahmini olarak değil. Yönü doğru, seviyesi yanlış bir sinyaldir.</p>
+<h3>Örneklenmiş insan denetimi</h3>
+<p>İkinci kaynak, küçük ve tabakalı bir örneklemi insana etiketletmektir. Bu, yansız ama küçük bir ölçüm verir; yani güven aralığı geniştir. Etiket bütçenizi en çok buraya harcayın ve tahmin edicinin riskli dediği bölgeyi bilerek fazla örnekleyin. Böylece iki sinyal birbirini denetler: etiketsiz tahmin alarmı çalar, örneklenmiş denetim onu doğrular ya da yalanlar.</p>
+<p>Üçüncü kaynak iş metrikleridir: onay oranı, dönüşüm, itiraz ve şikâyet oranı, insan operatörün modelin kararını ne sıklıkla geçersiz kıldığı, tahmin dağılımının kendisi. Bunlar performansın ölçümü değildir ama davranışın aynasıdır ve genelde en erken kıpırdayan göstergelerdir.</p>
+<div class="callout"><strong>İpucu:</strong> Vekil sinyalleri panoya koyarken her birinin yanına ne <em>olmadığını</em> yazın: &ldquo;öncü, yanlı&rdquo;, &ldquo;yansız, geniş aralıklı&rdquo;, &ldquo;dolaylı&rdquo;. Etiketli bir ölçümle vekil bir göstergeyi aynı grafikte aynı görünümde çizmek, altı ay sonra yanlış karar vermenin en kestirme yoludur.</div>
+
+<h2 id="b6">Varsayım tutmadığında ne yaparsınız</h2>
+<p>Tahmin edicinin sessizce yanıldığını fark etmenin üç pratik yolu var.</p>
+<ul>
+<li><strong>Destek kontrolü.</strong> Bugünkü girdiler referansın kapsamadığı bölgelere taşındıysa tahmin güvenilmezdir. Yapılandırılmamış veride bunu <a href="../gomme-kaymasi-izleme/">gömme kayması izleme</a> ile, tablo verisinde komşuluk ve yoğunluk kontrolleriyle yaparsınız.</li>
+<li><strong>Kalibrasyon takibi.</strong> Gelen az sayıda etiketi performans ölçmek için değil, kalibrasyonu denetlemek için kullanın. Kalibrasyon bozulduysa tahmini metrik değil, önce kalibrasyon düzeltilir.</li>
+<li><strong>Değiştirilebilirlik testleri.</strong> Konformal tahmin dünyasından gelen araçlar bu iş için daha sağlam bir temel sunuyor: crepes 0.9.1 (Haziran 2026) değiştirilebilirlik test martingalleri getiriyor, <a href="https://pypi.org/project/MAPIE/" target="_blank" rel="noopener">MAPIE 1.5.0</a> (5 Ağustos 2026) dağılım kayması tespiti için değiştirilebilirlik testi ekliyor. Bunlar, özellik başına KS testinden çok daha iyi temellendirilmiş bir alarmdır.</li>
+</ul>
+<h3>Yöntemi önerin, kütüphaneye bağlanmayın</h3>
+<p>Dürüst olmak gerekirse ekosistem tarafında bir risk var ve başka sayfalar bunu yazmıyor. CBPE ve DLE&rsquo;yi belgeleyen NannyML&rsquo;in açık kaynak deposu 12 Temmuz 2025&rsquo;ten bu yana durgun; şirket <a href="https://launch.soda.io/" target="_blank" rel="noopener">Soda</a> tarafından satın alındı. Yöntem sağlamdır, kütüphanenin geleceği ise belirsizdir. İyi haber şu ki beklenen karışıklık matrisi hesabı, kendi skor dağılımınız üzerinde çalışan birkaç düzine satırlık bir aritmetiktir; bu yeteneği kendi tarafınızda tutabilirsiniz.</p>
+<p>Son olarak yönetişim tarafı. AB Yapay Zekâ Yasası&rsquo;nın 72. maddesi, yüksek riskli sistemler için bir piyasaya arz sonrası izleme planı zorunlu kılar; komşu <a href="https://artificialintelligenceact.eu/article/73/" target="_blank" rel="noopener">73. madde</a> ise ciddi olayların bildirimini düzenler. Buradaki mühendislik gerçeği düzenleyici gerçekle örtüşüyor: bozulmayı ancak etiketler geldikten sonra fark edebilen bir plan, gerçek anlamda bir izleme planı değildir. Etiket gecikmesini plana açıkça yazın ve o gecikme boyunca hangi ara sinyale güvendiğinizi de yazın.</p>
+
+<div class="takeaways"><h4>Öne çıkanlar</h4><ul>
+<li>Etiket gecikmesi bir aksilik değil, kalıcı bir tasarım kısıtıdır; bazı örneklerde etiket hiç gelmez.</li>
+<li>Etiketsiz performans tahmini kavram kayması olmadığını ve skorların kalibre olduğunu varsayar; varsayımları yöntemden önce okuyun.</li>
+<li>Kalibre skorlardan beklenen karışıklık matrisi hesaplanır; kesinlik, duyarlılık ve tahmini ROC AUC buradan türetilir.</li>
+<li>Ortak değişken kayması etiketsiz veriden kurtarılabilir, kavram kayması kurtarılamaz; bu bir bilgi sınırıdır.</li>
+<li>Erken etiketler, örneklenmiş insan denetimi ve iş metrikleri tahmini denetler; hiçbiri tek başına ölçüm yerine geçmez.</li>
+</ul></div>
+
+<div class="faq">
+<details><summary>Etiketsiz performans tahmini gerçek ölçümün yerini tutar mı?</summary><p>Hayır, onun yerine geçmez; etiketler gelene kadar geçen sürede karar verebilmenizi sağlar. Etiketler geldiğinde tahmini gerçek ölçümle karşılaştırın ve aradaki farkı kaydedin. Bu geriye dönük karşılaştırma zamanla size tahmin edicinin sizin sisteminizde ne kadar güvenilir olduğunu söyler; asıl kıymetli bilgi budur.</p></details>
+<details><summary>Modelim kalibre değilse ne yapmalıyım?</summary><p>Önce kalibrasyonu düzeltin, sonra tahmin ediciyi kurun. Kalibre olmayan skorlarla hesaplanan beklenen karışıklık matrisi sistematik olarak yanlıdır ve türetilen bütün metrikler aynı yönde kayar. Ayrıca kalibrasyonun girdi dağılımı kaydıkça bozulabileceğini unutmayın; onu tek seferlik bir adım değil, izlenen bir büyüklük olarak ele alın.</p></details>
+<details><summary>Kavram kaymasını hiçbir biçimde erken göremez miyim?</summary><p>Etiketsiz girdilere bakarak göremezsiniz, çünkü değişen şey girdilerde değil girdi-sonuç ilişkisindedir. Yapabileceğiniz şey dolaylı kanıt toplamaktır: erken gelen etiket alt kümeleri, küçük ama tabakalı bir insan denetimi örneklemi, itiraz ve geçersiz kılma oranları gibi iş sinyalleri. Bunlar kesin ölçüm değildir ama doksan günlük körlüğü otuz güne indirir.</p></details>
+</div>
+
+<hr>
+<p>Etiketsiz performans tahmini, üretim ekiplerinin gerçekten sorduğu soruya verilen en iyi cevaplardan biri: model bugün bozuldu mu? Ama gücü kadar sınırını da bilmek gerekiyor. Bu yöntem, dünyanın kurallarının değişmediği ama girdilerin kaydığı bir dünyada olağanüstü işe yarar; kuralların kendisi değiştiğinde ise sessizce yanılır. Doğru kurulum, tek bir sayıya güvenmek değil, tahmini bir destek kontrolüyle, bir kalibrasyon takibiyle ve küçük ama dürüst bir insan denetimi örneklemiyle birlikte okumaktır.</p>
+    </div>
+    <div class="article-tags"><span class="tag">Üretim</span><span class="tag">Yapay Zeka</span></div>
+    <div class="author-box"><span class="ava">HY</span><div><h4>Halide Yılmaz</h4><div class="role">Hatson Teknoloji A.Ş. · Kurucu Ortak</div><p>ODTÜ Bilgisayar Mühendisliği mezunu; bilgisayar ve yapay zeka alanında deneyimli kurucu ortak.</p></div></div>
+    <div class="post-nav"><a href="../gomme-kaymasi-izleme/"><div class="dir">← Önceki</div><div class="ttl">Embedding Kayması: Temel Model Çağında Drift'i İzlemek</div></a><a class="next" href="../../blog/"><div class="dir">Devamı →</div><div class="ttl">Tüm yazılara dön</div></a></div>
+  </div>
+</article>
+  <footer class="footer"><div class="wrap"><div class="footer-bottom" style="border:none;margin:0;padding:0"><span>© <span data-year>2026</span> Halide Yılmaz · Tüm hakları saklıdır.</span><span><a href="../../gizlilik/">Çerez Politikası</a> · Ankara · ODTÜ Teknokent 🌿</span></div></div></footer>
+  <button class="icon-btn to-top" aria-label="Top"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5M5 12l7-7 7 7"/></svg></button>
+  <script src="../../js/main.js"></script>
+</body>
+</html>

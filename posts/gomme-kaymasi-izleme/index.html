@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="tr" data-theme="light">
+<head>
+<meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Embedding Kayması: Temel Model Çağında Drift'i İzlemek — Halide Yılmaz</title>
+<meta name="description" content="768 boyutlu bir gömme vektöründe boyut başına KS testi neden çalışmaz? Yüksek boyutlu kaymayı ölçmenin doğru yolları, gömme modeli sürümünün sessiz etkisi ve kaymanın bozunma anlamına gelmediği gerçeği." />
+<link rel="canonical" href="https://halideyilmaz.com/posts/gomme-kaymasi-izleme/" /><link rel="alternate" hreflang="en" href="https://halideyilmaz.com/en/posts/embedding-drift-monitoring/" /><meta name="theme-color" content="#3B6BF6" />
+<meta property="og:type" content="article" /><meta property="og:title" content="Embedding Kayması: Temel Model Çağında Drift'i İzlemek" /><meta property="og:description" content="768 boyutlu bir gömme vektöründe boyut başına KS testi neden çalışmaz? Yüksek boyutlu kaymayı ölçmenin doğru yolları, gömme modeli sürümünün sessiz etkisi ve kaymanın bozunma anlamına gelmediği gerçeği." /><meta property="og:image" content="https://halideyilmaz.com/image/bimg-18.jpg" />
+<link rel="icon" href="/favicon.ico?v=20260809" sizes="32x32" />
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg?v=20260809" />
+  <link rel="icon" type="image/png" href="/favicon-192.png?v=20260809" sizes="192x192" />
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png?v=20260809" />
+<link rel="preconnect" href="https://fonts.googleapis.com" /><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&family=Newsreader:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet" />
+<script>(function(){try{var k="hy-theme",t=localStorage.getItem(k),m=window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches;document.documentElement.setAttribute("data-theme",t||(m?"dark":"light"));}catch(e){}})();</script>
+<link rel="stylesheet" href="../../css/style.css?v=20260809" />
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "headline": "Embedding Kayması: Temel Model Çağında Drift'i İzlemek",
+    "description": "768 boyutlu bir gömme vektöründe boyut başına KS testi neden çalışmaz? Yüksek boyutlu kaymayı ölçmenin doğru yolları, gömme modeli sürümünün sessiz etkisi ve kaymanın bozunma anlamına gelmediği gerçeği.",
+    "mainEntityOfPage": { "@type": "WebPage", "@id": "https://halideyilmaz.com/posts/gomme-kaymasi-izleme/" },
+    "dateModified": "2026-08-13",
+
+    "author": {
+      "@type": "Person",
+      "name": "Halide Yılmaz",
+      "url": "https://halideyilmaz.com/",
+      "worksFor": { "@type": "Organization", "name": "Hatson Teknoloji A.Ş.", "url": "https://hatsontech.com/" }
+    },
+    "publisher": { "@type": "Organization", "name": "Hatson Teknoloji A.Ş.", "url": "https://hatsontech.com/" },
+    "image": "https://halideyilmaz.com/image/bimg-18.jpg",
+    "inLanguage": "tr"
+  }
+  </script>
+</head>
+<body>
+<div class="progress"></div>
+  <nav class="nav" id="nav">
+    <div class="wrap">
+      <a class="brand" href="../../" aria-label="Home"><img class="logo-light" src="../../image/caseon-mark-light.svg" alt="Caseon" width="28" height="28" /><img class="logo-dark" src="../../image/caseon-mark-dark.svg" alt="Caseon" width="28" height="28" /><span>Halide Yılmaz</span></a>
+      <div class="nav-links" id="navLinks">
+        <a href="../../#hakkinda">Kimdir</a>
+        <a href="../../#ne-yapiyor">Ne Yapıyor</a>
+        <a href="../../#uzmanlik">Uzmanlık</a>
+        <a href="../../blog/">Yazılar</a>
+        <a href="../../#iletisim">İletişim</a>
+      </div>
+      <div class="nav-actions">
+        <a class="lang-switch" href="../../en/posts/embedding-drift-monitoring/">EN</a>
+        <button class="icon-btn theme-toggle" data-theme-toggle aria-label="Theme"><svg class="sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M6.3 17.7l-1.4 1.4M19.1 4.9l-1.4 1.4"/></svg><svg class="moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg></button>
+        <button class="icon-btn nav-toggle" data-nav-toggle aria-label="Menu"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 6h18M3 12h18M3 18h18"/></svg></button>
+      </div>
+    </div>
+  </nav>
+<article>
+  <div class="wrap narrow article-head">
+    <div class="breadcrumb"><a href="../../">Ana sayfa</a> <span>/</span>
+        <a href="../../blog/">Yazılar</a> <span>/</span>
+        <span>Üretim</span></div>
+    <span class="tag">Üretim</span>
+    <h1>Embedding Kayması: Temel Model Çağında Drift'i İzlemek</h1>
+    <div class="article-meta"><div class="author"><span class="ava">HY</span><div><div style="color:var(--text);font-weight:600">Halide Yılmaz</div><div>HatsonTech · Kurucu Ortak</div></div></div><span>· 10 dakika okuma</span></div>
+  </div>
+  <div class="wrap narrow"><div class="article-hero"><img src="../../image/bimg-18.jpg" alt="Embedding Kayması: Temel Model Çağında Drift'i İzlemek"></div></div>
+  <div class="wrap narrow" style="padding-top:36px;padding-bottom:36px">
+    <div class="prose">
+<p class="lead-p">Klasik kayma izleme reçetesi nettir: her özellik (feature) için eğitimdeki dağılımla bugünkü dağılımı karşılaştırın, bir test uygulayın, eşik aşılınca alarm verin. Bu reçete tablo verisinde iş görür. Metin, görüntü ve ses üzerinde çalışan sistemlerde ise elinizde adı olan sütunlar değil, 768 ya da 1.536 sayıdan oluşan bir dizi vardır. Aynı reçeteyi oraya uygulamak neredeyse matematiksel bir kesinlikle yanlış alarm üretir. Bu yazıda yüksek boyutlu temsillerde kaymayı nasıl ölçeceğinizi, gömme modelinin sürümünün neden en sessiz kayma kaynağı olduğunu ve izleme sayfalarının çoğunun atladığı gerçeği konuşuyoruz: kayma, bozunma demek değildir.</p>
+
+<div class="toc"><h4>İçindekiler</h4><ol>
+<li><a href="#b1">Adı olan özellikten adı olmayan geometriye</a></li>
+<li><a href="#b2">Boyut başına test neden çöker</a></li>
+<li><a href="#b3">Peki ne ölçersiniz?</a></li>
+<li><a href="#b4">En sessiz kayma kaynağı: gömme modelinin sürümü</a></li>
+<li><a href="#b5">Kayma bozunma değildir</a></li>
+<li><a href="#b6">Pratik kurulum ve araç ekosisteminin hâli</a></li>
+</ol></div>
+
+<h2 id="b1">Adı olan özellikten adı olmayan geometriye</h2>
+<p>Klasik kurulumu hatırlayalım. <a href="../model-izleme-drift/">Üretimde model izleme ve veri kayması</a> yazısında anlattığımız gibi, izlenen her özellik için eğitimdeki dağılımla bugünkü dağılımı karşılaştırır, bir test uygular, eşik aşılınca uyarırsınız. Bu kurulumun sessiz bir varsayımı vardır: izlediğiniz her sütunun bir adı, bir birimi ve bir anlamı vardır. Kayma çıktığında sonucu tek cümleyle anlatabilirsiniz.</p>
+<p>Yapılandırılmamış veriyle çalışan bir sistemde bu varsayım ortadan kalkar. Girdi, bir gömme (embedding) modelinden geçip yüzlerce boyutlu bir vektöre dönüşür ve modelin gördüğü şey artık bu vektördür. <a href="../embedding-semantik-benzerlik/">Gömme modelleri ve anlamsal benzerlik</a> yazısında anlattığımız gibi, vektörün tek tek boyutlarının kendi başına bir anlamı yoktur; anlam noktaların birbirine göre konumunda, yani uzaklıklarda ve komşuluklarda saklıdır.</p>
+<p>Tablo verisi bir adres listesidir: mahalle, sokak, kapı numarası. Gömme uzayı ise bir haritadır. Haritada &ldquo;412. eksende ortalama 0,03 arttı&rdquo; cümlesinin bir karşılığı yoktur, çünkü eksenler keyfîdir; haritayı döndürseniz bütün eksen değerleri değişir, harita aynı haritadır. Anlamlı olan tek soru şudur: <em>nokta bulutunun şekli değişti mi, daha önce hiç bulunmadığımız bölgelere mi taşındık?</em></p>
+<blockquote>Tablo verisinde bir özelliğin kayması bir olaydır: başvuranların yaş ortalaması düştü. Gömme uzayında tek bir boyutun kayması bir olay değildir; keyfî bir eksende duran, kendi başına yorumlanamayan bir sayıdır.</blockquote>
+
+<h2 id="b2">Boyut başına test neden çöker</h2>
+<p>Buna rağmen pek çok ekip refleks olarak aynı reçeteyi uygular: 768 boyutun her biri için bir Kolmogorov-Smirnov (KS) testi çalıştırıp p-değerlerine bakar. Bu kurulum üç ayrı nedenle bozuktur ve üçü de küçük ayarlarla düzelmez.</p>
+<p><strong>Birincisi, çoklu test.</strong> Yüzde 5 anlamlılık düzeyinde 768 test çalıştırdığınızda, dünyada hiçbir şey değişmemiş olsa bile ortalama otuz sekiz civarında &ldquo;anlamlı&rdquo; sonuç üretirsiniz. Bunu her gün yaparsanız panonuz kalıcı olarak kırmızıdır. Kayma tespiti üzerine yeni bir çalışma bu birikimi açıkça adlandırıyor: küçük yanlış pozitif oranları bile zamanla <a href="https://arxiv.org/abs/2607.17336" target="_blank" rel="noopener">alarm yorgunluğuna</a> dönüşebiliyor. Alarm yorgunluğu istatistiksel değil insani bir arızadır ve hep aynı biçimde biter: bir süre sonra kimse bakmaz.</p>
+<p><strong>İkincisi, p-değeri kayma büyüklüğü değildir.</strong> Bir testin p-değeri, etkinin büyüklüğü kadar örneklem büyüklüğünün de fonksiyonudur. Evidently ekibinin notu çok net: KS testi, 100.000&rsquo;den fazla gözleminiz olduğu anda <a href="https://www.evidentlyai.com/blog/data-drift-detection-large-datasets" target="_blank" rel="noopener">yüzde 0,5&rsquo;lik bir değişimde bile bayrak kaldırır</a> ve p-değeri kayma miktarının bir ölçümü değildir. Aynı ekip bunu ürün mantığına da yazmış: gözlem sayısı <a href="https://docs.evidentlyai.com/metrics/explainer_drift" target="_blank" rel="noopener">1.000 eşiğini</a> geçtiğinde tespit yöntemini değiştiriyorlar.</p>
+<p><strong>Üçüncüsü, PSI tek başına kurtarmıyor.</strong> Popülasyon Kararlılık İndeksi (PSI) yığın (batch) boyutuna güçlü biçimde duyarlıdır ve küçük örneklemlerde sık sık yanlış alarm üretir. Her kaynakta tekrarlanan sabit PSI eşiklerini evrensel bir kural gibi kullanmayın; onlar bir sektör geleneğidir, istatistiksel bir yasa değil. Doğru eşik, sizin sisteminizin sakin dönemlerdeki gürültüsünden çıkarılır.</p>
+<p>Üstüne bir de boyut lanetini ekleyin. Yüksek boyutta uzaklıklar birbirine yakınsar; daha kötüsü, iki dağılımın <em>her bir eksendeki</em> kenar dağılımı neredeyse aynı kalırken ortak dağılımları tamamen değişebilir. Bulutu döndürün, iki kümenin yerini değiştirin, korelasyon yapısını bozun: boyut başına testler hiçbir şey görmez. Yani bu yöntem, en çok önemsediğiniz değişim türüne tam olarak kördür.</p>
+<div class="callout"><strong>İpucu:</strong> Çoklu test sorununu Bonferroni benzeri bir düzeltmeyle kapatmak cazip gelir; ama yanlış alarmı azaltan düzeltme, gerçek kaymayı yakalama gücünü de düşürür. Doğru hamle düzeltmek değil, 768 testi tek bir çok değişkenli ölçüyle değiştirmektir.</div>
+
+<h2 id="b3">Peki ne ölçersiniz?</h2>
+<p>İyi haber şu: gömme uzayında kaymayı ölçmenin olgun ve pratik yolları var. Hepsinin ortak yanı, yüzlerce ayrı testi tek ve yorumlanabilir bir sayıya indirmeleri.</p>
+<p>En doğrudan olanı <strong>dağılımlar arası uzaklıktır</strong>: referans nokta bulutu ile bugünkü bulut arasındaki farkı tek bir sayıyla özetleyen ölçüler. Bunlar eksenlere değil bulutun bütününe bakar; döndürmeye, ölçeklemeye ve korelasyon yapısındaki değişime duyarlıdır.</p>
+<h3>Sınıflandırıcıyla iki örneklem testi</h3>
+<p>Pratikte en çok işe yarayan yöntem budur ve fikri neredeyse hilekârca basittir. Referans penceredeki vektörlere 0, bugünkü vektörlere 1 etiketini verin ve basit bir sınıflandırıcı eğitin; sonra ayrı tuttuğunuz bir test kümesinde ROC AUC&rsquo;ye bakın. AUC 0,5 civarındaysa iki bulut ayırt edilemiyordur, yani dağılım pratikte değişmemiştir. AUC 1&rsquo;e yaklaştıkça iki dağılım o kadar ayrışmıştır.</p>
+<p>Bu yaklaşımın asıl değeri size bir sayıdan fazlasını vermesidir. Sınıflandırıcının &ldquo;kesinlikle bugüne ait&rdquo; dediği örnekleri sıralayın ve ilk yirmisini okuyun. Kaymanın <em>ne olduğunu</em> bir panodan değil metinlerin kendisinden öğrenirsiniz: yeni bir ürün kategorisi, bozulmuş bir karakter kodlaması, bir kampanyanın getirdiği kalıp dil.</p>
+<h3>Küme doluluğu ve komşuluk uzaklıkları</h3>
+<p>İkinci yöntem, referans veriyi bir kez kümeleyip küme merkezlerini dondurmaktır. Sonra her yeni yığındaki noktaları bu sabit merkezlere atar ve küme paylarını karşılaştırırsınız. Böylece 768 boyutlu bir problem, on beş kategorili bir dağılım karşılaştırmasına iner; klasik testler burada yeniden anlamlıdır ve her kümenin içinden örnek okuyabildiğiniz için sonuç insan tarafından denetlenebilir.</p>
+<p>Üçüncüsü <strong>en yakın komşu uzaklığıdır</strong>: her yeni nokta için referans kümedeki k&rsquo;ıncı en yakın komşusuna olan uzaklığa bakarsınız. Bu dağılımın sağ kuyruğu kalınlaşıyorsa, uzayın daha önce hiç örnek görmediğiniz bölgelerine gidiyorsunuz demektir. Bu özünde bir <a href="../anomali-tespiti/">anomali tespiti</a> problemidir ve modelin en çok zorlanacağı girdileri doğrudan işaret eder.</p>
+<p>Dördüncüsü düşük boyutlu bir özet üzerinden izlemedir: referansa oturtulmuş bir izdüşümün ilk birkaç bileşenini takip edersiniz. Tek kritik kural, izdüşümün bir kez öğrenilip dondurulmasıdır; her yığında yeniden oturtulan bir izdüşüm, tam da ölçmek istediğiniz kaymayı gizler.</p>
+<pre><code># Gömme kayması: yüzlerce test yerine tek bir ölçü (sözde-kod)
+# 1) Ayrım gücü: bu vektör referanstan mı, bugünden mi?
+X = birlestir(referans_gommeler, bugunku_gommeler)
+y = birlestir(sifirlar(n_ref), birler(n_bugun))
+model = basit_siniflandirici().egit(X_egitim, y_egitim)
+auc   = roc_auc(model, X_test, y_test)      # 0,5 = ayirt edilemez
+
+# 2) Alarmi okunur kil: en emin ornekleri insana goster
+if auc &gt; kalibre_esik:                      # esigi kendi gecmisinizden cikarin
+    incele(en_yuksek_skorlu(model, bugunku_gommeler, k=20))
+
+# 3) Nerede degisti: kume doluluklarini karsilastir
+pay_ref = kume_paylari(dondurulmus_merkezler, referans_gommeler)
+pay_bug = kume_paylari(dondurulmus_merkezler, bugunku_gommeler)
+rapor(kume_bazli_fark(pay_ref, pay_bug))
+# Alarm tek basina bir karar degildir; performans tahminiyle birlikte okunur.</code></pre>
+
+<h2 id="b4">En sessiz kayma kaynağı: gömme modelinin sürümü</h2>
+<p>Şimdi panolarda en sık yanlış okunan olaya gelelim. Referans pencereniz aslında veriden değil, belirli bir gömme modelinin belirli bir sürümünün ürettiği vektörlerden oluşur. O modeli yükselttiğinizde ya da sağlayıcı aynı isim altında modeli sessizce güncellediğinde uzayın geometrisi değişir: eksenler başkadır, ölçek başkadır, komşuluklar başkadır.</p>
+<p>Sonuç şudur: ertesi sabah bütün uzaklık ölçüleriniz tavan yapar. Ama ölçtüğünüz şey dünyanın değişmesi değil, iki farklı modelin farkıdır. Referans pencereniz o anda geçersizdir, çünkü karşılaştırdığınız iki bulut artık aynı dili konuşmuyordur. Arşivi yeni sürümle yeniden gömüp eski vektörlerle kıyaslamak da aynı nedenle anlamsızdır: iki farklı model sürümünün vektörleri arasındaki kosinüs benzerliği yorumlanabilir bir büyüklük değildir.</p>
+<p>Aynı sorun daha ince biçimlerde de gelir. Metin kırpma uzunluğunu değiştirmek, normalleştirme adımını güncellemek ya da parçalama stratejisini elden geçirmek de geometriyi kaydırır. Model sürümü aynı kalmış olabilir; ön işleme sürümü değişmiştir ve etkisi aynıdır.</p>
+<blockquote>Panoda gördüğünüz her sıçrama dünyaya ait değildir. Bir kısmı sizin dağıtım notlarınızda yazılıdır; onları dünyaya ait sanmak, olmayan bir soruna aylarca müdahale etmek demektir.</blockquote>
+<div class="callout"><strong>İpucu:</strong> Sakladığınız her vektörün yanına model adını, model sürümünü ve ön işleme sürümünü yazın. Sürüm değiştiğinde referans pencereyi yeni modelle yeniden gömün, taban çizgisini sıfırdan hesaplayın ve panoda o tarihe bir kesinti işareti koyun. Bir ay sonra &ldquo;o gün olan şey bizdik&rdquo; diyebilmeniz gerekir.</div>
+
+<h2 id="b5">Kayma bozunma değildir</h2>
+<p>Bu yazının en önemli cümlesi bu başlıkta: kayma alarmı, modelin kötüleştiğini söylemez. Yalnızca girdi dağılımının değiştiğini söyler. Bunlar farklı iddialardır ve aralarındaki mesafe, izlemeye boşa harcanan mühendislik saatlerinin büyük kısmını açıklar.</p>
+<p>Çünkü bir modelin performansı girdi dağılımının kendisine değil, o dağılımın modelin <em>hatalı olduğu</em> bölgelerle ne kadar örtüştüğüne bağlıdır. Girdiler modelin zaten sağlam çalıştığı bir bölgeye kayarsa, ölçtüğünüz kayma büyük olabilir ama hata oranı kılını kıpırdatmaz.</p>
+<p>Bu soyut bir itiraz değil. NannyML ekibinin yayımladığı bir vaka incelemesinde modelin <em>en önemli iki özelliği</em> belirgin biçimde kayarken ortalama mutlak hata düz gitmiş; yazının kendi ifadesiyle <a href="https://www.nannyml.com/blog/when-data-drift-does-not-affect-performance-machine-learning-models" target="_blank" rel="noopener">bütün veri kayması alarmları yanlış alarmmış</a>. Bulgunun, kayma izlemeyi savunan bir ekibin kendi örneği olması onu daha da değerli kılıyor.</p>
+<p>Tersi de doğrudur ve daha tehlikelidir: girdi dağılımında ölçülebilir hiçbir değişim yokken performans çökebilir. Bu, kavram kaymasıdır (concept drift); girdiyle çıktı arasındaki ilişkinin kendisi değişmiştir ve yalnızca girdilere bakan bir sistem buna tanım gereği kördür. Ortak değişken kayması (covariate shift) için kurulmuş bir dedektörden kavram kaymasını da yakalamasını beklemek teknik bir eksiklik değil, kategori hatasıdır.</p>
+<p>Pratik sonuç bir hiyerarşidir. Alarm, mümkünse gerçek performanstan gelir; etiketler gecikiyorsa <a href="../etiketsiz-performans-tahmini/">etiketsiz performans tahmininden</a> gelir. Kayma sinyali ise alarmın kendisi değil, <em>açıklamasıdır</em>: performans düştüğünde &ldquo;neden&rdquo; sorusunu cevaplayan katmandır. Bu sırayı tersine çevirdiğiniz anda, her hafta yeniden eğitim tartışan ama neyin bozulduğunu bilmeyen bir ekibiniz olur.</p>
+
+<h2 id="b6">Pratik kurulum ve araç ekosisteminin hâli</h2>
+<p>Bir gömme kayması izleme kurulumunu beş kararla özetleyebilirsiniz.</p>
+<ul>
+<li><strong>Referans pencereyi seçin, miras almayın.</strong> &ldquo;Tüm eğitim verisi&rdquo; iyi bir referans değildir; üretimde işlerin sağlıklı yürüdüğü temsili bir dönemi seçin, sabitleyin ve sürümleyin.</li>
+<li><strong>Yığın boyutunu sabitleyin.</strong> Ölçtüğünüz istatistik örneklem büyüklüğüne duyarlı olduğu için günlük 2.000 kayıtla haftalık 14.000 kaydı aynı eşikle okuyamazsınız.</li>
+<li><strong>Eşiği geçmişten çıkarın.</strong> Dedektörü sakin dönemler üzerinde geriye dönük çalıştırın; eşik, gözlenen gürültünün üstüne konur.</li>
+<li><strong>Tek bir çok değişkenli alarm kurun.</strong> Ayrıntıya inmeyi talep üzerine yapın; varsayılan pano tek bir sayı göstersin.</li>
+<li><strong>Her alarmın yanına yirmi okunabilir örnek koyun.</strong> İnsana gösterilemeyen alarm, kısa sürede sessize alınan alarmdır.</li>
+</ul>
+<h3>Araç ekosisteminin bugünkü hâli</h3>
+<p>Araç seçerken bir gerçeği hesaba katmak gerekiyor: bu alan son dönemde ciddi biçimde yeniden şekillendi. Olguları sade aktaralım. WhyLabs <a href="https://whylabs.ai/" target="_blank" rel="noopener">hikâyesinin bu bölümünü kapattığını</a> duyurdu ve platformunu açık kaynak yaptı; whylogs kütüphanesi Ocak 2025&rsquo;ten beri hareketsiz. NannyML&rsquo;in açık kaynak deposu, şirketin <a href="https://launch.soda.io/" target="_blank" rel="noopener">Soda</a> tarafından satın alınmasının ardından durgunlaştı. Evidently kendini &ldquo;ML izleme&rdquo;den <a href="https://github.com/evidentlyai/evidently" target="_blank" rel="noopener">ML ve LLM gözlemlenebilirliğine, tablo verisinden üretken yapay zekâya</a> doğru yeniden konumlandırdı; bu tek satır, izlemenin nereye kaydığının en net belgesi. Alibi Detect açık kaynak lisanslı değil, kaynağı görülebilir (source-available) bir üründür; hukuk incelemesinden geçirecekseniz bu ayrım önemlidir. deepchecks&rsquo;in Aralık 2024&rsquo;ten beri yeni sürümü yok. <code>river</code> ise sağlıklı biçimde sürüyor.</p>
+<p>Buradan çıkan ders araç seçmekten çok mimariyle ilgili: yöntem kütüphaneden uzun ömürlüdür. Ölçtüğünüz istatistiği, referans pencerenizi ve eşik kalibrasyonunuzu kendi verinizin yanında tutun; kütüphane değiştirilebilir bir parça olsun.</p>
+
+<div class="takeaways"><h4>Öne çıkanlar</h4><ul>
+<li>Yüksek boyutlu gömmelerde boyut başına test yapmak bozuk bir kurulumdur: çoklu test, örneklem büyüklüğüne duyarlı p-değerleri ve boyut laneti üst üste biner.</li>
+<li>Bunun yerine tek bir çok değişkenli ölçü kullanın: sınıflandırıcıyla iki örneklem testi, küme doluluğu, en yakın komşu uzaklık dağılımı.</li>
+<li>Gömme modelinin ya da ön işlemenin sürümü değiştiğinde referans pencere geçersizdir; taban çizgisini yeniden alın ve panoya kesinti işareti koyun.</li>
+<li>Kayma bozunma değildir: en önemli özellikler kayarken hata düz gidebilir, hiç kayma yokken kavram kayması performansı çökertebilir.</li>
+<li>Alarm performanstan gelir; kayma sinyali alarmın kendisi değil açıklamasıdır. Eşiği kendi geçmiş gürültünüzden kalibre edin.</li>
+</ul></div>
+
+<div class="faq">
+<details><summary>768 boyutun her biri için KS testi çalıştırıp çoklu test düzeltmesi uygulasam olmaz mı?</summary><p>Düzeltme yalnızca birinci sorunu kısmen çözer: p-değeri hâlâ örneklem büyüklüğünün fonksiyonu olmayı sürdürür ve düzeltme, yanlış alarmı azaltırken gerçek kaymayı yakalama gücünüzü de düşürür. Daha önemlisi, boyut başına testler kenar dağılımlar aynı kalırken ortak dağılımın değiştiği duruma kördür; gömme uzayında en sık karşılaşacağınız kayma tipi tam olarak budur.</p></details>
+<details><summary>Gömme modelini yükseltmem gerekiyor; izleme geçmişimi kaybedecek miyim?</summary><p>Ham vektör düzeyindeki karşılaştırılabilirliği kaybedersiniz, çünkü iki farklı modelin vektörleri aynı uzayda değildir. Ama kayma skorlarının zaman serisini saklayabilir ve taban çizgisini yeni modelle yeniden hesaplayabilirsiniz: referans pencereyi yeniden gömün, eski ve yeni taban çizgisini bir süre yan yana çalıştırın, panoda o tarihe bir kesinti notu düşün.</p></details>
+<details><summary>Kayma alarmı aldım ama gerçek etiketler üç ay sonra gelecek. Ne yapmalıyım?</summary><p>Kaymayı tek başına yeniden eğitim gerekçesi saymayın. Önce ayrım sınıflandırıcısının en emin olduğu örnekleri okuyup kaymanın ne olduğunu adlandırın, sonra bu bölgenin modelin zayıf olduğu bölgeyle örtüşüp örtüşmediğine bakın. Karar, kaymanın büyüklüğüne değil tahmini performans etkisine bağlanmalıdır.</p></details>
+</div>
+
+<hr>
+<p>Gömme kayması, Türkçe kayma literatürünün en az yazılmış bölümü; oysa üretimdeki sistemlerin giderek büyüyen bir kısmı yapılandırılmamış veriyle çalışıyor. İşi doğru yapmanın sırrı daha karmaşık bir istatistikte değil, iki disiplinde: ölçtüğünüz sayının tam olarak neyi ölçtüğünü bilmek ve alarmı performansla ilişkilendirmek. Kayma bir uyarıdır, bir teşhis değil. Teşhisi hâlâ siz koyarsınız.</p>
+    </div>
+    <div class="article-tags"><span class="tag">Üretim</span><span class="tag">Yapay Zeka</span></div>
+    <div class="author-box"><span class="ava">HY</span><div><h4>Halide Yılmaz</h4><div class="role">Hatson Teknoloji A.Ş. · Kurucu Ortak</div><p>ODTÜ Bilgisayar Mühendisliği mezunu; bilgisayar ve yapay zeka alanında deneyimli kurucu ortak.</p></div></div>
+    <div class="post-nav"><a href="../model-anonim-mi-ezberleme/"><div class="dir">← Önceki</div><div class="ttl">Modeliniz Anonim mi? Ezberleme, Üyelik Çıkarımı ve EDPB'nin Yeni Anonimleştirme Kılavuzu</div></a><a class="next" href="../../blog/"><div class="dir">Devamı →</div><div class="ttl">Tüm yazılara dön</div></a></div>
+  </div>
+</article>
+  <footer class="footer"><div class="wrap"><div class="footer-bottom" style="border:none;margin:0;padding:0"><span>© <span data-year>2026</span> Halide Yılmaz · Tüm hakları saklıdır.</span><span><a href="../../gizlilik/">Çerez Politikası</a> · Ankara · ODTÜ Teknokent 🌿</span></div></div></footer>
+  <button class="icon-btn to-top" aria-label="Top"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5M5 12l7-7 7 7"/></svg></button>
+  <script src="../../js/main.js"></script>
+</body>
+</html>

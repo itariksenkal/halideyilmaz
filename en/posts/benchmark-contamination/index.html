@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Benchmark Contamination: Why Leaderboard Scores Are Inflated — Halide Yılmaz</title>
+<meta name="description" content="Test set leakage is no longer one team's cross-validation mistake but a defect in the whole field's evaluation infrastructure. How contamination and saturation inflate scores, and how to build your own private held-out set." />
+<link rel="canonical" href="https://halideyilmaz.com/en/posts/benchmark-contamination/" /><link rel="alternate" hreflang="tr" href="https://halideyilmaz.com/posts/kiyaslama-kirlenmesi/" /><meta name="theme-color" content="#3B6BF6" />
+<meta property="og:type" content="article" /><meta property="og:title" content="Benchmark Contamination: Why Leaderboard Scores Are Inflated" /><meta property="og:description" content="Test set leakage is no longer one team's cross-validation mistake but a defect in the whole field's evaluation infrastructure. How contamination and saturation inflate scores, and how to build your own private held-out set." /><meta property="og:image" content="https://halideyilmaz.com/image/bimg-13.jpg" />
+<link rel="icon" href="/favicon.ico?v=20260809" sizes="32x32" />
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg?v=20260809" />
+  <link rel="icon" type="image/png" href="/favicon-192.png?v=20260809" sizes="192x192" />
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png?v=20260809" />
+<link rel="preconnect" href="https://fonts.googleapis.com" /><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&family=Newsreader:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet" />
+<script>(function(){try{var k="hy-theme",t=localStorage.getItem(k),m=window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches;document.documentElement.setAttribute("data-theme",t||(m?"dark":"light"));}catch(e){}})();</script>
+<link rel="stylesheet" href="../../../css/style.css?v=20260809" />
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "headline": "Benchmark Contamination: Why Leaderboard Scores Are Inflated",
+    "description": "Test set leakage is no longer one team's cross-validation mistake but a defect in the whole field's evaluation infrastructure. How contamination and saturation inflate scores, and how to build your own private held-out set.",
+    "mainEntityOfPage": { "@type": "WebPage", "@id": "https://halideyilmaz.com/en/posts/benchmark-contamination/" },
+    "dateModified": "2026-08-13",
+
+    "author": {
+      "@type": "Person",
+      "name": "Halide Yılmaz",
+      "url": "https://halideyilmaz.com/",
+      "worksFor": { "@type": "Organization", "name": "Hatson Teknoloji A.Ş.", "url": "https://hatsontech.com/" }
+    },
+    "publisher": { "@type": "Organization", "name": "Hatson Teknoloji A.Ş.", "url": "https://hatsontech.com/" },
+    "image": "https://halideyilmaz.com/image/bimg-13.jpg",
+    "inLanguage": "en"
+  }
+  </script>
+</head>
+<body>
+<div class="progress"></div>
+  <nav class="nav" id="nav">
+    <div class="wrap">
+      <a class="brand" href="../../" aria-label="Home"><img class="logo-light" src="../../../image/caseon-mark-light.svg" alt="Caseon" width="28" height="28" /><img class="logo-dark" src="../../../image/caseon-mark-dark.svg" alt="Caseon" width="28" height="28" /><span>Halide Yılmaz</span></a>
+      <div class="nav-links" id="navLinks">
+        <a href="../../#about">About</a>
+        <a href="../../#what-i-do">What I Do</a>
+        <a href="../../#expertise">Expertise</a>
+        <a href="../../blog/">Articles</a>
+        <a href="../../#contact">Contact</a>
+      </div>
+      <div class="nav-actions">
+        <a class="lang-switch" href="../../../posts/kiyaslama-kirlenmesi/">TR</a>
+        <button class="icon-btn theme-toggle" data-theme-toggle aria-label="Theme"><svg class="sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M6.3 17.7l-1.4 1.4M19.1 4.9l-1.4 1.4"/></svg><svg class="moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg></button>
+        <button class="icon-btn nav-toggle" data-nav-toggle aria-label="Menu"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 6h18M3 12h18M3 18h18"/></svg></button>
+      </div>
+    </div>
+  </nav>
+<article>
+  <div class="wrap narrow article-head">
+    <div class="breadcrumb"><a href="../../">Home</a> <span>/</span>
+        <a href="../../blog/">Articles</a> <span>/</span>
+        <span>Evaluation</span></div>
+    <span class="tag">Evaluation</span>
+    <h1>Benchmark Contamination: Why Leaderboard Scores Are Inflated</h1>
+    <div class="article-meta"><div class="author"><span class="ava">HY</span><div><div style="color:var(--text);font-weight:600">Halide Yılmaz</div><div>HatsonTech · Co-Founder</div></div></div><span>· 10 min read</span></div>
+  </div>
+  <div class="wrap narrow"><div class="article-hero"><img src="../../../image/bimg-13.jpg" alt="Benchmark Contamination: Why Leaderboard Scores Are Inflated"></div></div>
+  <div class="wrap narrow" style="padding-top:36px;padding-bottom:36px">
+    <div class="prose">
+<p class="lead-p">You know what data leakage looks like: test examples slip into the training set, the validation score jumps, and the model falls over in production. That is one team's mistake on one weekend, and it is fixable. Benchmark contamination is the same mistake scaled to an entire field: this time what leaked is not your test set but everybody's shared exam paper. This post covers how much contamination inflates scores, why benchmarks have a shelf life, and the one practical answer — a private, expert-curated held-out set of your own.</p>
+
+<div class="toc"><h4>Contents</h4><ol>
+<li><a href="#b1">Leakage, scaled to a whole field</a></li>
+<li><a href="#b2">What contamination does to the numbers</a></li>
+<li><a href="#b3">Saturation: benchmarks have a shelf life</a></li>
+<li><a href="#b4">The contamination detectors will not save you</a></li>
+<li><a href="#b5">Leaderboard asymmetry, and a Turkish mix-up</a></li>
+<li><a href="#b6">Building your own private held-out set</a></li>
+</ol></div>
+
+<h2 id="b1">Leakage, scaled to a whole field</h2>
+<p>Picture a teacher who draws exam questions from the same public question bank every year, and that bank circulates online. Grades climb year after year even if nobody learned the subject better, and the teacher reports the climb as improved teaching. That is what is happening on leaderboards.</p>
+<p>The mechanism is not mysterious. Benchmark sets live in public repositories, forums, blog posts and paper appendices; pretraining corpora scraped from the web pass through exactly those places. How much of that text a model can hold has been measured too: <a href="https://arxiv.org/abs/2505.24832" target="_blank" rel="noopener">one study estimates models memorize approximately 3.6 bits per parameter</a>. For a large enough model that is more than enough capacity to carry millions of question-answer pairs.</p>
+<p>The result is the same failure we know from <a href="../data-leakage-cross-validation/">leakage in cross-validation</a>, except that the culprit is anonymous. You did not contaminate your test set; somebody did it before you, and you are now selecting models with it.</p>
+<p>&ldquo;We filtered the contamination out&rdquo; is not reassuring either, because it is unverifiable. You do not see the training data, you do not know the threshold or the matching rule the filter used, and you certainly do not know whether texts that pose the same question in different words survived the filter. From the outside, it is a verbal assurance that the exam paper was never lost.</p>
+<blockquote>On a contaminated benchmark, a high score does not show that the model is good. It shows that the exam leaked. If you cannot tell those two apart, you do not have a measurement — you have an impression.</blockquote>
+
+<h2 id="b2">What contamination does to the numbers</h2>
+<p>The damage arrives in two forms, and they cost you differently.</p>
+<p>The first is inflation of the absolute score. <a href="https://arxiv.org/abs/2607.23514" target="_blank" rel="noopener">Work quantifying contamination</a> measured inflation of up to 11.34 Macro-F1 together with distorted rankings. The second and more insidious form is exactly that distortion: contamination does not reward every model equally, so the ordering stops reflecting capability and starts reflecting which model met that dataset more often.</p>
+<p>The cleanest test that the inflation really comes from memorization is to evaluate on cases created after the model's training cutoff. <a href="https://arxiv.org/abs/2602.10367" target="_blank" rel="noopener">In one evaluation, 84% of models degrade on post-cutoff cases.</a> Same task, same format, only the date is different — and the score falls.</p>
+<p>Note that the problem here is not <a href="../classification-metrics/">the metric itself</a>; Macro-F1 and accuracy alike are exactly as honest as the data they are computed on. Note too that every figure above belongs to the moment its paper measured it. Leaderboards move within weeks, and repeating a paper's ranking as if it were today's live standing is a second mistake stacked on the first.</p>
+<div class="callout"><strong>Tip:</strong> Before you pick a model, run a cheap contamination probe: rewrite the benchmark questions, change the numbers and names, shuffle the answer options. If the score drops noticeably, what you were measuring was familiarity, not capability.</div>
+
+<h2 id="b3">Saturation: benchmarks have a shelf life</h2>
+<p>Contamination has a sibling called saturation. A benchmark discriminates on the day it is published; a few years later everyone crowds near the ceiling, and the table stops ranking ability and starts ranking noise.</p>
+<p>An <a href="https://arxiv.org/abs/2602.16763" target="_blank" rel="noopener">ICML 2026 study of 60 benchmarks across 14 properties</a> makes this concrete: nearly half of the benchmarks exhibit saturation, with rates increasing with age. Its finding about resilience is the practical spine of this post — resilience comes from expert-curation, not by public test data.</p>
+<p>The infrastructure itself wears out as well. HELM, one of the field's most comprehensive academic evaluation frameworks, <a href="https://crfm-helm.readthedocs.io/en/latest/maintenance_mode/" target="_blank" rel="noopener">entered maintenance mode on 1 June 2026</a>: no new features will be added, and no new evaluations will be added to its leaderboards. Keeping a benchmark alive costs more than building one, which is why waiting for permanent measurement infrastructure is not a realistic plan.</p>
+<p>The insidious part of saturation is that comparison itself loses meaning near the ceiling. Once every model clusters around ninety-eight percent, the gaps between them sit below measurement noise and a handful of mislabeled items; the ranking no longer reflects capability but which model happened to guess those few broken questions right. So treat a benchmark as a consumable rather than a constitution. It has an expiry date, and that date arrives the moment everyone starts aiming at it.</p>
+
+<h2 id="b4">The contamination detectors will not save you</h2>
+<p>The natural reflex is to reach for automatic detection: n-gram overlap, perplexity comparisons, membership inference tests. These tools help, but they are less reliable than people assume.</p>
+<p>A <a href="https://arxiv.org/abs/2606.03305" target="_blank" rel="noopener">systematic assessment of contamination detectors</a> reports that only 201 out of 335 evaluations were correct. In other words, diagnosing contamination is itself a measurement problem with its own error rate. Do not treat a detector output that says &ldquo;clean&rdquo; as a certificate.</p>
+<p>There is a deeper issue underneath. Even an uncontaminated benchmark may not measure what it claims to measure. The NeurIPS 2025 paper <a href="https://arxiv.org/abs/2511.04703" target="_blank" rel="noopener">Measuring what Matters: Construct Validity in LLM Benchmarks</a> — 29 expert reviewers, a systematic review of 445 benchmarks — ends in eight recommendations and asks the field's most uncomfortable question: which capability, exactly, does this test measure?</p>
+<p>That question should feel familiar. A benchmark is ultimately a labeled dataset, and every rule of <a href="../data-quality-labeling/">labeling quality</a> applies to it: vague guidelines, inconsistent labels, unrepresentative samples. Contamination is only the most visible defect.</p>
+
+<h2 id="b5">Leaderboard asymmetry, and a Turkish mix-up</h2>
+<p>Contamination is not always accidental; sometimes it is simply unequal access. A <a href="https://arxiv.org/abs/2504.20879" target="_blank" rel="noopener">study of Chatbot Arena practices</a> reports that Meta tested 27 private variants ahead of the Llama 4 release, that Google reached about 19.2% and OpenAI about 20.4% of all arena data, while 83 open-weight models together shared about 29.7%.</p>
+<p>The technical name for this is the repeated-measurement advantage. Whoever gets more attempts at the same exam scores higher at identical ability. The result is a world in which nobody broke a rule and the table is still misleading.</p>
+<p>On the Turkish side there is a simpler but far more common trap: two different benchmarks that get routinely confused. <a href="https://arxiv.org/abs/2407.12402" target="_blank" rel="noopener">TurkishMMLU</a> (EMNLP 2024 Findings) is drawn from Turkish high-school curricula and contains more than 10,000 questions across 9 subjects. <a href="https://arxiv.org/abs/2501.00593" target="_blank" rel="noopener">TR-MMLU</a> (Bayram et al., January 2025) contains 6,200 multiple-choice questions across 62 sections covering 67 disciplines, selected from a pool of 280,000 questions. Similar names, different scope, different size.</p>
+<p>Which means the sentence &ldquo;this model scored X on Turkish MMLU&rdquo; is not comparable to anything unless it says which dataset it refers to. When you work with <a href="../turkish-nlp-data-quality-benchmarks/">Turkish benchmarks</a>, always write the dataset name, its version and the subset together.</p>
+
+<h2 id="b6">Building your own private held-out set</h2>
+<p>Everything above converges on one practical conclusion: make your decisions with an exam nobody else can see. An expert-curated, privately held evaluation set is the most durable measurement instrument available today, against contamination and saturation alike.</p>
+<h3>What to collect, and from where</h3>
+<p>Draw items from real traffic in your own domain rather than copying from a public set, because the moment you copy you import the same risk. Where you can, include cases created after the model's training cutoff, which gives you a natural control group separating memorization from capability. Have the labels produced by domain experts and adjudicate disagreements; the value of the set comes from label quality far more than from size.</p>
+<h3>How to keep it private and keep it alive</h3>
+<pre><code># Private held-out set hygiene (pseudocode)
+heldout = expert_curate(your_domain, include_post_cutoff_cases)
+heldout = version(heldout, "v1")        # fixed version, comparable over time
+publish(aggregate_scores_only)          # the items themselves never leave
+
+for model in candidates:
+    score = evaluate(model, heldout)
+    if provider_retains_your_data:
+        burn(that_slice)                # once seen, it is no longer blind
+
+every_cycle:
+    heldout = refresh(heldout, fresh_cases)   # retire the aging slice
+    contamination_check(heldout, public_sources)</code></pre>
+<p>Three rules decide how long the set survives. Never publish the items, only aggregate scores. Version it so you can compare across time. And if a slice ever left your boundary — sent to a provider that retains your data, for example — stop counting that slice as a blind exam.</p>
+<p>The cost question usually arrives here, because expert hours are expensive. Make the right comparison though. The cost of choosing the wrong model is larger than the cost of labeling a few hundred items properly, and it gets paid quietly, spread over months. Besides, once the set exists you never rebuild it from scratch: each cycle retires only the ageing slice and replaces it with fresh cases. It is a small standing maintenance job rather than a project.</p>
+<div class="callout"><strong>Tip:</strong> Plant a few unique canary strings inside your set. If those strings ever surface in a model's output, you have direct evidence that your set leaked somewhere.</div>
+
+<div class="takeaways"><h4>Key takeaways</h4><ul>
+<li>Benchmark contamination is one team's data leakage grown into a defect in the whole field's evaluation infrastructure.</li>
+<li>Contamination both inflates absolute scores and distorts rankings; post-cutoff cases are the cleanest control test.</li>
+<li>Benchmarks have a shelf life: nearly half of the studied sets are saturated, and resilience comes from expert curation.</li>
+<li>Contamination detectors carry a large error rate of their own; a detector output is not a certificate of cleanliness.</li>
+<li>Decide with a private, versioned, expert-curated held-out set that nobody else can see.</li>
+</ul></div>
+
+<div class="faq">
+<details><summary>Should I stop using contaminated benchmarks entirely?</summary><p>No, but do not let one carry a decision on its own. Common benchmarks still work for rough screening; make the final model choice on your private set. And attribute every score to the paper and date that measured it, because standings change quickly.</p></details>
+<details><summary>How large should my own evaluation set be?</summary><p>Quality comes before size. Large enough to give a confidence interval narrow enough to separate your candidates is enough; past that point, invest in label quality and coverage of hard cases rather than in more items. A small expert-curated set beats a large loosely labeled one.</p></details>
+<details><summary>How do I test for contamination myself?</summary><p>The cheapest probe is rewriting: ask the same question with different wording, different numbers and shuffled options. The second is evaluating on cases created after the training cutoff. A large gap between the two conditions means your score was measuring memorization.</p></details>
+</div>
+
+<hr>
+<p>In short: the moment a leaderboard becomes a marketing surface it stops being a measuring instrument. The answer is not to boycott the tables but to stop letting them make the decision. A small set curated from your own domain, labeled by experts, kept private and properly versioned tells you more than the huge benchmark everyone is looking at — precisely because only you can see it.</p>
+    </div>
+    <div class="article-tags"><span class="tag">Evaluation</span><span class="tag">AI</span></div>
+    <div class="author-box"><span class="ava">HY</span><div><h4>Halide Yılmaz</h4><div class="role">Hatson Teknoloji A.Ş. · Co-Founder</div><p>A graduate of METU Computer Engineering; co-founder working in computing and AI.</p></div></div>
+    <div class="post-nav"><a href="../annotator-agreement-evaluator-reliability/"><div class="dir">← Previous</div><div class="ttl">Annotator Agreement and Evaluator Reliability: Kappa, Alpha, and Validating an LLM Judge</div></a><a class="next" href="../../blog/"><div class="dir">More →</div><div class="ttl">Back to all articles</div></a></div>
+  </div>
+</article>
+  <footer class="footer"><div class="wrap"><div class="footer-bottom" style="border:none;margin:0;padding:0"><span>© <span data-year>2026</span> Halide Yılmaz · All rights reserved.</span><span><a href="../../privacy/">Cookie Policy</a> · Ankara · METU Technopark 🌿</span></div></div></footer>
+  <button class="icon-btn to-top" aria-label="Top"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5M5 12l7-7 7 7"/></svg></button>
+  <script src="../../../js/main.js"></script>
+</body>
+</html>

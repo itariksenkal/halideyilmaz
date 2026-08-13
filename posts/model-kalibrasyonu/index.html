@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="tr" data-theme="light">
+<head>
+<meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Model Kalibrasyonu: Modelinizin "%90 Eminim" Demesi Ne Anlama Geliyor? — Halide Yılmaz</title>
+<meta name="description" content="Kalibre olmayan bir skor, eşik seçimini ve altındaki bütün fayda-maliyet hesabını sessizce geçersiz kılar. Güvenilirlik diyagramı, beklenen kalibrasyon hatası, Platt ölçekleme ve izotonik regresyonu anlatıyoruz." />
+<link rel="canonical" href="https://halideyilmaz.com/posts/model-kalibrasyonu/" /><link rel="alternate" hreflang="en" href="https://halideyilmaz.com/en/posts/model-calibration-probabilities/" /><meta name="theme-color" content="#3B6BF6" />
+<meta property="og:type" content="article" /><meta property="og:title" content="Model Kalibrasyonu: Modelinizin &quot;%90 Eminim&quot; Demesi Ne Anlama Geliyor?" /><meta property="og:description" content="Kalibre olmayan bir skor, eşik seçimini ve altındaki bütün fayda-maliyet hesabını sessizce geçersiz kılar. Güvenilirlik diyagramı, beklenen kalibrasyon hatası, Platt ölçekleme ve izotonik regresyonu anlatıyoruz." /><meta property="og:image" content="https://halideyilmaz.com/image/bimg-15.jpg" />
+<link rel="icon" href="/favicon.ico?v=20260809" sizes="32x32" />
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg?v=20260809" />
+  <link rel="icon" type="image/png" href="/favicon-192.png?v=20260809" sizes="192x192" />
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png?v=20260809" />
+<link rel="preconnect" href="https://fonts.googleapis.com" /><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&family=Newsreader:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet" />
+<script>(function(){try{var k="hy-theme",t=localStorage.getItem(k),m=window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches;document.documentElement.setAttribute("data-theme",t||(m?"dark":"light"));}catch(e){}})();</script>
+<link rel="stylesheet" href="../../css/style.css?v=20260809" />
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "headline": "Model Kalibrasyonu: Modelinizin \"%90 Eminim\" Demesi Ne Anlama Geliyor?",
+    "description": "Kalibre olmayan bir skor, eşik seçimini ve altındaki bütün fayda-maliyet hesabını sessizce geçersiz kılar. Güvenilirlik diyagramı, beklenen kalibrasyon hatası, Platt ölçekleme ve izotonik regresyonu anlatıyoruz.",
+    "mainEntityOfPage": { "@type": "WebPage", "@id": "https://halideyilmaz.com/posts/model-kalibrasyonu/" },
+    "dateModified": "2026-08-13",
+
+    "author": {
+      "@type": "Person",
+      "name": "Halide Yılmaz",
+      "url": "https://halideyilmaz.com/",
+      "worksFor": { "@type": "Organization", "name": "Hatson Teknoloji A.Ş.", "url": "https://hatsontech.com/" }
+    },
+    "publisher": { "@type": "Organization", "name": "Hatson Teknoloji A.Ş.", "url": "https://hatsontech.com/" },
+    "image": "https://halideyilmaz.com/image/bimg-15.jpg",
+    "inLanguage": "tr"
+  }
+  </script>
+</head>
+<body>
+<div class="progress"></div>
+  <nav class="nav" id="nav">
+    <div class="wrap">
+      <a class="brand" href="../../" aria-label="Home"><img class="logo-light" src="../../image/caseon-mark-light.svg" alt="Caseon" width="28" height="28" /><img class="logo-dark" src="../../image/caseon-mark-dark.svg" alt="Caseon" width="28" height="28" /><span>Halide Yılmaz</span></a>
+      <div class="nav-links" id="navLinks">
+        <a href="../../#hakkinda">Kimdir</a>
+        <a href="../../#ne-yapiyor">Ne Yapıyor</a>
+        <a href="../../#uzmanlik">Uzmanlık</a>
+        <a href="../../blog/">Yazılar</a>
+        <a href="../../#iletisim">İletişim</a>
+      </div>
+      <div class="nav-actions">
+        <a class="lang-switch" href="../../en/posts/model-calibration-probabilities/">EN</a>
+        <button class="icon-btn theme-toggle" data-theme-toggle aria-label="Theme"><svg class="sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M6.3 17.7l-1.4 1.4M19.1 4.9l-1.4 1.4"/></svg><svg class="moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg></button>
+        <button class="icon-btn nav-toggle" data-nav-toggle aria-label="Menu"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 6h18M3 12h18M3 18h18"/></svg></button>
+      </div>
+    </div>
+  </nav>
+<article>
+  <div class="wrap narrow article-head">
+    <div class="breadcrumb"><a href="../../">Ana sayfa</a> <span>/</span>
+        <a href="../../blog/">Yazılar</a> <span>/</span>
+        <span>Ölçme</span></div>
+    <span class="tag">Ölçme</span>
+    <h1>Model Kalibrasyonu: Modelinizin "%90 Eminim" Demesi Ne Anlama Geliyor?</h1>
+    <div class="article-meta"><div class="author"><span class="ava">HY</span><div><div style="color:var(--text);font-weight:600">Halide Yılmaz</div><div>HatsonTech · Kurucu Ortak</div></div></div><span>· 9 dakika okuma</span></div>
+  </div>
+  <div class="wrap narrow"><div class="article-hero"><img src="../../image/bimg-15.jpg" alt="Model Kalibrasyonu: Modelinizin &quot;%90 Eminim&quot; Demesi Ne Anlama Geliyor?"></div></div>
+  <div class="wrap narrow" style="padding-top:36px;padding-bottom:36px">
+    <div class="prose">
+<p class="lead-p">Modeliniz bir örnek için 0.9 çıktı verdiğinde bu ne anlama gelir? Çoğu ekip bu sayıyı bir olasılık gibi okur; oysa pek çok modelin çıktısı yalnızca bir sıralama skorudur. Aradaki fark bir ayrıntı değil: kalibre olmayan bir skorla seçtiğiniz eşik, o eşiğin dayandığı bütün fayda-maliyet hesabını sessizce geçersiz kılar. Bu yazıda model kalibrasyonunun ne olduğunu, nasıl ölçüldüğünü, nasıl düzeltildiğini ve doğruluk ile AUC'nin bu konuda neden hiçbir şey söylemediğini anlatıyoruz.</p>
+
+<div class="toc"><h4>İçindekiler</h4><ol>
+<li><a href="#b1">Eminim demek tam olarak ne demek?</a></li>
+<li><a href="#b2">Güvenilirlik diyagramı ve beklenen kalibrasyon hatası</a></li>
+<li><a href="#b3">Doğruluk ve AUC neden bu konuda sessizdir</a></li>
+<li><a href="#b4">Eşik seçimi ve sessizce geçersizleşen maliyet hesabı</a></li>
+<li><a href="#b5">Düzeltme: Platt, izotonik ve sıcaklık ölçekleme</a></li>
+<li><a href="#b6">Kalibrasyonun kırıldığı yerler</a></li>
+</ol></div>
+
+<h2 id="b1">Eminim demek tam olarak ne demek?</h2>
+<p>Bir hava durumu sunucusu düşünün. Bir yıl boyunca yağmur ihtimalini yüzde 30 dediği günleri biriktirin. Eğer o günlerin yaklaşık üçte birinde yağmur yağmışsa sunucu kalibredir. Hiç yağmamışsa ya da neredeyse her seferinde yağmışsa, sunucu belki günleri doğru sıralıyordur ama söylediği sayı bir olasılık değildir.</p>
+<p><strong>Model kalibrasyonu (model calibration)</strong> tam olarak bunu sorar. Modelinizin 0.9 skoru verdiği 100 örneği alın: bunların yaklaşık 90'ı gerçekten pozitifse model kalibredir. 60'ı pozitifse model kendine fazla güveniyordur; 99'u pozitifse gereğinden fazla çekingendir.</p>
+<p>Tanımda modelin ne kadar iyi olduğuna dair hiçbir şey olmadığına dikkat edin. Her örneğe veri kümesindeki pozitif oranını söyleyen bir model kusursuz kalibredir ve tamamen işe yaramazdır. Kalibrasyon, ayırt etme gücünün yerine geçmez; onun yanında durur. Bir modelin iyi olması için ikisi de gerekir: doğru sıralama <em>ve</em> doğru ölçek.</p>
+<p>Pratikte bu ayrım şuraya çarpar: skorunuzu bir olasılık gibi kullanıyorsanız - eşik seçiyor, beklenen maliyet hesaplıyor, iki modelin çıktısını topluyor ya da bir insana devretme kuralı yazıyorsanız - kalibrasyon artık bir süs değil, ön koşuldur.</p>
+<blockquote>Kalibrasyon, modelin haklı olup olmadığını değil, ne kadar haklı olduğunu bilip bilmediğini ölçer.</blockquote>
+
+<h2 id="b2">Güvenilirlik diyagramı ve beklenen kalibrasyon hatası</h2>
+<p>Kalibrasyonu görmenin en doğrudan yolu <strong>güvenilirlik diyagramıdır (reliability diagram)</strong>. Tahminleri skorlarına göre kutulara ayırırsınız. Her kutu için yatay eksene o kutudaki ortalama tahmini, dikey eksene ise gerçekte gözlenen pozitif oranını koyarsınız. Kusursuz kalibre bir model köşegenin üzerinde oturur.</p>
+<p>Köşegenin altına düşen noktalar aşırı güveni, üstünde kalanlar aşırı çekingenliği gösterir. Derin ağlarda en sık görülen desen, yüksek skorlarda köşegenin belirgin biçimde altına düşen bir eğridir: model 0.99 der, gerçek oran çok daha aşağıdadır.</p>
+<p><strong>Beklenen kalibrasyon hatası (expected calibration error, ECE)</strong> bu grafiği tek bir sayıya indirir: her kutuda tahmin ile gözlem arasındaki farkın mutlak değerini alır, kutudaki örnek sayısıyla ağırlıklandırır ve toplar.</p>
+<p>Buradaki tuzak şudur: ECE bir ölçüm değil, bir kutulama tercihidir. Kutu sayısını değiştirirsiniz, sayı değişir. Eşit genişlikli kutular yerine eşit sayıda örnek içeren kutular kullanırsınız, sayı yine değişir. Az kutu farkları ortalamanın içinde gizler; çok kutu ise örnekleme gürültüsünü kalibrasyon hatası gibi gösterir. Farklı kutulama ayarlarıyla hesaplanmış iki ECE karşılaştırılamaz.</p>
+<div class="callout"><strong>İpucu:</strong> Rapora ECE'yi tek başına koymayın. Kutulama kuralını, kutu sayısını ve kutu başına düşen örnek sayısını da yazın, mümkünse ham diyagramı ekleyin. Bir kutuya yalnızca birkaç örnek düşüyorsa gördüğünüz şey kalibrasyon hatası değil, gürültüdür.</div>
+
+<h2 id="b3">Doğruluk ve AUC neden bu konuda sessizdir</h2>
+<p>Küçük bir düşünce deneyi yapalım. Modelinizin bütün çıktılarının karesini alın: 0.9 artık 0.81, 0.5 artık 0.25 olsun. Örneklerin birbirine göre sıralaması hiç değişmedi, çünkü kare almak artan bir dönüşümdür.</p>
+<p>AUC yalnızca sıralamaya bakar, dolayısıyla hiç kımıldamaz. Doğruluk, kesinlik, duyarlılık ve F1 ise tek bir eşiğe bakar; eşiği de aynı dönüşümden geçirirseniz tam olarak aynı kararları, dolayısıyla aynı sayıları elde edersiniz. Oysa modelin olasılık ölçeği artık tamamen bozuktur.</p>
+<p>Sonuç net: <a href="../degerlendirme-metrikleri/">sınıflandırma metrikleri</a> ailesinin tamamı monoton yeniden ölçeklemeye karşı kayıtsızdır ve bu yüzden kalibrasyon hakkında size hiçbir şey söyleyemez. Mükemmel AUC ile berbat bir olasılık ölçeği aynı modelde rahatça bir arada durabilir.</p>
+<p>Kalibrasyonu cezalandıran ölçütler ayrı bir ailedendir: <em>uygun skorlama kuralları (proper scoring rules)</em>, yani Brier skoru ve log kaybı. Bunlar hem ayırt etme hem de kalibrasyon bileşeni taşır. Faydalıdırlar ama tek başına bir Brier skoru, iyileşmenin sıralamadan mı yoksa ölçekten mi geldiğini söylemez. Bu yüzden onları her zaman güvenilirlik diyagramıyla birlikte okuyun.</p>
+
+<h2 id="b4">Eşik seçimi ve sessizce geçersizleşen maliyet hesabı</h2>
+<p>Kalibrasyonun bedeli grafikte değil, karar masasında ödenir. Bir eşik seçtiğinizde farkında olmadan bir maliyet oranı beyan edersiniz.</p>
+<p>Karar kuramının klasik sonucu basittir: bir örneğe müdahale etmenin maliyeti ile onu kaçırmanın maliyeti biliniyorsa, beklenen maliyeti en aza indiren eşik bu iki maliyetin oranıdır. Kaçırmak müdahale etmekten dokuz kat pahalıysa, olasılık 0.1'i geçtiği anda müdahale edersiniz. Bu hesap zariftir ve tamamen tek bir varsayıma dayanır: modelin verdiği sayının gerçek bir olasılık olması.</p>
+<p>Model 0.1 dediğinde gerçek oran 0.4 ise, siz maliyet oranını 1:9 sandığınız yerde fiilen bambaşka bir oranı uygulamış olursunuz. Eşiği hangi titizlikle seçtiğinizin önemi kalmaz; çünkü eşiğin altındaki hesap zaten geçersizdir. Aynı bozukluk, skorları bir gelir tahminiyle çarpıp beklenen değer hesaplayan her tabloya, her kural motoruna ve her insana devretme politikasına yayılır.</p>
+<p>Kötü haber, bu hatanın sessiz olmasıdır. Doğruluk raporunuz iyi görünmeye devam eder, panolar yeşil kalır, kayıp yalnızca gerçek maliyetlerde birikir.</p>
+<p>Düzenleme tarafı da aynı yere bakıyor: <a href="https://artificialintelligenceact.eu/article/15/" target="_blank" rel="noopener">AB Yapay Zekâ Yasası'nın 15. maddesi</a> sağlayıcıdan doğruluk seviyelerini ve ilgili doğruluk metriklerini beyan etmesini istiyor. Beyan ettiğiniz sayıların dışarıdan okuyan biri için bir anlamı olması gerekir; kalibre olmayan bir güven skoru bu anlamı taşıyamaz.</p>
+<p>Aynı sorun açıklamalara da bulaşır. <a href="../model-yorumlanabilirligi/">Model yorumlanabilirliği</a> araçları size bir çıktının nasıl oluştuğunu anlatır; çıktının ölçeği bozuksa, elinizde bozuk bir sayının çok ikna edici bir açıklaması olur.</p>
+
+<h2 id="b5">Düzeltme: Platt, izotonik ve sıcaklık ölçekleme</h2>
+<p>İyi haber, kalibrasyonun genellikle modeli yeniden eğitmeden düzeltilebilmesidir. Yaptığınız şey, ham skoru olasılığa çeviren küçük bir eşleme öğrenmektir. Bu eşleme sıralamayı bozmaz, yalnızca ölçeği düzeltir.</p>
+<h3>Platt ölçekleme ve izotonik regresyon</h3>
+<p><strong>Platt ölçekleme (Platt scaling)</strong> skorun üzerine iki parametreli bir lojistik eğri oturtur. Az veriyle çalışır ve kararlıdır, ama bozulmanın sigmoid biçiminde olduğunu varsayar; bozulma başka bir şekildeyse tam düzeltemez.</p>
+<p><strong>İzotonik regresyon (isotonic regression)</strong> ise parametrik bir biçim varsaymaz; yalnızca artan olma koşuluyla basamaklı bir eşleme öğrenir. Çok daha esnektir, ama serbestliği yüzünden küçük kalibrasyon kümelerinde aşırı uyum yapar ve çıktıyı birkaç ayrık değere yapıştırabilir.</p>
+<h3>Sıcaklık ölçekleme</h3>
+<p><strong>Sıcaklık ölçekleme (temperature scaling)</strong> çok sınıflı sinir ağlarının varsayılan yöntemidir: softmax öncesinde bütün logitleri tek bir sayıya bölersiniz. Tek parametre olduğu için aşırı uyum riski çok düşüktür ve en yüksek skorlu sınıfı değiştirmediği için doğruluğunuz aynı kalır. Yalnızca güven dağılımı sıkışır ya da yayılır.</p>
+<p>Hangisini seçerseniz seçin, tek bir kural pazarlığa kapalıdır: kalibrasyon eşlemesi <strong>ayrı tutulmuş bir bölmede</strong> öğrenilir. Eğitim verisi üzerinde kalibre ederseniz, modelin zaten ezberlediği örneklerin üzerine bir düzeltme oturtmuş olursunuz ve gerçekte hâlâ kalibre olmayan bir modele kusursuz bir diyagram çizersiniz.</p>
+<pre><code># Kalibrasyon eşlemesini ayrı bir bölmede öğrenmek (pseudocode)
+egitim, kalibrasyon, test = bol(veri)      # test hicbir asamada gorulmez
+
+model = egit(egitim)                       # 1) modeli sadece egitim ile egit
+skor_kal = model.skor(kalibrasyon)         # 2) kalibrasyon bolmesinde ham skorlar
+esleme  = kalibratoru_egit(skor_kal,       #    Platt / izotonik / sicaklik
+                           etiket(kalibrasyon))
+
+# 3) uretimde her tahmin iki adimdan gecer
+olasilik = esleme(model.skor(yeni_ornek))
+
+# 4) degerlendirmeyi yalnizca test bolmesinde yap
+diyagram(esleme(model.skor(test)), etiket(test))
+# Kural: kalibratoru egitim verisiyle egitmek, kendi kendine not vermektir.</code></pre>
+
+<h2 id="b6">Kalibrasyonun kırıldığı yerler</h2>
+<p>Kalibrasyon bir kez yapılıp bitirilen iş değildir, çünkü onu bozan şeylerin çoğu boru hattınızın standart parçalarıdır.</p>
+<p>En yaygın kırılma noktası dengesizlik müdahaleleridir. Azınlık sınıfını çoğaltmak, çoğunluk sınıfını seyreltmek ya da sınıf ağırlığı vermek, modelin gördüğü taban oranını kasten değiştirir. Sonuç, sistematik olarak yukarı kaymış olasılıklardır: model azınlık sınıfını gerçek dünyadakinden çok daha sık görmüştür ve buna göre konuşur. <a href="../sinif-dengesizligi/">Sınıf dengesizliği</a> ile uğraşırken bunu kabul edip kalibrasyonu doğal orana sahip bir bölmede yapmanız gerekir; yeniden örneklenmiş bir kümede kalibre etmek hatayı sabitler.</p>
+<p>İkinci kırılma noktası zamandır. Bir olgunun görülme sıklığı değiştiğinde modelin ayırt etme gücü bir süre daha korunabilir, ama olasılık ölçeği çoktan kaymıştır. Bu yüzden kalibrasyon, izleme panosunda doğruluk kadar düzenli bakılması gereken bir büyüklüktür ve kalibratör de en az model kadar sürümlenmesi gereken bir bileşendir.</p>
+<p>Üçüncüsü, kalibrasyonun tek başına yeterli olmamasıdır. Ortalamada doğru olan bir olasılık ölçeği, tek bir örnek için ne kadar güvenilir olduğunuzu söylemez. Garanti isteyen ekipler bu noktada <a href="../konformal-tahmin/">konformal tahmine (conformal prediction)</a> geçer: kalibre skorlar iyi bir başlangıç noktası verir, konformal katman ise bunun üzerine kapsama garantisi koyar. Etiketsiz veride performans tahmini yapan yöntemler de aynı ön koşula dayanır; kalibre olmayan skorlarla üretilen etiketsiz performans tahminleri güvenilmezdir.</p>
+<p>Araç tarafında bu ekosistem hızlı gelişiyor. Örneğin <a href="https://mapie.readthedocs.io/en/stable/" target="_blank" rel="noopener">MAPIE</a>, scikit-learn-contrib altında yer alan ve v1 sürümü 2025'te yayımlanan bir kütüphanedir; Capgemini Invent, Quantmetry, Michelin ve ENS Paris-Saclay katkısıyla sürdürülür ve 2026 güncellemeleri büyük dil modelleri ile görüntü bölütlemesi için risk kontrolü ve uyarlamalı konformal yöntemler ekler.</p>
+
+<div class="takeaways"><h4>Öne çıkanlar</h4><ul>
+<li>Kalibrasyon şudur: 0.9 dediğiniz 100 örneğin yaklaşık 90'ı gerçekten pozitif olmalıdır.</li>
+<li>Doğruluk ve AUC monoton yeniden ölçeklemeye kayıtsızdır; kalibrasyon hakkında hiçbir şey söylemez.</li>
+<li>Kalibre olmayan bir skor, eşiğin altındaki bütün maliyet hesabını sessizce geçersiz kılar.</li>
+<li>Platt, izotonik ve sıcaklık ölçekleme sıralamayı bozmadan ölçeği düzeltir; hepsi ayrı bir bölmede öğrenilir.</li>
+<li>Yeniden örnekleme, sınıf ağırlıkları ve zamanla değişen taban oranı kalibrasyonu düzenli olarak bozar.</li>
+</ul></div>
+
+<div class="faq">
+<details><summary>Kalibrasyon modelimin doğruluğunu artırır mı?</summary><p>Genellikle hayır. Sıcaklık ölçekleme en yüksek skorlu sınıfı hiç değiştirmez, dolayısıyla doğruluk sabit kalır. Platt ve izotonik de sıralamayı korur. Kalibrasyon, kararlarınızın kalitesini eşik ve maliyet hesabı üzerinden iyileştirir, ham doğruluk üzerinden değil.</p></details>
+<details><summary>ECE değerim düşük, işim bitti mi?</summary><p>Hayır. ECE kutulama ayarlarına duyarlıdır ve ortalama bir ölçüdür. Ortalamada iyi görünen bir model, belirli bir alt grupta ya da skor aralığında ciddi biçimde bozuk olabilir. Diyagramı alt gruplara ayırarak da çizin.</p></details>
+<details><summary>Kalibrasyonu ne sıklıkla yenilemeliyim?</summary><p>Modeli her yeniden eğittiğinizde, örnekleme stratejisini her değiştirdiğinizde ve olgunun görülme sıklığı kaydığında. Kalibratörü model gibi ele alın: ayrı bir bölmede öğretilir, sürümlenir ve izlenir.</p></details>
+</div>
+
+<hr>
+<p>Kalibrasyon, ölçme disiplininin en ucuz ama en çok atlanan adımıdır. Modelin sıralamasını iyileştirmek aylar sürebilir; olasılık ölçeğini düzeltmek çoğu zaman bir bölme ve birkaç satır kod meselesidir. Modelinizin söylediği sayıya inanılmasını istiyorsanız, önce o sayının ne anlama geldiğini kontrol edin.</p>
+    </div>
+    <div class="article-tags"><span class="tag">Ölçme</span><span class="tag">Yapay Zeka</span></div>
+    <div class="author-box"><span class="ava">HY</span><div><h4>Halide Yılmaz</h4><div class="role">Hatson Teknoloji A.Ş. · Kurucu Ortak</div><p>ODTÜ Bilgisayar Mühendisliği mezunu; bilgisayar ve yapay zeka alanında deneyimli kurucu ortak.</p></div></div>
+    <div class="post-nav"><a href="../model-karsilastirma-istatistik/"><div class="dir">← Önceki</div><div class="ttl">%1'lik Fark Gerçek mi? Model Karşılaştırmasında Güven Aralığı ve Bootstrap</div></a><a class="next" href="../../blog/"><div class="dir">Devamı →</div><div class="ttl">Tüm yazılara dön</div></a></div>
+  </div>
+</article>
+  <footer class="footer"><div class="wrap"><div class="footer-bottom" style="border:none;margin:0;padding:0"><span>© <span data-year>2026</span> Halide Yılmaz · Tüm hakları saklıdır.</span><span><a href="../../gizlilik/">Çerez Politikası</a> · Ankara · ODTÜ Teknokent 🌿</span></div></div></footer>
+  <button class="icon-btn to-top" aria-label="Top"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5M5 12l7-7 7 7"/></svg></button>
+  <script src="../../js/main.js"></script>
+</body>
+</html>

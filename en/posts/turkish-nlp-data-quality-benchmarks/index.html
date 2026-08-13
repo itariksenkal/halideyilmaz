@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Turkish AI Data Quality and Benchmarks: What Actually Exists — Halide Yılmaz</title>
+<meta name="description" content="The Turkish resource landscape exists mostly as scattered GitHub lists and arXiv papers. What actually exists, what each benchmark measures, what the Cetvel finding says about data quality, and how to build your own evaluation set." />
+<link rel="canonical" href="https://halideyilmaz.com/en/posts/turkish-nlp-data-quality-benchmarks/" /><link rel="alternate" hreflang="tr" href="https://halideyilmaz.com/posts/turkce-veri-kalitesi-kiyaslama/" /><meta name="theme-color" content="#3B6BF6" />
+<meta property="og:type" content="article" /><meta property="og:title" content="Turkish AI Data Quality and Benchmarks: What Actually Exists" /><meta property="og:description" content="The Turkish resource landscape exists mostly as scattered GitHub lists and arXiv papers. What actually exists, what each benchmark measures, what the Cetvel finding says about data quality, and how to build your own evaluation set." /><meta property="og:image" content="https://halideyilmaz.com/image/bimg-04.jpg" />
+<link rel="icon" href="/favicon.ico?v=20260809" sizes="32x32" />
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg?v=20260809" />
+  <link rel="icon" type="image/png" href="/favicon-192.png?v=20260809" sizes="192x192" />
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png?v=20260809" />
+<link rel="preconnect" href="https://fonts.googleapis.com" /><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&family=Newsreader:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet" />
+<script>(function(){try{var k="hy-theme",t=localStorage.getItem(k),m=window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches;document.documentElement.setAttribute("data-theme",t||(m?"dark":"light"));}catch(e){}})();</script>
+<link rel="stylesheet" href="../../../css/style.css?v=20260809" />
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "headline": "Turkish AI Data Quality and Benchmarks: What Actually Exists",
+    "description": "The Turkish resource landscape exists mostly as scattered GitHub lists and arXiv papers. What actually exists, what each benchmark measures, what the Cetvel finding says about data quality, and how to build your own evaluation set.",
+    "mainEntityOfPage": { "@type": "WebPage", "@id": "https://halideyilmaz.com/en/posts/turkish-nlp-data-quality-benchmarks/" },
+    "dateModified": "2026-08-13",
+
+    "author": {
+      "@type": "Person",
+      "name": "Halide Yılmaz",
+      "url": "https://halideyilmaz.com/",
+      "worksFor": { "@type": "Organization", "name": "Hatson Teknoloji A.Ş.", "url": "https://hatsontech.com/" }
+    },
+    "publisher": { "@type": "Organization", "name": "Hatson Teknoloji A.Ş.", "url": "https://hatsontech.com/" },
+    "image": "https://halideyilmaz.com/image/bimg-04.jpg",
+    "inLanguage": "en"
+  }
+  </script>
+</head>
+<body>
+<div class="progress"></div>
+  <nav class="nav" id="nav">
+    <div class="wrap">
+      <a class="brand" href="../../" aria-label="Home"><img class="logo-light" src="../../../image/caseon-mark-light.svg" alt="Caseon" width="28" height="28" /><img class="logo-dark" src="../../../image/caseon-mark-dark.svg" alt="Caseon" width="28" height="28" /><span>Halide Yılmaz</span></a>
+      <div class="nav-links" id="navLinks">
+        <a href="../../#about">About</a>
+        <a href="../../#what-i-do">What I Do</a>
+        <a href="../../#expertise">Expertise</a>
+        <a href="../../blog/">Articles</a>
+        <a href="../../#contact">Contact</a>
+      </div>
+      <div class="nav-actions">
+        <a class="lang-switch" href="../../../posts/turkce-veri-kalitesi-kiyaslama/">TR</a>
+        <button class="icon-btn theme-toggle" data-theme-toggle aria-label="Theme"><svg class="sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M6.3 17.7l-1.4 1.4M19.1 4.9l-1.4 1.4"/></svg><svg class="moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg></button>
+        <button class="icon-btn nav-toggle" data-nav-toggle aria-label="Menu"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 6h18M3 12h18M3 18h18"/></svg></button>
+      </div>
+    </div>
+  </nav>
+<article>
+  <div class="wrap narrow article-head">
+    <div class="breadcrumb"><a href="../../">Home</a> <span>/</span>
+        <a href="../../blog/">Articles</a> <span>/</span>
+        <span>Turkish NLP</span></div>
+    <span class="tag">Turkish NLP</span>
+    <h1>Turkish AI Data Quality and Benchmarks: What Actually Exists</h1>
+    <div class="article-meta"><div class="author"><span class="ava">HY</span><div><div style="color:var(--text);font-weight:600">Halide Yılmaz</div><div>HatsonTech · Co-Founder</div></div></div><span>· 11 min read</span></div>
+  </div>
+  <div class="wrap narrow"><div class="article-hero"><img src="../../../image/bimg-04.jpg" alt="Turkish AI Data Quality and Benchmarks: What Actually Exists"></div></div>
+  <div class="wrap narrow" style="padding-top:36px;padding-bottom:36px">
+    <div class="prose">
+<p class="lead-p">Which datasets exist for Turkish, what does each benchmark actually measure, and what does it mean to say a model is good at Turkish? The answers do not live in one place today; they are scattered across a few GitHub lists, a few arXiv papers and a good deal of hearsay. This post pulls that landscape together: what exists, what it measures, where it is thin, and what a team should do about it. Every number here is tied to the work that reports it, because in this area the most repeated errors are unsourced figures.</p>
+
+<div class="toc"><h4>Contents</h4><ol>
+<li><a href="#b1">Is Turkish really low-resource? Let us put numbers on it</a></li>
+<li><a href="#b2">Benchmark confusion: similar names, different measures</a></li>
+<li><a href="#b3">The uncomfortable finding in Cetvel</a></li>
+<li><a href="#b4">The legal domain: one concrete case examined closely</a></li>
+<li><a href="#b5">Where it is thin — and how this differs from tokenization</a></li>
+<li><a href="#b6">Building your own Turkish evaluation set</a></li>
+</ol></div>
+
+<h2 id="b1">Is Turkish really low-resource? Let us put numbers on it</h2>
+<p>The phrase “low-resource language” gets used constantly and quantified rarely. One reference point: <a href="https://meta.wikimedia.org/wiki/List_of_Wikipedias" target="_blank" rel="noopener">according to the Wikipedia listing</a>, Turkish Wikipedia holds 694,568 articles and ranks 26th largest, while English holds 7,223,792. On the same platform and the same measure, that is a gap of more than tenfold. Turkish is neither genuinely scarce nor in the same league as English; it sits in a crowded middle.</p>
+<p>A second indicator is whether you appear in international evaluation suites at all. Here there is a verified negative: OpenAI's multilingual evaluation set <a href="https://huggingface.co/datasets/openai/MMMLU" target="_blank" rel="noopener">MMMLU</a> covers 14 locales, and Turkish is not among them. A language missing from an international benchmark means there is no shared ground to stand on when people compare model performance in it.</p>
+<p>The inventory is far from empty, though. The most visible item is <a href="https://huggingface.co/dbmdz/bert-base-turkish-cased" target="_blank" rel="noopener">BERTurk</a>: trained on 35 GB, roughly 44 billion tokens, drawing around 150k downloads a month with 188 derivative models built on top of it. A great many Turkish NLP pipelines still sit on that foundation today.</p>
+<p>On the corpus side, <a href="https://tscorpus.com/" target="_blank" rel="noopener">TS Corpus</a> offers 25+ corpora and more than 1.8 billion tokens, while on the academic side the <a href="https://github.com/boun-tabi" target="_blank" rel="noopener">BOUN TABI</a> releases are among the first places to look for task datasets and tooling. The picture, then, is this: serious resources exist, but they are not collected in a single catalogue, version and licence information is scattered, and documentation is largely left to the user's initiative.</p>
+
+<h2 id="b2">Benchmark confusion: similar names, different measures</h2>
+<p>The most concrete practical problem in Turkish evaluation is a set of similarly named benchmarks used interchangeably. It is worth separating three of them, because they measure different things and their scores are not comparable.</p>
+<ul>
+<li><strong><a href="https://arxiv.org/abs/2407.12402" target="_blank" rel="noopener">TurkishMMLU</a></strong> (Yüksel, Köksal, Şenel, Korhonen, Schütze; EMNLP 2024 Findings): more than 10,000 questions across 9 subjects, drawn from Turkish high-school curricula. What it measures is curricular knowledge.</li>
+<li><strong><a href="https://arxiv.org/abs/2501.00593" target="_blank" rel="noopener">TR-MMLU</a></strong> (Bayram et al., January 2025): a <em>different</em> benchmark. 6,200 multiple-choice questions spread over 62 sections, selected from a pool of 280,000 questions covering 67 disciplines.</li>
+<li><strong><a href="https://arxiv.org/abs/2508.16431" target="_blank" rel="noopener">Cetvel</a></strong> (KUIS AI, Koç University; arXiv 22 August 2025, EACL 2026): evaluates 33 open-weight LLMs up to 70B across 23 tasks in 7 categories. It is the harness with the widest task coverage, reaching beyond the multiple-choice exam format.</li>
+</ul>
+<div class="callout"><strong>Tip:</strong> When someone tells you a model scored X on the Turkish MMLU, ask one question: <em>which one?</em> TurkishMMLU and TR-MMLU are two separate benchmarks with different construction, different question counts and different sources. Putting their scores side by side is comparing marks from two different exams. When you report a result, name the benchmark, its version and its paper together.</div>
+<p>All three share one limit as well: they measure general language and knowledge competence. Your production task — classifying a petition, summarising a support call, locating a contract clause — appears in none of them. A benchmark score is good for shortlisting candidates, not for making the decision.</p>
+
+<h2 id="b3">The uncomfortable finding in Cetvel</h2>
+<p>The most striking result in the Cetvel study contradicts the prevailing assumption in the field: Turkish-centric instruction-tuned models generally underperform multilingual general-purpose models. Which is to say that “a model trained specifically for Turkish will be better at Turkish” is not automatically true.</p>
+<p>That changes a lot in practice. The reflex of a team building a Turkish application is usually to go looking for a Turkish model. On the picture Cetvel measured, that reflex can cost you the best option. At minimum, carrying a Turkish label should not put a model at the top of the list on its own.</p>
+<p>The reason cannot be reduced to one sentence, and what the paper measures is the outcome rather than the cause. Plausible candidates exist — read these as hypotheses to be tested, not as measured explanations: much of the Turkish data used in instruction tuning is machine-translated and carries translation artefacts; fine-tuning can erode general capability inherited from broad multilingual pretraining; and Turkish datasets may be narrow in diversity.</p>
+<blockquote>Training a model for a language begins not with collecting data in that language, but with collecting <em>good</em> data in it. In Turkish the binding constraint has for some time been quality, not quantity.</blockquote>
+<p>This is the Turkish-specific form of the argument we make in <a href="../data-quality-labeling/">data quality and labeling</a>. Collecting raw text is easy today; building a dataset that is clean, deduplicated, clearly licensed, balanced across domains and consistently labelled is still hard. Turkish's real deficit is not in gigabytes, it is in that second list.</p>
+
+<h2 id="b4">The legal domain: one concrete case examined closely</h2>
+<p>On the domain-model side, the most concrete progress for Turkish is visible in law. This is the area we work inside daily on the <a href="../what-is-caseon/">İctihub</a> side, so we follow it closely. Two studies, with their numbers as reported.</p>
+<ul>
+<li><strong><a href="https://arxiv.org/abs/2604.04790" target="_blank" rel="noopener">HukukBERT</a></strong> (arXiv, 6 April 2026): a Turkish legal language model trained on 19 GB of cleaned legal text. It uses a 48K WordPiece vocabulary and reports 84.40% Top-1 on a legal cloze task and a 92.8% structural segmentation pass rate.</li>
+<li><strong><a href="https://arxiv.org/abs/2601.16018" target="_blank" rel="noopener">Mecellem</a></strong> (arXiv, 22 January 2026): reports a 36.2% perplexity reduction on Turkish legal text through continual pretraining on a 112.7 billion-token corpus.</li>
+</ul>
+<p>Two cautions when reading those figures. First, perplexity reduction and cloze accuracy are <em>intrinsic</em> metrics: they show the model adapted to the domain's language, not that it will do well on your task. What domain adaptation usually buys you is a head start, not a guarantee.</p>
+<p>Second, expanding the domain vocabulary — the 48K WordPiece vocabulary in HukukBERT — is a design choice rather than a result in itself. Splitting domain terms into fewer pieces makes context use more efficient, but you only see the size of that effect by measuring it on your own task.</p>
+<p>Even so, the direction is encouraging. A few years ago there were almost no publications producing comparable numbers for Turkish legal text. Today there are at least results you can point at and argue with. That is exactly what a field maturing looks like.</p>
+
+<h2 id="b5">Where it is thin — and how this differs from tokenization</h2>
+<p>First, a boundary. The <a href="../tokenization-turkish-challenges/">tokenization in Turkish</a> post is about mechanics: how the language's morphological structure affects subword splitting. This post is about datasets and benchmarks. The two get conflated often: tokenization drives the <em>cost</em> and context efficiency of Turkish models, while data quality determines what they learn. Different problems, different fixes.</p>
+<p>Looking across the inventory, these are the gaps that stand out. Treat them as observations about what the available resources cover, not as measured claims:</p>
+<ul>
+<li><strong>Task diversity:</strong> public evaluation is heavily weighted towards the multiple-choice exam format. The tasks you actually need in production — summarisation, inference, structured extraction — rarely have a standard Turkish counterpart.</li>
+<li><strong>Generation evaluation:</strong> how free-text generation should be assessed in Turkish, against what reference and by what criterion, has no settled consensus.</li>
+<li><strong>Domain coverage:</strong> law now has concrete work behind it; comparable public resources in health, finance and public administration are considerably scarcer.</li>
+<li><strong>Labelling documentation:</strong> datasets that publish their annotation guideline, an inter-annotator agreement measurement and a version history are the minority.</li>
+<li><strong>Licence and provenance clarity:</strong> where a dataset was assembled from and on what terms it may be used tends to be a separate investigation each time, before use.</li>
+</ul>
+<p>Put together, the picture is this: finding raw Turkish text is no longer the bottleneck. The bottleneck is data you can <strong>measure and document</strong>. The good news is that this is largely a matter of discipline — and therefore something your own team can fix without waiting for anyone else.</p>
+
+<h2 id="b6">Building your own Turkish evaluation set</h2>
+<p>If the public benchmarks do not cover your domain — and usually they do not — the job is clear: you build your own evaluation set. This is not a research project; two weeks of disciplined work will produce a meaningful first version.</p>
+<h3>The order of work</h3>
+<ul>
+<li><strong>Define the task from real traffic.</strong> Do not invent examples; sample from the inputs your system actually receives. An evaluation set derives its value from reflecting the usage distribution.</li>
+<li><strong>Sample in strata.</strong> Do not let easy examples dominate; deliberately include rare but important cases, and tag those strata so you can read subgroup scores separately.</li>
+<li><strong>Write the guideline around edge cases.</strong> A guideline without examples of where the decision gets hard does not function. Leave a “not sure” option.</li>
+<li><strong>Double-label a subset</strong> and measure inter-annotator agreement. Low agreement is the first sign that the guideline, not the model, is the problem.</li>
+<li><strong>Freeze and version.</strong> The core set must stay fixed; when you want to extend coverage, publish a new version instead of editing the old one.</li>
+<li><strong>Check for contamination.</strong> The model you are evaluating may have seen a public dataset during pretraining — the <a href="../benchmark-contamination/">benchmark contamination</a> problem, and the risk is higher here precisely because the number of public Turkish resources is limited.</li>
+</ul>
+<h3>Turkish-specific traps</h3>
+<p>A handful of technical details recur when building Turkish evaluation data, and when missed they quietly corrupt your score: case conversion for dotted and dotless i (I/ı and İ/i), text arriving mixed with ASCII-folded Turkish characters, inconsistent use of the apostrophe before suffixes on proper nouns, OCR errors from scanned documents, and domain terms used in a Turkish-English mix. Write these into your normalisation rules — and <em>version the rules too</em>.</p>
+<pre><code># Building a Turkish evaluation set (pseudocode)
+raw = sample_from_real_traffic(n=1200, strata=["easy","borderline","rare"])
+raw = normalise(raw)         # I/i casing, ASCII folding, OCR cleanup
+raw = deduplicate(raw)       # near-duplicates removed as well
+subset = sample(raw, 200)
+for item in subset:
+    label_a = annotate(item, annotator=1)
+    label_b = annotate(item, annotator=2)
+    if label_a != label_b:
+        queue_for_guideline(item)   # fix the guideline first, then the label
+agreement = inter_annotator_agreement(subset)
+if agreement < threshold:
+    stop()                   # if the guideline is not ready, the set is not
+freeze_and_version(raw, version="v1", doc=datasheet())</code></pre>
+<blockquote>Scoring well on a public benchmark does not show that your product works. An honest evaluation set built in your own domain shows exactly that — which is why it is worth far more.</blockquote>
+
+<div class="takeaways"><h4>Key takeaways</h4><ul>
+<li>Turkish Wikipedia holds 694,568 articles and ranks 26th; English holds 7,223,792 — Turkish is not scarce, but not in the same league either.</li>
+<li>TurkishMMLU and TR-MMLU are different benchmarks; putting their scores side by side compares marks from two different exams.</li>
+<li>The Cetvel study reports that Turkish-centric instruction-tuned models generally underperform multilingual general-purpose models.</li>
+<li>Turkish legal work now produces citable results such as HukukBERT and Mecellem, but intrinsic metrics do not guarantee task performance.</li>
+<li>The binding constraint for Turkish is not the volume of raw text; it is data you can measure, document and version.</li>
+</ul></div>
+
+<div class="faq">
+<details><summary>Should I always pick a Turkish-trained model for a Turkish application?</summary><p>Not automatically. The Cetvel study reports that Turkish-centric instruction-tuned models generally underperform multilingual general-purpose models. The right approach is to treat a Turkish label as one attribute rather than a shortlisting criterion, and to measure both Turkish and multilingual candidates under identical conditions on your own evaluation set.</p></details>
+<details><summary>Which Turkish benchmark should I use?</summary><p>It depends on what you are asking. TurkishMMLU is built on high-school curricular knowledge, TR-MMLU on broad disciplinary coverage, and Cetvel offers the widest task diversity beyond the multiple-choice format. None of them measures your production task, so use public benchmarks to shortlist and your own set to decide.</p></details>
+<details><summary>Is building my own evaluation set expensive?</summary><p>Less than people assume. A few hundred well-chosen examples labelled by two people are more useful to most teams than thousands of careless ones. The real cost is not in the number of examples but in writing a guideline that covers edge cases and measuring agreement; once that is done, labelling moves quickly.</p></details>
+</div>
+
+<hr>
+<p>In short: Turkish has more resources than people assume and less common ground. Benchmarks get conflated, numbers circulate without sources, and the label “Turkish model” carries more trust than it has earned. In that landscape, the highest-return move available to a team is not hunting for a new model; it is building an honest, documented, versioned evaluation set in its own domain.</p>
+    </div>
+    <div class="article-tags"><span class="tag">Turkish NLP</span><span class="tag">AI</span></div>
+    <div class="author-box"><span class="ava">HY</span><div><h4>Halide Yılmaz</h4><div class="role">Hatson Teknoloji A.Ş. · Co-Founder</div><p>A graduate of METU Computer Engineering; co-founder working in computing and AI.</p></div></div>
+    <div class="post-nav"><a href="../time-series-foundation-models/"><div class="dir">← Previous</div><div class="ttl">Time-Series Foundation Models: Zero-Shot Forecasting Now Beats the Classics — But Does It Beat Yours?</div></a><a class="next" href="../../blog/"><div class="dir">More →</div><div class="ttl">Back to all articles</div></a></div>
+  </div>
+</article>
+  <footer class="footer"><div class="wrap"><div class="footer-bottom" style="border:none;margin:0;padding:0"><span>© <span data-year>2026</span> Halide Yılmaz · All rights reserved.</span><span><a href="../../privacy/">Cookie Policy</a> · Ankara · METU Technopark 🌿</span></div></div></footer>
+  <button class="icon-btn to-top" aria-label="Top"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5M5 12l7-7 7 7"/></svg></button>
+  <script src="../../../js/main.js"></script>
+</body>
+</html>

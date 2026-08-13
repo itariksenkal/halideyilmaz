@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Conformal Prediction: Measuring Uncertainty With Distribution-Free Guarantees — Halide Yılmaz</title>
+<meta name="description" content="Conformal prediction turns any model into prediction sets with a distribution-free, finite-sample coverage guarantee. Split conformal step by step, the nonconformity score, and why marginal coverage is not conditional coverage." />
+<link rel="canonical" href="https://halideyilmaz.com/en/posts/conformal-prediction-uncertainty/" /><link rel="alternate" hreflang="tr" href="https://halideyilmaz.com/posts/konformal-tahmin/" /><meta name="theme-color" content="#3B6BF6" />
+<meta property="og:type" content="article" /><meta property="og:title" content="Conformal Prediction: Measuring Uncertainty With Distribution-Free Guarantees" /><meta property="og:description" content="Conformal prediction turns any model into prediction sets with a distribution-free, finite-sample coverage guarantee. Split conformal step by step, the nonconformity score, and why marginal coverage is not conditional coverage." /><meta property="og:image" content="https://halideyilmaz.com/image/bimg-16.jpg" />
+<link rel="icon" href="/favicon.ico?v=20260809" sizes="32x32" />
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg?v=20260809" />
+  <link rel="icon" type="image/png" href="/favicon-192.png?v=20260809" sizes="192x192" />
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png?v=20260809" />
+<link rel="preconnect" href="https://fonts.googleapis.com" /><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&family=Newsreader:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet" />
+<script>(function(){try{var k="hy-theme",t=localStorage.getItem(k),m=window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches;document.documentElement.setAttribute("data-theme",t||(m?"dark":"light"));}catch(e){}})();</script>
+<link rel="stylesheet" href="../../../css/style.css?v=20260809" />
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "headline": "Conformal Prediction: Measuring Uncertainty With Distribution-Free Guarantees",
+    "description": "Conformal prediction turns any model into prediction sets with a distribution-free, finite-sample coverage guarantee. Split conformal step by step, the nonconformity score, and why marginal coverage is not conditional coverage.",
+    "mainEntityOfPage": { "@type": "WebPage", "@id": "https://halideyilmaz.com/en/posts/conformal-prediction-uncertainty/" },
+    "dateModified": "2026-08-13",
+
+    "author": {
+      "@type": "Person",
+      "name": "Halide Yılmaz",
+      "url": "https://halideyilmaz.com/",
+      "worksFor": { "@type": "Organization", "name": "Hatson Teknoloji A.Ş.", "url": "https://hatsontech.com/" }
+    },
+    "publisher": { "@type": "Organization", "name": "Hatson Teknoloji A.Ş.", "url": "https://hatsontech.com/" },
+    "image": "https://halideyilmaz.com/image/bimg-16.jpg",
+    "inLanguage": "en"
+  }
+  </script>
+</head>
+<body>
+<div class="progress"></div>
+  <nav class="nav" id="nav">
+    <div class="wrap">
+      <a class="brand" href="../../" aria-label="Home"><img class="logo-light" src="../../../image/caseon-mark-light.svg" alt="Caseon" width="28" height="28" /><img class="logo-dark" src="../../../image/caseon-mark-dark.svg" alt="Caseon" width="28" height="28" /><span>Halide Yılmaz</span></a>
+      <div class="nav-links" id="navLinks">
+        <a href="../../#about">About</a>
+        <a href="../../#what-i-do">What I Do</a>
+        <a href="../../#expertise">Expertise</a>
+        <a href="../../blog/">Articles</a>
+        <a href="../../#contact">Contact</a>
+      </div>
+      <div class="nav-actions">
+        <a class="lang-switch" href="../../../posts/konformal-tahmin/">TR</a>
+        <button class="icon-btn theme-toggle" data-theme-toggle aria-label="Theme"><svg class="sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M6.3 17.7l-1.4 1.4M19.1 4.9l-1.4 1.4"/></svg><svg class="moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg></button>
+        <button class="icon-btn nav-toggle" data-nav-toggle aria-label="Menu"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 6h18M3 12h18M3 18h18"/></svg></button>
+      </div>
+    </div>
+  </nav>
+<article>
+  <div class="wrap narrow article-head">
+    <div class="breadcrumb"><a href="../../">Home</a> <span>/</span>
+        <a href="../../blog/">Articles</a> <span>/</span>
+        <span>Methods</span></div>
+    <span class="tag">Methods</span>
+    <h1>Conformal Prediction: Measuring Uncertainty With Distribution-Free Guarantees</h1>
+    <div class="article-meta"><div class="author"><span class="ava">HY</span><div><div style="color:var(--text);font-weight:600">Halide Yılmaz</div><div>HatsonTech · Co-Founder</div></div></div><span>· 11 min read</span></div>
+  </div>
+  <div class="wrap narrow"><div class="article-hero"><img src="../../../image/bimg-16.jpg" alt="Conformal Prediction: Measuring Uncertainty With Distribution-Free Guarantees"></div></div>
+  <div class="wrap narrow" style="padding-top:36px;padding-bottom:36px">
+    <div class="prose">
+<p class="lead-p">Your model gives an answer, and you want to know how much to trust it. Conformal prediction answers that with unusual clarity: without changing your model at all, it turns a single prediction into a set or an interval that contains the true answer at the rate you specify, while assuming nothing about how the data is distributed. This post builds the method step by step, states what the guarantee promises, and covers where practitioners misread it.</p>
+
+<div class="toc"><h4>Contents</h4><ol>
+<li><a href="#b1">From a single answer to a set of answers</a></li>
+<li><a href="#b2">Split conformal prediction, step by step</a></li>
+<li><a href="#b3">What the guarantee actually promises</a></li>
+<li><a href="#b4">Sets, intervals, and what set size tells you</a></li>
+<li><a href="#b5">Marginal coverage is not conditional coverage</a></li>
+<li><a href="#b6">In practice: shift, assumptions and tooling</a></li>
+</ol></div>
+
+<h2 id="b1">From a single answer to a set of answers</h2>
+<p>An experienced physician never hands you a one-word diagnosis. On easy cases they name one thing; on hard cases they give you a short list: it is one of these three. The length of that list is the most honest signal available of how hard the case is.</p>
+<p>Classification models almost always name one thing, with a confidence score whose meaning is usually unclear. <a href="../classification-metrics/">Classification metrics</a> tell you how good the model is on average; they promise nothing about the single case in front of you.</p>
+<p><strong>Conformal prediction</strong> fills that gap. It does not change your model, retrain it, or touch its architecture. It wraps a thin layer around it and converts the output from a single prediction into a <em>set</em> (for classification) or an <em>interval</em> (for regression). In return it makes a numerical promise: these sets contain the true answer at the rate you asked for.</p>
+<p>That is a different promise from <a href="../model-calibration-probabilities/">model calibration</a>. Calibration repairs the scale of the score so probabilities are right on average; conformal prediction targets a coverage rate directly, without assuming a distribution. They are complements, not rivals: calibrated scores let the conformal layer produce smaller sets.</p>
+<blockquote>Conformal prediction does not make the model better. It makes the model admit honestly how good it is.</blockquote>
+
+<h2 id="b2">Split conformal prediction, step by step</h2>
+<p>The most common and most intuitive form is <strong>split (inductive) conformal prediction</strong>. It has three steps, and all three are easy to picture.</p>
+<p><strong>Step one: the nonconformity score.</strong> Define a number that measures how surprised the model is by a case. In classification the simplest version is one minus the probability the model assigned to the true label: the less probability the model gave the right answer, the higher the score. In regression it is simply the absolute error.</p>
+<p><strong>Step two: a quantile on the calibration set.</strong> Compute that score for every case in a calibration split the model never saw during training. You now hold a distribution of scores; if you target 90 percent coverage, take roughly its 90th percentile. That single number is the threshold of normal surprise for your model.</p>
+<p><strong>Step three: build the set.</strong> When a new case arrives, try every candidate label in turn and keep every label whose nonconformity score falls below the threshold. That is the whole method.</p>
+<pre><code># Split conformal prediction (pseudocode)
+train, calib, test = split(data)           # calib is NEVER used for fitting
+alpha = 0.10                               # target coverage = 90%
+
+model = fit(train)
+
+# 1) nonconformity scores on the calibration split
+scores = []
+for x, y in calib:
+    scores.append(1 - model.proba(x)[y])   # probability given to the true label
+
+# 2) the quantile: (n+1)(1-alpha) rounded up -> finite-sample correction
+n = len(scores)
+k = ceil((n + 1) * (1 - alpha))
+q = sorted(scores)[k - 1]
+
+# 3) for a new case, keep every label that stays under the threshold
+def prediction_set(x):
+    return [y for y in labels if 1 - model.proba(x)[y] <= q]
+
+# An empty or very wide set means the model is struggling on this case.</code></pre>
+<p>Why (n+1) rather than n? That small correction makes the guarantee hold for the finite calibration set you actually have, rather than in the limit of infinite data. The whole trick hides in that detail.</p>
+
+<h2 id="b3">What the guarantee actually promises</h2>
+<p>The promise in one sentence: your sets contain the true label at least as often as the rate you specified. Every word carries a limit, and nobody should use this tool without reading the small print.</p>
+<ul>
+<li><strong>Distribution-free:</strong> it assumes nothing about normality, symmetric errors, or a correctly specified model. The underlying model can be a gradient boosted tree, a deep network, or a hand-written rule set.</li>
+<li><strong>Finite-sample:</strong> the guarantee is not asymptotic. It holds with a few hundred calibration cases too; it is simply noisier.</li>
+<li><strong>Marginal:</strong> the guarantee is an average over the whole test distribution. It says nothing about a particular case, class or subgroup.</li>
+<li><strong>Requires exchangeability:</strong> the order of your calibration and test cases must not matter. Weaker than independent and identically distributed, but not an empty assumption.</li>
+</ul>
+<p>And what it does <em>not</em> promise: that your model is any good. A weak model still hits the target, just with enormous sets. In a five-class problem, a set containing four classes for every case is perfectly valid and perfectly useless. This is why conformal results are reported with two numbers: <strong>coverage</strong> and <strong>average set size</strong>. The first measures correctness, the second measures efficiency.</p>
+
+<h2 id="b4">Sets, intervals, and what set size tells you</h2>
+<h3>Sets in classification</h3>
+<p>In classification the output is a list of labels: one element on easy cases, several on hard ones. An empty set is a special signal - no label made it under the threshold, so the model reacted in a way that resembles nothing it saw in calibration. Wire that straight into <a href="../anomaly-detection/">anomaly detection</a>.</p>
+<h3>Intervals in regression</h3>
+<p>In regression the output is a lower and an upper bound. In the simplest form you take a quantile of the absolute errors and add it as a plus-or-minus, giving every case an interval of the same width. More advanced variants adapt the width to local difficulty; methods built on quantile regression widen the interval where the data is noisy.</p>
+<p>The real prize is that set size is <em>actionable</em>. A large set says this case is hard, and that turns straight into a business rule: single-element sets pass automatically, multi-element sets go to a human. Uncertainty quantification stops being a chart and becomes part of the workflow.</p>
+<p>The same signal is valuable for labelling budgets. In <a href="../active-learning/">active learning</a>, using set size instead of a raw confidence score to pick what to label gives you a difficulty measure that is meaningful by construction.</p>
+<div class="callout"><strong>Tip:</strong> Never report coverage on its own. Put average set size and the rate of empty sets next to it. A system that hits its target with bloated sets is technically correct and practically useless.</div>
+
+<h2 id="b5">Marginal coverage is not conditional coverage</h2>
+<p>If you remember one section of this post, make it this one. The most frequent misreading of conformal prediction is treating a marginal guarantee as a conditional one.</p>
+<p>Marginal coverage is coverage averaged over the whole test distribution. Your system can hit its target exactly while falling systematically short on a particular class, region or demographic subgroup. The average trades over-coverage on the majority class against under-coverage on the minority class, and the report looks flawless.</p>
+<p>This is not a theoretical worry. Systematic under-coverage of the minority class under marginal conformal prediction is a <a href="https://arxiv.org/abs/2607.06605" target="_blank" rel="noopener">documented failure mode</a>. If you are already dealing with <a href="../class-imbalance/">class imbalance</a>, your calibration set holds few minority-class cases, and their score distribution simply disappears inside the shared quantile.</p>
+<blockquote>Ninety percent coverage does not mean everyone is covered ninety percent of the time. No guarantee should be read without asking who the average is working for.</blockquote>
+<p>The remedy is conceptually simple: instead of one shared quantile, compute a separate quantile per group. Known as class-conditional or Mondrian conformal prediction, it gives each group its own threshold and lifts the guarantee to group level. The cost is equally clear: every group needs its own calibration cases, so thresholds get noisy for small groups. The right question is who you want the guarantee for. If the answer is not an average user, you need the conditional version.</p>
+
+<h2 id="b6">In practice: shift, assumptions and tooling</h2>
+<p>The exchangeability assumption is the one genuine fragility here. When the data distribution shifts, your calibration set no longer represents the future and the guarantee quietly dissolves. In seasonal time series and in products whose user base is changing, this is the rule rather than the exception. Adaptive and online variants target the problem, but none excuse you from refreshing the calibration set.</p>
+<p>On tooling, the ecosystem moves fast and much of the advice online is stale. <a href="https://pypi.org/project/MAPIE/" target="_blank" rel="noopener">MAPIE</a>, the most visible Python library, released 1.5.0 on 5 August 2026; its v1.0.0 release of 22 May 2025 broke the API, so 0.x-era tutorial code will not run unchanged. <a href="https://mapie.readthedocs.io/en/stable/" target="_blank" rel="noopener">MAPIE</a> is a scikit-learn-contrib project maintained with Capgemini Invent, Quantmetry, Michelin and ENS Paris-Saclay, and its 2026 updates add risk control for large language models and image segmentation plus adaptive conformal methods. Among alternatives, crepes 0.9.1 (June 2026) adds conformal predictive systems and exchangeability test martingales, and TorchCP is at 1.2.1.</p>
+<div class="callout"><strong>Tip:</strong> If you land on a page still recommending AWS Fortuna or <code>nonconformist</code>, that page is out of date. The Fortuna repository was <a href="https://github.com/awslabs/fortuna" target="_blank" rel="noopener">archived on 23 April 2025</a>, and <code>nonconformist</code> last shipped a release in 2017. Treat it as a warning sign for the rest of the advice on that page too.</div>
+<p>For a conceptual entry point, Angelopoulos and Bates, <a href="https://arxiv.org/abs/2107.07511" target="_blank" rel="noopener">A Gentle Introduction to Conformal Prediction</a>, is still the best start. Deeper: <a href="https://arxiv.org/abs/2411.11824" target="_blank" rel="noopener">Theoretical Foundations of Conformal Prediction</a> by Angelopoulos, Barber and Bates, a Cambridge University Press draft revised on 6 March 2026 - a book frequently miscited, since Candès is not among its authors.</p>
+<p>Finally, the regulatory angle: <a href="https://artificialintelligenceact.eu/article/15/" target="_blank" rel="noopener">Article 15 of the EU AI Act</a> requires providers to declare levels of accuracy and the relevant accuracy metrics. Declaring a targeted and verified coverage rate is both more defensible and easier to audit than declaring a bare accuracy percentage.</p>
+
+<div class="takeaways"><h4>Key takeaways</h4><ul>
+<li>Conformal prediction leaves the model alone and converts its output into sets or intervals with a coverage guarantee.</li>
+<li>Three steps: a nonconformity score, a quantile on the calibration set, and every label that stays under the threshold.</li>
+<li>The guarantee is distribution-free, finite-sample and marginal, and it rests on exchangeability.</li>
+<li>Marginal coverage is not conditional coverage: a system can hit its target while under-covering a minority class.</li>
+<li>Never report coverage alone - average set size is the measure of efficiency.</li>
+</ul></div>
+
+<div class="faq">
+<details><summary>Do I have to retrain my model to use conformal prediction?</summary><p>No. Split conformal uses the model as it is; all you need is a calibration split that was not used for fitting. It works on an already trained model, even one you cannot look inside.</p></details>
+<details><summary>How large should the calibration set be?</summary><p>Rather than a fixed number, work from the intuition: you are estimating a quantile, so you need enough cases in the tail of your target coverage. With small sets the threshold is noisy and realised coverage fluctuates. For group-level guarantees, that requirement applies to each group separately.</p></details>
+<details><summary>Should I use calibration or conformal prediction?</summary><p>They do different jobs. Calibration repairs the probability scale of the score; conformal prediction guarantees a coverage rate. Because calibrated scores produce smaller conformal sets, using both together works best in practice.</p></details>
+</div>
+
+<hr>
+<p>Conformal prediction has a property rare among uncertainty methods: what it promises, and what it does not, is written down. Read it as a contract rather than as magic. As long as you preserve the conditions under which that contract holds, your model will give you its first genuinely honest statement of uncertainty.</p>
+    </div>
+    <div class="article-tags"><span class="tag">Methods</span><span class="tag">AI</span></div>
+    <div class="author-box"><span class="ava">HY</span><div><h4>Halide Yılmaz</h4><div class="role">Hatson Teknoloji A.Ş. · Co-Founder</div><p>A graduate of METU Computer Engineering; co-founder working in computing and AI.</p></div></div>
+    <div class="post-nav"><a href="../model-calibration-probabilities/"><div class="dir">← Previous</div><div class="ttl">Model Calibration: What Does It Mean When Your Model Says "90 % Confident"?</div></a><a class="next" href="../../blog/"><div class="dir">More →</div><div class="ttl">Back to all articles</div></a></div>
+  </div>
+</article>
+  <footer class="footer"><div class="wrap"><div class="footer-bottom" style="border:none;margin:0;padding:0"><span>© <span data-year>2026</span> Halide Yılmaz · All rights reserved.</span><span><a href="../../privacy/">Cookie Policy</a> · Ankara · METU Technopark 🌿</span></div></div></footer>
+  <button class="icon-btn to-top" aria-label="Top"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5M5 12l7-7 7 7"/></svg></button>
+  <script src="../../../js/main.js"></script>
+</body>
+</html>

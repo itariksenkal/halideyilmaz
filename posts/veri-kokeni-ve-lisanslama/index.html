@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="tr" data-theme="light">
+<head>
+<meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Veri Kökeni ve Eğitim Verisi Lisanslama: Veri Setinizin Nereden Geldiğini Kanıtlayabiliyor musunuz? — Halide Yılmaz</title>
+<meta name="description" content="Eğitim verisinin kökenini boru hattı boyunca nasıl kaydedersiniz? Robots.txt kısıtlarının hızla artması, GPAI eğitim verisi özeti şablonu, IETF çalışmalarının durumu ve 2025-2026 telif kararlarının mühendislik açısından anlamı." />
+<link rel="canonical" href="https://halideyilmaz.com/posts/veri-kokeni-ve-lisanslama/" /><link rel="alternate" hreflang="en" href="https://halideyilmaz.com/en/posts/data-provenance-training-data-licensing/" /><meta name="theme-color" content="#3B6BF6" />
+<meta property="og:type" content="article" /><meta property="og:title" content="Veri Kökeni ve Eğitim Verisi Lisanslama: Veri Setinizin Nereden Geldiğini Kanıtlayabiliyor musunuz?" /><meta property="og:description" content="Eğitim verisinin kökenini boru hattı boyunca nasıl kaydedersiniz? Robots.txt kısıtlarının hızla artması, GPAI eğitim verisi özeti şablonu, IETF çalışmalarının durumu ve 2025-2026 telif kararlarının mühendislik açısından anlamı." /><meta property="og:image" content="https://halideyilmaz.com/image/bimg-09.jpg" />
+<link rel="icon" href="/favicon.ico?v=20260809" sizes="32x32" />
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg?v=20260809" />
+  <link rel="icon" type="image/png" href="/favicon-192.png?v=20260809" sizes="192x192" />
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png?v=20260809" />
+<link rel="preconnect" href="https://fonts.googleapis.com" /><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&family=Newsreader:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet" />
+<script>(function(){try{var k="hy-theme",t=localStorage.getItem(k),m=window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches;document.documentElement.setAttribute("data-theme",t||(m?"dark":"light"));}catch(e){}})();</script>
+<link rel="stylesheet" href="../../css/style.css?v=20260809" />
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "headline": "Veri Kökeni ve Eğitim Verisi Lisanslama: Veri Setinizin Nereden Geldiğini Kanıtlayabiliyor musunuz?",
+    "description": "Eğitim verisinin kökenini boru hattı boyunca nasıl kaydedersiniz? Robots.txt kısıtlarının hızla artması, GPAI eğitim verisi özeti şablonu, IETF çalışmalarının durumu ve 2025-2026 telif kararlarının mühendislik açısından anlamı.",
+    "mainEntityOfPage": { "@type": "WebPage", "@id": "https://halideyilmaz.com/posts/veri-kokeni-ve-lisanslama/" },
+    "dateModified": "2026-08-13",
+
+    "author": {
+      "@type": "Person",
+      "name": "Halide Yılmaz",
+      "url": "https://halideyilmaz.com/",
+      "worksFor": { "@type": "Organization", "name": "Hatson Teknoloji A.Ş.", "url": "https://hatsontech.com/" }
+    },
+    "publisher": { "@type": "Organization", "name": "Hatson Teknoloji A.Ş.", "url": "https://hatsontech.com/" },
+    "image": "https://halideyilmaz.com/image/bimg-09.jpg",
+    "inLanguage": "tr"
+  }
+  </script>
+</head>
+<body>
+<div class="progress"></div>
+  <nav class="nav" id="nav">
+    <div class="wrap">
+      <a class="brand" href="../../" aria-label="Home"><img class="logo-light" src="../../image/caseon-mark-light.svg" alt="Caseon" width="28" height="28" /><img class="logo-dark" src="../../image/caseon-mark-dark.svg" alt="Caseon" width="28" height="28" /><span>Halide Yılmaz</span></a>
+      <div class="nav-links" id="navLinks">
+        <a href="../../#hakkinda">Kimdir</a>
+        <a href="../../#ne-yapiyor">Ne Yapıyor</a>
+        <a href="../../#uzmanlik">Uzmanlık</a>
+        <a href="../../blog/">Yazılar</a>
+        <a href="../../#iletisim">İletişim</a>
+      </div>
+      <div class="nav-actions">
+        <a class="lang-switch" href="../../en/posts/data-provenance-training-data-licensing/">EN</a>
+        <button class="icon-btn theme-toggle" data-theme-toggle aria-label="Theme"><svg class="sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M6.3 17.7l-1.4 1.4M19.1 4.9l-1.4 1.4"/></svg><svg class="moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg></button>
+        <button class="icon-btn nav-toggle" data-nav-toggle aria-label="Menu"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 6h18M3 12h18M3 18h18"/></svg></button>
+      </div>
+    </div>
+  </nav>
+<article>
+  <div class="wrap narrow article-head">
+    <div class="breadcrumb"><a href="../../">Ana sayfa</a> <span>/</span>
+        <a href="../../blog/">Yazılar</a> <span>/</span>
+        <span>Veri</span></div>
+    <span class="tag">Veri</span>
+    <h1>Veri Kökeni ve Eğitim Verisi Lisanslama: Veri Setinizin Nereden Geldiğini Kanıtlayabiliyor musunuz?</h1>
+    <div class="article-meta"><div class="author"><span class="ava">HY</span><div><div style="color:var(--text);font-weight:600">Halide Yılmaz</div><div>HatsonTech · Kurucu Ortak</div></div></div><span>· 11 dakika okuma</span></div>
+  </div>
+  <div class="wrap narrow"><div class="article-hero"><img src="../../image/bimg-09.jpg" alt="Veri Kökeni ve Eğitim Verisi Lisanslama: Veri Setinizin Nereden Geldiğini Kanıtlayabiliyor musunuz?"></div></div>
+  <div class="wrap narrow" style="padding-top:36px;padding-bottom:36px">
+    <div class="prose">
+<p class="lead-p">Bir modeli eğittiğiniz veri kümesinin her parçasının nereden geldiğini, hangi izinle alındığını ve hangi işlemlerden geçtiğini bugün kanıtlayabiliyor musunuz? Çoğu ekibin dürüst cevabı hayır. Oysa bu soru artık akademik değil: hem mevzuat hem mahkemeler hem de veri sahiplerinin kendisi bu cevabı istiyor. Bu yazı hukuk haberi değil; kökeni bir <em>boru hattı boyunca</em> nasıl kaydedeceğinizi anlatan mühendislik yazısı.</p>
+
+<div class="toc"><h4>İçindekiler</h4><ol>
+<li><a href="#b1">Köken neden birdenbire zorlaştı?</a></li>
+<li><a href="#b2">Mevzuat tarafı: eğitim verisi özeti</a></li>
+<li><a href="#b3">Mahkemeler zıt yönlere karar verdi</a></li>
+<li><a href="#b4">Kökeni boru hattı boyunca taşımak</a></li>
+<li><a href="#b5">Lisans uyumluluğu: karışık havuzun matematiği</a></li>
+<li><a href="#b6">Kendi alanınızda köken: dar veri, derin sorumluluk</a></li>
+</ol></div>
+
+<h2 id="b1">Köken neden birdenbire zorlaştı?</h2>
+<p>Beş yıl önce “internetten topladık” cevabı çoğu bağlamda yeterliydi. Bugün değil, çünkü iki şey aynı anda değişti: veri sahipleri kapıyı kapatmaya başladı ve veriyi kullananlardan hesap sorulmaya başlandı.</p>
+<p>Birincisi ölçülebilir hâle geldi. Veri Kökeni Girişimi'nin (Data Provenance Initiative) <em>Consent in Crisis</em> çalışması, Nisan 2023 ile Nisan 2024 arasında en kritik eğitim alanlarındaki <strong>tokenlerin yüzde 25'inden fazlasının robots.txt ile kısıtlanır hâle geldiğini</strong>, en çok kullanılan alan adlarında kısıtlama oranının <strong>%3'ün altından yaklaşık %28'e çıktığını</strong> ölçtü (<a href="https://www.dataprovenance.org/Consent_in_Crisis.pdf" target="_blank" rel="noopener">rapor</a>). Bu tek yıllık bir sıçrama ve yönü belli.</p>
+<blockquote>Web'in “varsayılan olarak açık” olduğu dönem sona ermedi ama daralıyor. Verinizin kökenini bugün kaydetmiyorsanız, iki yıl sonra hangi parçayı hangi izinle aldığınızı yeniden kuramayacaksınız.</blockquote>
+<p>İkincisi ise standartlaşma tarafındaki boşluk. Tarayıcılara yönelik yapay zekâ tercihlerini ifade etmek için IETF bünyesinde bir çalışma grubu var, ancak <strong>henüz yayımlanmış bir RFC yok</strong>; çalışma taslak aşamasında ilerliyor (<a href="https://datatracker.ietf.org/wg/aipref/documents/" target="_blank" rel="noopener">belgeler</a>). Yani ortak bir makine okunur izin sözlüğü henüz yerleşmedi; herkes robots.txt'i, kullanım şartlarını ve özel anlaşmaları karışık biçimde kullanıyor.</p>
+
+<h2 id="b2">Mevzuat tarafı: eğitim verisi özeti</h2>
+<p>AB tarafında genel amaçlı yapay zekâ modeli (GPAI) sağlayıcıları için somut bir yükümlülük var: eğitim verisinin yeterince ayrıntılı bir özetini kamuya açıklamak. Bu özetin biçimi serbest bırakılmadı; <strong>AI Office 24 Temmuz 2025'te bir şablon yayımladı</strong> ve Komisyon bunu kamuya açıklama için asgari bir taban olarak tanımlıyor.</p>
+<p>Yüksek riskli sistemler tarafında ise yükümlülük daha derin. Madde 10, veri toplama süreçlerinin ve verinin kökeninin belgelenmesini isteyen sekiz yönetişim pratiğinden birini bu başlığa ayırıyor (<a href="https://artificialintelligenceact.eu/article/10/" target="_blank" rel="noopener">Madde 10</a>). Yani köken kaydı, iyi bir alışkanlık olmaktan çıkıp bir teslim kalemi hâline geldi.</p>
+<div class="callout"><strong>İpucu:</strong> Eğitim verisi özetini yayımlama anında yazmaya kalkmayın. Özet, veri kümesi manifestinden <em>üretilebilir</em> bir çıktı olmalı. Manifest yoksa özet bir tahmin yazısına dönüşür ve tahmin yazısı, kamuya açıklanan bir belge olduğunda ciddi bir risktir.</div>
+<p>Ne belgeleyeceğiniz konusunda şablon arayan ekipler için doğrudan yol, veri seti künyesi disiplinidir; ayrıntısını <a href="../veri-seti-belgelendirme/">veri seti belgelendirme</a> yazısında ele alıyoruz.</p>
+
+<h2 id="b3">Mahkemeler zıt yönlere karar verdi</h2>
+<p>2025-2026 döneminde iki büyük dosya, birbirine zıt yönlerde sonuçlandı ve bu zıtlık tam olarak neden tek bir “yapay zekâ ve telif kuralı” beklemenin yanlış olduğunu gösteriyor.</p>
+<ul>
+<li><strong>Bartz v. Anthropic:</strong> yaklaşık 482.460 esere ilişkin <strong>1,5 milyar dolarlık uzlaşma 20 Temmuz 2026'da nihai onay aldı</strong>; eser başına yaklaşık 3.000-3.100 dolara karşılık geliyor (<a href="https://apnews.com/article/ai-anthropic-copyright-settlement-claude-books-bartz-74b140444023898aeba8579b6e9f0d63" target="_blank" rel="noopener">haber</a>).</li>
+<li><strong>Getty Images v. Stability AI:</strong> İngiltere'de 4 Kasım 2025 tarihli kararla iddiaların büyük kısmı reddedildi; ikincil telif ihlali bulunmadı (<a href="https://www.judiciary.uk/judgments/getty-images-v-stability-ai/" target="_blank" rel="noopener">karar</a>).</li>
+</ul>
+<p>Bu iki sonucu birlikte okumanın mühendislik açısından tek doğru yolu var: <strong>hukuki sonuç, verinin nasıl elde edildiğine ve ne kadarının nerede saklandığına bağlı olarak değişiyor.</strong> Yani belirsizliğin yönetimi hukuk departmanına devredilebilecek bir şey değil; kaydı tutan taraf mühendislik.</p>
+<blockquote>Farklı ülkelerde farklı sonuçlar çıkması, kuralın belirsiz olduğunu değil, olguların belirleyici olduğunu gösteriyor. Olguları kaydeden taraf ise sizsiniz.</blockquote>
+
+<h2 id="b4">Kökeni boru hattı boyunca taşımak</h2>
+<p>Asıl mühendislik sorusu şu: köken bilgisi, ham veriden eğitim kümesine giden yolda nasıl kaybolmadan taşınır? Çünkü kaybolduğu yer neredeyse her zaman aynı: birleştirme ve temizleme adımları.</p>
+<h3>Üç katmanlı kayıt</h3>
+<ul>
+<li><strong>Kaynak kaydı:</strong> her kaynak için alan adı veya sağlayıcı, erişim tarihi, erişim yöntemi, geçerli lisans/kullanım şartları ve o tarihteki robots.txt durumu. Robots.txt zamanla değişir; <em>erişim anındaki hâli</em> kayda geçmelidir.</li>
+<li><strong>Belge kaydı:</strong> her belge için kaynak kimliği, içerik özeti (hash), alınma tarihi ve varsa yayın tarihi. Özet, aynı belgenin farklı kaynaklardan ikinci kez gelmesini de yakalar.</li>
+<li><strong>Dönüşüm kaydı:</strong> hangi filtre, hangi sürümüyle, hangi belgeleri eledi. Bu katman en çok atlanan ve en çok işe yarayan katmandır: bir yıl sonra “bu belge neden veri setinde yok?” sorusunun cevabı buradadır.</li>
+</ul>
+<pre><code># Kaynaktan eğitim kümesine köken zinciri (pseudocode)
+for belge in ham_havuz:
+    kayit = {
+      "belge_id":     hash(belge.icerik),
+      "kaynak_id":    belge.kaynak,
+      "alinma":       belge.alinma_tarihi,
+      "lisans":       kaynak_kaydi[belge.kaynak]["lisans"],
+      "robots":       kaynak_kaydi[belge.kaynak]["robots_o_tarihte"],
+      "filtreler":    []                       # aşağıda dolacak
+    }
+    for f in FILTRELER:                          # her filtre sürümlü
+        if not f.gecer(belge):
+            kayit["filtreler"].append((f.ad, f.surum, "eledi"))
+            koken_yaz(kayit); break
+        kayit["filtreler"].append((f.ad, f.surum, "gecti"))
+    else:
+        egitim_kumesine_ekle(belge, kayit)
+        koken_yaz(kayit)
+# Kural: köken kaydı, belgeyle birlikte değil, belgeden BAĞIMSIZ yazılır.
+# Elenen belgenin de kaydı kalmalı; yoksa "neden yok?" sorusu cevapsızdır.</code></pre>
+<div class="callout"><strong>İpucu:</strong> Köken kaydını veri kümesinin içine gömmeyin, yanına yazın. Veri kümesi yeniden örneklendiğinde, karıştırıldığında veya parçalara bölündüğünde gömülü üstveri kaybolur; ayrı tutulan ve belge özetiyle eşleşen bir kayıt kaybolmaz.</div>
+
+<h2 id="b5">Lisans uyumluluğu: karışık havuzun matematiği</h2>
+<p>Farklı lisanslara sahip kaynakları tek bir havuzda birleştirdiğinizde, çıkan kümenin lisans durumu en kısıtlayıcı bileşene göre belirlenir. Bu, yazılım bağımlılıklarındaki lisans uyumluluğu problemiyle aynıdır ve aynı disiplinle çözülür.</p>
+<ul>
+<li><strong>Havuzu lisansa göre bölümleyin.</strong> Ticari kullanıma açık, yalnızca araştırma, atıf zorunlu, pay-benzeri (share-alike) ve belirsiz. Beşinci kategori en tehlikelisidir ve genellikle en büyüğüdür.</li>
+<li><strong>Belirsizi ayrı tutun.</strong> “Lisansı bilmiyoruz” ile “lisansı serbest” arasındaki farkı veri kümesinde teknik olarak görünür kılın.</li>
+<li><strong>Türetilmiş veriyi de etiketleyin.</strong> Bir kaynaktan üretilen sentetik veri, kaynağın kısıtlarını taşıyabilir. <a href="../sentetik-veri/">Sentetik veri</a> yazısındaki üretim döngüsüne köken alanı ekleyin.</li>
+<li><strong>Kaldırma yolunu baştan kurun.</strong> Bir kaynağın kaldırılması gerektiğinde hangi eğitim çalıştırmalarının etkilendiğini sorgulayabilmelisiniz. Bunun neden sadece veriyi silmekle bitmediği için <a href="../makine-unutma/">makine unutması</a> yazısına bakın.</li>
+</ul>
+<p>Bu bölümlemenin yan faydası şudur: lisans bölümleri, veri kalitesi analizinin de doğal eksenidir. Belirli bir kaynaktan gelen verinin etiket gürültüsü daha yüksekse, bunu ancak kaynak bazında bakabildiğinizde görürsünüz. <a href="../veri-kalitesi-etiketleme/">Veri kalitesi ve etiketleme</a> disiplini burada doğrudan işe yarıyor.</p>
+
+<h2 id="b6">Kendi alanınızda köken: dar veri, derin sorumluluk</h2>
+<p>Web ölçeğinde çalışmayan ekipler için tablo farklı ama daha kolay değil. Kurumsal ve alana özgü veri kümelerinde kaynak sayısı azdır, buna karşılık her kaynağın sözleşmesel kısıtları çok daha nettir ve ihlalin karşı tarafı bellidir.</p>
+<p>Türkçe hukuk metinleriyle çalışan bir ekip olarak bunu ürün tarafında yaşıyoruz: kamuya açık bir kaynağın “erişilebilir” olması, her kullanım biçimi için serbest olduğu anlamına gelmiyor; ve bir metnin işlenmiş hâli, ham hâlinden farklı bir sorumluluk doğurabiliyor. Bu tür alanlarda köken kaydı yalnızca hukuki bir gereklilik değil, aynı zamanda kalite aracıdır &mdash; hangi kaynağın hangi hatayı ürettiğini kaynak etiketi olmadan bulamazsınız.</p>
+<ul>
+<li><strong>Sözleşmeyi veri kümesine bağlayın.</strong> Her kaynak kaydında, o kaynağın hangi sözleşme veya izinle alındığı yazılı olsun.</li>
+<li><strong>Kullanım kapsamını kaydedin.</strong> “Eğitim için serbest, yeniden dağıtım için değil” gibi kısıtlar, kayıtta bir alan olmalı; bir e-postada değil.</li>
+<li><strong>Sürüm dondurun.</strong> Bir eğitim çalıştırması, veri kümesinin belirli bir sürümünü kullanmalı ve o sürüm değişmez olmalı. Aksi hâlde <a href="../veri-merkezli-yapay-zeka/">veri merkezli</a> iyileştirme döngüsünde neyin işe yaradığını da ölçemezsiniz.</li>
+</ul>
+<p>Köken kaydının en az takdir edilen faydası burada ortaya çıkıyor: hukuki bir savunma aracı olarak başlıyor, bir hata ayıklama aracı olarak kalıyor.</p>
+
+<div class="takeaways"><h4>Öne çıkanlar</h4><ul>
+<li>Consent in Crisis, bir yıl içinde en kritik eğitim alanlarındaki tokenlerin dörtte birinden fazlasının robots.txt ile kısıtlandığını ölçtü.</li>
+<li>Yapay zekâ tercihleri için ortak bir makine okunur sözlük henüz yok; IETF çalışması taslak aşamasında ve yayımlanmış bir RFC bulunmuyor.</li>
+<li>AI Office'in 24 Temmuz 2025 tarihli eğitim verisi özeti şablonu, kamuya açıklama için asgari bir taban tanımlıyor.</li>
+<li>Bartz ve Getty davalarının zıt sonuçları, hukuki sonucun verinin nasıl elde edildiğine bağlı olduğunu gösteriyor.</li>
+<li>Kökeni üç katmanda kaydedin: kaynak, belge ve dönüşüm; elenen belgenin kaydı da kalmalı.</li>
+</ul></div>
+
+<div class="faq">
+<details><summary>Robots.txt hukuken bağlayıcı mı?</summary><p>Robots.txt teknik bir tercih bildirimidir ve tek başına bir lisans veya sözleşme değildir; hukuki etkisi ülkeye ve somut olaya göre değişir. Mühendislik açısından doğru yaklaşım, bunu hukuki bir soru olarak değil bir kayıt sorunu olarak ele almak: erişim anındaki hâlini kaydedin ki hangi kararı hangi bilgiyle verdiğinizi sonradan gösterebilesiniz.</p></details>
+<details><summary>Zaten toplanmış eski bir veri kümesinin kökenini nasıl çıkarırız?</summary><p>Tamamını geriye dönük çıkaramazsınız ve bunu dürüstçe kabul etmek en iyisidir. Yapılabilecek olan, belge özetleri üzerinden kaynak eşleştirmesi denemek, çıkarılabilenleri kaydetmek ve geri kalanını belirsiz olarak işaretlemektir. Belirsiz bölümü ayrı tutmak, tamamını serbest saymaktan çok daha savunulabilir bir konumdur.</p></details>
+<details><summary>Sentetik veri köken sorununu çözer mi?</summary><p>Kısmen ve dikkatli kullanıldığında. Bir modelden üretilen sentetik veri, o modelin eğitildiği verinin kısıtlarını taşıyabilir; ayrıca sentetik verinin kendi kalite ve çeşitlilik riskleri vardır. Kökeni ortadan kaldırmaz, bir katman daha ekler; o katmanı da kaydetmeniz gerekir.</p></details>
+</div>
+
+<hr>
+<p>Özetle: veri kökeni, hukuk ekibinin değil veri ekibinin işi. Kaydı tutmayan ekip, bir gün sorulduğunda cevap veremez; kaydı tutan ekip ise hem soruya cevap verir hem de kendi hata kaynaklarını çok daha hızlı bulur. Bu iki fayda aynı yatırımdan çıkıyor.</p>
+    </div>
+    <div class="article-tags"><span class="tag">Veri</span><span class="tag">Yapay Zeka</span></div>
+    <div class="author-box"><span class="ava">HY</span><div><h4>Halide Yılmaz</h4><div class="role">Hatson Teknoloji A.Ş. · Kurucu Ortak</div><p>ODTÜ Bilgisayar Mühendisliği mezunu; bilgisayar ve yapay zeka alanında deneyimli kurucu ortak.</p></div></div>
+    <div class="post-nav"><a href="../yapay-zeka-olay-bildirimi/"><div class="dir">← Önceki</div><div class="ttl">Yapay Zekâ Olay Bildirimi ve Piyasaya Arz Sonrası İzleme: 15 Gün, 10 Gün, 2 Gün</div></a><a class="next" href="../../blog/"><div class="dir">Devamı →</div><div class="ttl">Tüm yazılara dön</div></a></div>
+  </div>
+</article>
+  <footer class="footer"><div class="wrap"><div class="footer-bottom" style="border:none;margin:0;padding:0"><span>© <span data-year>2026</span> Halide Yılmaz · Tüm hakları saklıdır.</span><span><a href="../../gizlilik/">Çerez Politikası</a> · Ankara · ODTÜ Teknokent 🌿</span></div></div></footer>
+  <button class="icon-btn to-top" aria-label="Top"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5M5 12l7-7 7 7"/></svg></button>
+  <script src="../../js/main.js"></script>
+</body>
+</html>

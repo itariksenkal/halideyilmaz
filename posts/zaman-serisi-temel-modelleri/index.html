@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="tr" data-theme="light">
+<head>
+<meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Zaman Serisi Temel Modelleri: Sıfır-Atış Tahmin Artık Klasik Yöntemleri Geçiyor — Peki Sizin Verinizde de Geçer mi? — Halide Yılmaz</title>
+<meta name="description" content="Cevap değişti ve içeriklerin çoğu bunu yakalamadı. fev-bench ile GIFT-Eval'in gerçekte ne raporladığı, LLM tabanlı tahmincilerin neden ayrı bir hikâye olduğu ve kendi serinizde karşılaştırmayı dürüst kurmanın yolu." />
+<link rel="canonical" href="https://halideyilmaz.com/posts/zaman-serisi-temel-modelleri/" /><link rel="alternate" hreflang="en" href="https://halideyilmaz.com/en/posts/time-series-foundation-models/" /><meta name="theme-color" content="#3B6BF6" />
+<meta property="og:type" content="article" /><meta property="og:title" content="Zaman Serisi Temel Modelleri: Sıfır-Atış Tahmin Artık Klasik Yöntemleri Geçiyor — Peki Sizin Verinizde de Geçer mi?" /><meta property="og:description" content="Cevap değişti ve içeriklerin çoğu bunu yakalamadı. fev-bench ile GIFT-Eval'in gerçekte ne raporladığı, LLM tabanlı tahmincilerin neden ayrı bir hikâye olduğu ve kendi serinizde karşılaştırmayı dürüst kurmanın yolu." /><meta property="og:image" content="https://halideyilmaz.com/image/bimg-03.jpg" />
+<link rel="icon" href="/favicon.ico?v=20260809" sizes="32x32" />
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg?v=20260809" />
+  <link rel="icon" type="image/png" href="/favicon-192.png?v=20260809" sizes="192x192" />
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png?v=20260809" />
+<link rel="preconnect" href="https://fonts.googleapis.com" /><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&family=Newsreader:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet" />
+<script>(function(){try{var k="hy-theme",t=localStorage.getItem(k),m=window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches;document.documentElement.setAttribute("data-theme",t||(m?"dark":"light"));}catch(e){}})();</script>
+<link rel="stylesheet" href="../../css/style.css?v=20260809" />
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "headline": "Zaman Serisi Temel Modelleri: Sıfır-Atış Tahmin Artık Klasik Yöntemleri Geçiyor — Peki Sizin Verinizde de Geçer mi?",
+    "description": "Cevap değişti ve içeriklerin çoğu bunu yakalamadı. fev-bench ile GIFT-Eval'in gerçekte ne raporladığı, LLM tabanlı tahmincilerin neden ayrı bir hikâye olduğu ve kendi serinizde karşılaştırmayı dürüst kurmanın yolu.",
+    "mainEntityOfPage": { "@type": "WebPage", "@id": "https://halideyilmaz.com/posts/zaman-serisi-temel-modelleri/" },
+    "dateModified": "2026-08-13",
+
+    "author": {
+      "@type": "Person",
+      "name": "Halide Yılmaz",
+      "url": "https://halideyilmaz.com/",
+      "worksFor": { "@type": "Organization", "name": "Hatson Teknoloji A.Ş.", "url": "https://hatsontech.com/" }
+    },
+    "publisher": { "@type": "Organization", "name": "Hatson Teknoloji A.Ş.", "url": "https://hatsontech.com/" },
+    "image": "https://halideyilmaz.com/image/bimg-03.jpg",
+    "inLanguage": "tr"
+  }
+  </script>
+</head>
+<body>
+<div class="progress"></div>
+  <nav class="nav" id="nav">
+    <div class="wrap">
+      <a class="brand" href="../../" aria-label="Home"><img class="logo-light" src="../../image/caseon-mark-light.svg" alt="Caseon" width="28" height="28" /><img class="logo-dark" src="../../image/caseon-mark-dark.svg" alt="Caseon" width="28" height="28" /><span>Halide Yılmaz</span></a>
+      <div class="nav-links" id="navLinks">
+        <a href="../../#hakkinda">Kimdir</a>
+        <a href="../../#ne-yapiyor">Ne Yapıyor</a>
+        <a href="../../#uzmanlik">Uzmanlık</a>
+        <a href="../../blog/">Yazılar</a>
+        <a href="../../#iletisim">İletişim</a>
+      </div>
+      <div class="nav-actions">
+        <a class="lang-switch" href="../../en/posts/time-series-foundation-models/">EN</a>
+        <button class="icon-btn theme-toggle" data-theme-toggle aria-label="Theme"><svg class="sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M6.3 17.7l-1.4 1.4M19.1 4.9l-1.4 1.4"/></svg><svg class="moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg></button>
+        <button class="icon-btn nav-toggle" data-nav-toggle aria-label="Menu"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 6h18M3 12h18M3 18h18"/></svg></button>
+      </div>
+    </div>
+  </nav>
+<article>
+  <div class="wrap narrow article-head">
+    <div class="breadcrumb"><a href="../../">Ana sayfa</a> <span>/</span>
+        <a href="../../blog/">Yazılar</a> <span>/</span>
+        <span>Yöntem</span></div>
+    <span class="tag">Yöntem</span>
+    <h1>Zaman Serisi Temel Modelleri: Sıfır-Atış Tahmin Artık Klasik Yöntemleri Geçiyor — Peki Sizin Verinizde de Geçer mi?</h1>
+    <div class="article-meta"><div class="author"><span class="ava">HY</span><div><div style="color:var(--text);font-weight:600">Halide Yılmaz</div><div>HatsonTech · Kurucu Ortak</div></div></div><span>· 11 dakika okuma</span></div>
+  </div>
+  <div class="wrap narrow"><div class="article-hero"><img src="../../image/bimg-03.jpg" alt="Zaman Serisi Temel Modelleri: Sıfır-Atış Tahmin Artık Klasik Yöntemleri Geçiyor — Peki Sizin Verinizde de Geçer mi?"></div></div>
+  <div class="wrap narrow" style="padding-top:36px;padding-bottom:36px">
+    <div class="prose">
+<p class="lead-p">Zaman serisi tahmininde iki yıl önce doğru olan cümle bugün yanlış. 2024 döneminde yazılan “temel modeller hâlâ ARIMA'yı geçemiyor” değerlendirmesi geçerliliğini yitirdi; ama lansman metinlerindeki “artık tahmin çözüldü” cümlesi de doğru değil. Dürüst manşet ikisinin ortasında duruyor: <strong>zaman serisi için özel olarak eğitilmiş temel modeller kazandı, bir dil modelini tahmine cıvatalama fikri kazanmadı.</strong> Bu yazıda rakamların ne söylediğini, neyi söylemediğini ve kendi serinizde karşılaştırmayı nasıl kuracağınızı anlatıyoruz.</p>
+
+<div class="toc"><h4>İçindekiler</h4><ol>
+<li><a href="#b1">Cevap değişti; içeriklerin çoğu hâlâ eski cevabı yazıyor</a></li>
+<li><a href="#b2">Sıfır-atış tahmin ne demek ve neden işe yarıyor?</a></li>
+<li><a href="#b3">Rakamlar ne diyor — ve hangi tarihte diyor?</a></li>
+<li><a href="#b4">Karşı ağırlık: LLM'i tahmine cıvatalamak işe yaramadı</a></li>
+<li><a href="#b5">Sizin serinizde kazanır mı? Karşılaştırmayı doğru kurmak</a></li>
+<li><a href="#b6">Klasik yöntemler hâlâ ne zaman kazanır?</a></li>
+</ol></div>
+
+<h2 id="b1">Cevap değişti; içeriklerin çoğu hâlâ eski cevabı yazıyor</h2>
+<p>Bu konuda arama yaptığınızda karşınıza iki tür yazı çıkıyor. Birincisi model duyurularının etrafında oluşan lansman içeriği: “sıfır-atış tahmin her şeyi geçiyor”. İkincisi 2024 döneminde yazılmış ve o günün kanıtlarıyla haklı olan eleştiri: “temel modeller basit istatistiksel yöntemlerin gerisinde kalıyor”. Bugün ikisi de yanıltıcı.</p>
+<p>Aradaki fark, ölçüm tarihiyle ilgili. Alan hızlı ilerledi ve 2025 sonunda yayımlanan kıyaslamalar önceki değerlendirmelerin sonucunu tersine çevirdi. Ama bir kıyaslama sonucunun tersine dönmesi, tersine dönmüş hâlinin kalıcı olduğu anlamına gelmiyor; sadece elimizdeki en güncel ölçümün ne dediğini gösteriyor.</p>
+<p>Bu yüzden bu yazıda her sayıyı, o sayıyı raporlayan tarihli makaleye bağlayacağım. Bir kıyaslama tablosunu “şu an durum bu” diye aktarmak, altı ay içinde yanlışa dönüşen en yaygın yazım hatasıdır.</p>
+<blockquote>Bir kıyaslama tablosu, tabloda yer alan modeller ve veri kümeleri hakkında bir şey söyler. Sizin seriniz o tabloda yok.</blockquote>
+<p>Ve asıl mesele de bu. Yüz görev üzerinde ölçülmüş bir kazanma oranı, sizin haftalık talep serinizde ne olacağını söylemez. Yazının ikinci yarısı tam olarak bu soruya ayrılmış durumda: karşılaştırmayı kendi verinizde nasıl kurarsınız?</p>
+
+<h2 id="b2">Sıfır-atış tahmin ne demek ve neden işe yarıyor?</h2>
+<p>Klasik yaklaşımda her seri için ayrı bir model kurarsınız: veriye bakar, mevsimselliği belirler, parametreleri o serinin geçmişine göre tahmin edersiniz. Bu, <a href="../zaman-serisi-tahmini/">zaman serisi tahmini</a> yazısında anlattığımız düzenin kendisidir ve iyi çalışır — yeterince geçmişiniz olduğu sürece.</p>
+<p>Zaman serisi temel modeli (time-series foundation model) bu düzeni tersine çevirir. Model, milyonlarca farklı seriden oluşan geniş bir korpusla önceden eğitilir. Öğrendiği şey belirli bir serinin parametreleri değil, serilerin genel gramerdir: trend nasıl görünür, mevsimsellik nasıl kırılır, bir sıçrama nasıl sönümlenir. Sonra hiç görmediği bir seriyi girdi olarak alır ve <strong>hiçbir eğitim yapmadan</strong> tahmin üretir. Sıfır-atış (zero-shot) tahmin budur.</p>
+<p>Bunun neden işe yaradığını görmek için en zayıf durumu düşünün: elinizde on sekiz aylık bir seri var. Mevsimselliği güvenle kestirmeye yetmez, bir makine öğrenmesi modeli eğitmeye hiç yetmez. Klasik yolla yapabileceğiniz en iyi şey, kaba bir varsayımla parametre uydurmaktır. Önceden eğitilmiş bir model ise bu seriye, daha önce gördüğü binlerce benzer desenin bilgisiyle bakar. Az veri rejiminde avantajı buradan gelir.</p>
+<p>Ölçek de artık devasa değil. Chronos-2 (<a href="https://github.com/amazon-science/chronos-forecasting" target="_blank" rel="noopener">Ekim 2025, 120 milyon parametre</a>) ve TimesFM 2.5 (<a href="https://github.com/google-research/timesfm" target="_blank" rel="noopener">Eylül 2025, 200 milyon parametre, 16 bin bağlam uzunluğu</a>) bugünün dil modelleriyle kıyaslandığında küçük modeller. Bu, kurulum maliyetini pek çok ekip için makul hâle getiriyor.</p>
+
+<h2 id="b3">Rakamlar ne diyor — ve hangi tarihte diyor?</h2>
+<p><a href="https://arxiv.org/abs/2509.26468" target="_blank" rel="noopener">fev-bench makalesinde raporlandığı hâliyle</a>, 7 alandan toplanmış 100 görev üzerinde sonuçlar şöyle: kazanma oranı ve beceri skoru (skill score) sırasıyla,</p>
+<ul>
+<li><strong>Chronos-2:</strong> %91,4 kazanma oranı, %47,3 beceri skoru.</li>
+<li><strong>TiRex:</strong> %83,3 ve %42,6.</li>
+<li><strong>TimesFM-2.5:</strong> %79,6 ve %42,2.</li>
+<li><strong>İstatistiksel topluluk (Statistical Ensemble):</strong> %45,5 ve %20,7.</li>
+<li><strong>CatBoost:</strong> %34,4 ve %23,0.</li>
+<li><strong>Mevsimsel naif (Seasonal Naive):</strong> %19,6 ve %0,0.</li>
+</ul>
+<p>Makalenin kendi sonucu da açık: önceden eğitilmiş modellerin tümü, en iyi istatistiksel ve göreve özel modellerden hem belirgin biçimde daha doğru hem de daha hızlı. “Daha hızlı” kısmı çoğu özette atlanıyor ama pratikte belirleyici olabilir.</p>
+<p>İkinci bir ölçü çubuğu olarak <a href="https://arxiv.org/abs/2410.10393" target="_blank" rel="noopener">GIFT-Eval</a> var: 23 veri kümesi, 144.000 zaman serisi, 177 milyon veri noktası, 7 alan, 10 farklı frekans ve 17 temel karşılaştırma yöntemi. Tek bir kıyaslamaya yaslanmak yerine iki bağımsız düzeneğe bakmak, sonucun düzeneğe özgü olup olmadığını anlamanın en ucuz yoludur.</p>
+<div class="callout"><strong>İpucu:</strong> Yukarıdaki sayılar, ilgili makalelerin yayımlandığı andaki ölçümlerdir; bugünkü canlı sıralama değildir. Liderlik tabloları hareket eder: yeni model sürümleri çıkar, veri kümeleri güncellenir, değerlendirme protokolleri değişir. Bir karar vermeden önce ilgili kıyaslamanın güncel tablosuna bakın ve hangi sürümün ölçüldüğünü not edin.</div>
+<p>Bir uyarı daha: kazanma oranı ile hata büyüklüğü aynı şey değildir. Bir model görevlerin %91'inde önde olabilir ama her birinde kıl payı önde olabilir. Tek bir toplam metriğin dağılımı nasıl sakladığı, <a href="../degerlendirme-metrikleri/">metrik seçimi</a> tartışmasının değişmez konusudur; zaman serisinde de aynen geçerlidir.</p>
+
+<h2 id="b4">Karşı ağırlık: LLM'i tahmine cıvatalamak işe yaramadı</h2>
+<p>Bu yazının pazarlama metnine dönüşmemesi için burada durup önemli bir ayrım yapmak gerekiyor. Zaman serisi tahmininde iki farklı fikir aynı başlık altında anıldı:</p>
+<ul>
+<li><strong>Zaman serisi için özel olarak önceden eğitilmiş modeller</strong> — Chronos ailesi gibi. Mimari ve eğitim korpusu doğrudan seriler için tasarlanmıştır.</li>
+<li><strong>Dil modeli uyarlamalı tahminciler</strong> — hazır bir LLM'in, sayısal serileri işleyecek biçimde uyarlanması.</li>
+</ul>
+<p>İkinci gruba yönelik <a href="https://arxiv.org/abs/2406.16964" target="_blank" rel="noopener">bir çalışma</a> şunu buluyor: bu tahmincilerden LLM bileşenini çıkarmak ya da onu basit bir dikkat katmanıyla değiştirmek, tahmin performansını düşürmüyor. Yani modelin başarısı, iddia edilenin aksine dil modelinden gelmiyordu.</p>
+<p>Bu bulguyu dikkatle okuyun: <strong>eleştiri LLM uyarlamalı tahmincileri hedefliyor, Chronos gibi amaca özel zaman serisi temel modellerini değil.</strong> İki sonucu birbirine karıştırmak, alanda en sık yapılan alıntı hatası. Doğru özet şu: önceden eğitim fikri işe yaradı, dil modelini araya sıkıştırma fikri işe yaramadı.</p>
+<p>Benzer bir hikâye tablo verisi tarafında da yaşanıyor ve aynı temkini gerektiriyor. TabPFN-3 için raporlanan sonuç iddialı: <a href="https://arxiv.org/abs/2605.13986" target="_blank" rel="noopener">1 milyon eğitim satırına kadar olan veri kümelerinde, sekiz saat ayarlanmış gradyan artırmalı ağaç temel modellerini geçiyor</a>. Buna karşılık bağımsız bir <a href="https://arxiv.org/abs/2605.22892" target="_blank" rel="noopener">sigorta fiyatlama çalışması</a>, aynı yaklaşımın yerleşik temel yöntemleri tutarlı biçimde geçmediğini buluyor. İkisi de doğru olabilir; çünkü “ortalamada kazanıyor” ile “sizin alanınızda kazanıyor” aynı cümle değildir.</p>
+
+<h2 id="b5">Sizin serinizde kazanır mı? Karşılaştırmayı doğru kurmak</h2>
+<p>Bir kıyaslama tablosu size aday listesi verir, karar vermez. Kararı ancak kendi verinizdeki ölçüm verir ve bu ölçümü kurmanın belirli bir disiplini var.</p>
+<h3>Ölçüm düzeni</h3>
+<ul>
+<li><strong>Önce mevsimsel naif taban çizgisi.</strong> Bir sonraki dönemi geçen yılın aynı dönemine eşitleyen bu basit kural, şaşırtıcı sayıda üretim serisinde yenilmesi zor bir rakiptir. Onu geçemeyen hiçbir model tartışmaya girmez.</li>
+<li><strong>İleri kaydırmalı doğrulama (walk-forward validation).</strong> Zaman serisinde rastgele bölme, geleceği geçmişe sızdırır. Kesme noktasını ileri kaydırarak birden çok kez tahmin edin ve hataları o pencereler üzerinden toplayın.</li>
+<li><strong>Her aday için aynı ufuk, aynı kesme noktası.</strong> Farklı ufuklarda ölçülmüş iki model karşılaştırılamaz. Bu, en sık yapılan ve en kolay kaçırılan hatadır.</li>
+<li><strong>Sızıntı kontrolü.</strong> Sıfır-atış model, önceden eğitim korpusunda sizin veri kümenizin kamuya açık bir sürümünü görmüş olabilir. Kamuya açık bir veri kümesiyle test ediyorsanız bu ihtimali not edin.</li>
+</ul>
+<pre><code># Adil bir zaman serisi karsilastirmasi (pseudocode)
+adaylar = [mevsimsel_naif, istatistiksel_model, gbdt_modeli, temel_model]
+ufuk = 28                                  # tum adaylar icin ayni
+for kesme in ileri_kaydirmali_pencereler(seri, adim=ufuk, sayi=12):
+    gecmis = seri[:kesme]                  # kesmeden sonrasi gorulmez
+    for aday in adaylar:
+        t0 = simdi()
+        tahmin = aday.tahmin(gecmis, ufuk)  # ayni ufuk, ayni kesme
+        kaydet(aday, kesme, hata(tahmin, seri[kesme:kesme+ufuk]),
+               gecikme=simdi()-t0)          # maliyet de sonucun parcasi
+# Pencereler uzerinden ortalama alin ve dagilimi da raporlayin;
+# tek bir pencere, model degil sans olcer.</code></pre>
+<h3>Maliyeti sonucun bir parçası sayın</h3>
+<p>Bir modelin hata metriğini raporlayıp çıkarım maliyetini ve gecikmesini raporlamamak, kararın yarısını gizlemektir. On bin seriyi her gece tahmin edecekseniz, %2 daha iyi ama otuz kat daha pahalı bir model çoğu zaman yanlış tercihtir. fev-bench makalesinin “daha hızlı” vurgusu tam da bu yüzden önemli: hız burada bir konfor değil, karar değişkeni.</p>
+<div class="callout"><strong>İpucu:</strong> Pencereler arasındaki farkı da raporlayın. İki modelin ortalama hatası birbirine yakınsa, aradaki farkın gürültüden ayırt edilip edilemediğini sormanız gerekir — bu tam olarak <a href="../model-karsilastirma-istatistik/">model karşılaştırmasında istatistiksel anlamlılık</a> meselesidir. Tek bir ondalık basamak farkına dayanarak mimari değiştirmeyin.</div>
+
+<h2 id="b6">Klasik yöntemler hâlâ ne zaman kazanır?</h2>
+<p>Kıyaslamalardaki genel üstünlük, klasik yöntemlerin emekli olduğu anlamına gelmiyor. Dört durumda hâlâ ilk tercih olmayı sürdürüyorlar.</p>
+<ul>
+<li><strong>Güçlü ve bilinen mevsimsellik:</strong> mevsimselliği zaten kesin olarak bildiğiniz bir seride — resmî tatiller, maaş günleri, akademik takvim — bu bilgiyi doğrudan modele yazmak, modelin veriden keşfetmesini beklemekten daha güvenilirdir.</li>
+<li><strong>Kontrol etmeniz gereken dışsal değişkenler:</strong> fiyat, promosyon, hava durumu gibi girdilerin etkisini <em>ayrı ayrı görmeniz</em> gerekiyorsa, katsayıları okunabilen bir model size bir temel modelin veremeyeceği şeyi verir.</li>
+<li><strong>Sıkı yorumlanabilirlik gereksinimi:</strong> tahminin nasıl oluştuğunu bir denetçiye veya bir yönetim kuruluna anlatmanız gerekiyorsa, açıklanabilir bir yapı pazarlık konusu değildir.</li>
+<li><strong>Küçük hesaplama bütçesi:</strong> uç cihazda, gömülü bir sistemde veya milyonlarca seriyi saatte bir güncellemeniz gereken bir hatta, istatistiksel bir model hâlâ en ucuz doğru cevaptır.</li>
+</ul>
+<p>Bir de sınırı doğru çizmek gerekiyor: tahmin ile <a href="../anomali-tespiti/">anomali tespiti</a> aynı iş değildir. Bir temel model iyi bir beklenen değer üretebilir, ama “bu nokta anormal mi” sorusu bir eşik, bir belirsizlik bandı ve bir yanlış alarm bütçesi gerektirir. Tahmin modelini değiştirmek, anomali tespitinizin kalibrasyonunu da bozar; ikisini aynı anda değiştirmeyin.</p>
+<blockquote>Doğru soru “hangi model daha iyi” değil, “bu kararı hangi ölçümle vereceğim” sorusudur. İkinci soruyu cevaplayan ekip, birinci sorunun cevabı değiştiğinde de hazırdır.</blockquote>
+<p>Pratik bir kapanış tavsiyesi: temel modeli mevcut hattınıza rakip olarak değil, <em>ek bir aday</em> olarak ekleyin. Mevsimsel naif taban çizgisi, mevcut modeliniz ve bir sıfır-atış temel model — üçünü aynı düzenekte, aynı ufukta, aynı kesme noktalarıyla ölçün. Kararı tablo değil, sizin ölçümünüz versin.</p>
+
+<div class="takeaways"><h4>Öne çıkanlar</h4><ul>
+<li>Cevap değişti: fev-bench makalesinde raporlandığı hâliyle önceden eğitilmiş modeller istatistiksel ve göreve özel modellerden hem daha doğru hem daha hızlı çıktı.</li>
+<li>Amaca özel zaman serisi temel modelleri kazandı; LLM uyarlamalı tahmincilerde LLM bileşenini çıkarmak performansı düşürmedi.</li>
+<li>Yüz görev üzerinde ölçülmüş bir kazanma oranı, sizin serinizde ne olacağını söylemez; kararı kendi ölçümünüz verir.</li>
+<li>Karşılaştırmayı mevsimsel naif taban çizgisiyle, ileri kaydırmalı doğrulamayla ve her aday için aynı ufuk ve kesme noktasıyla kurun.</li>
+<li>Klasik yöntemler bilinen mevsimsellik, dışsal değişkenler, yorumlanabilirlik ve küçük hesap bütçesi durumlarında hâlâ ilk tercih olabilir.</li>
+</ul></div>
+
+<div class="faq">
+<details><summary>Temel model kullanırsam artık model eğitmem gerekmiyor mu?</summary><p>Eğitim gerekmeyebilir, ama değerlendirme her hâlükârda gerekir. Sıfır-atış tahmin, hiç görmediği bir seri için doğrudan çıktı üretir; bu kurulum maliyetini büyük ölçüde ortadan kaldırır. Buna karşılık modelin sizin serinizde iyi çalıştığını yalnızca kendi ileri kaydırmalı ölçümünüz gösterir. Ayrıca çıkarım maliyeti ve gecikme, artık kararın parçasıdır.</p></details>
+<details><summary>Kıyaslama tablolarındaki sıralamaya güvenebilir miyim?</summary><p>Bir başlangıç noktası olarak evet, bir karar olarak hayır. Bu yazıdaki sayılar ilgili makalelerin raporladığı ölçümlerdir, bugünkü canlı sıralama değil; liderlik tabloları model sürümleri ve protokoller değiştikçe hareket eder. Karar vermeden önce ilgili kıyaslamanın güncel tablosuna bakın ve tabloda hangi sürümün ölçüldüğünü not edin.</p></details>
+<details><summary>Kısa serilerde gerçekten avantaj var mı?</summary><p>Az veri rejimi, önceden eğitilmiş modellerin en güçlü olduğu yer. On sekiz aylık bir seride mevsimselliği güvenle kestirmek ya da bir makine öğrenmesi modeli eğitmek mümkün değildir; önceden eğitilmiş bir model ise seriye daha önce gördüğü desenlerin bilgisiyle bakar. Yine de mevsimsel naif taban çizgisiyle karşılaştırmadan karar vermeyin.</p></details>
+</div>
+
+<hr>
+<p>Özetle: zaman serisi tahmininde varsayılan başlangıç noktası değişti ve bunu kabul etmemek eskimiş bir bilgiyle çalışmak demek. Ama bir kıyaslamanın manşeti, sizin serinizin ölçümü değildir. Doğru refleks basit: mevsimsel naifi taban alın, adayları aynı düzenekte ölçün, maliyeti sonuca dahil edin ve bir yıl sonra aynı ölçümü tekrar çalıştırın.</p>
+    </div>
+    <div class="article-tags"><span class="tag">Yöntem</span><span class="tag">Yapay Zeka</span></div>
+    <div class="author-box"><span class="ava">HY</span><div><h4>Halide Yılmaz</h4><div class="role">Hatson Teknoloji A.Ş. · Kurucu Ortak</div><p>ODTÜ Bilgisayar Mühendisliği mezunu; bilgisayar ve yapay zeka alanında deneyimli kurucu ortak.</p></div></div>
+    <div class="post-nav"><a href="../makine-unutma/"><div class="dir">← Önceki</div><div class="ttl">Makine Unutması: Bir Modele Bir Kişiyi Gerçekten Unutturabilir misiniz?</div></a><a class="next" href="../../blog/"><div class="dir">Devamı →</div><div class="ttl">Tüm yazılara dön</div></a></div>
+  </div>
+</article>
+  <footer class="footer"><div class="wrap"><div class="footer-bottom" style="border:none;margin:0;padding:0"><span>© <span data-year>2026</span> Halide Yılmaz · Tüm hakları saklıdır.</span><span><a href="../../gizlilik/">Çerez Politikası</a> · Ankara · ODTÜ Teknokent 🌿</span></div></div></footer>
+  <button class="icon-btn to-top" aria-label="Top"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5M5 12l7-7 7 7"/></svg></button>
+  <script src="../../js/main.js"></script>
+</body>
+</html>

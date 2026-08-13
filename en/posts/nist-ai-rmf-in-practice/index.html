@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>The NIST AI Risk Management Framework in Practice: Turning Govern-Map-Measure-Manage into Engineering Work — Halide Yılmaz</title>
+<meta name="description" content="Instead of restating the four functions of the NIST AI RMF, this post turns them into engineering work. Why the MEASURE function is the one most teams leave empty, what the Generative AI Profile added, and why the framework is currently under revision." />
+<link rel="canonical" href="https://halideyilmaz.com/en/posts/nist-ai-rmf-in-practice/" /><link rel="alternate" hreflang="tr" href="https://halideyilmaz.com/posts/nist-yapay-zeka-risk-cercevesi/" /><meta name="theme-color" content="#3B6BF6" />
+<meta property="og:type" content="article" /><meta property="og:title" content="The NIST AI Risk Management Framework in Practice: Turning Govern-Map-Measure-Manage into Engineering Work" /><meta property="og:description" content="Instead of restating the four functions of the NIST AI RMF, this post turns them into engineering work. Why the MEASURE function is the one most teams leave empty, what the Generative AI Profile added, and why the framework is currently under revision." /><meta property="og:image" content="https://halideyilmaz.com/image/bimg-05.jpg" />
+<link rel="icon" href="/favicon.ico?v=20260809" sizes="32x32" />
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg?v=20260809" />
+  <link rel="icon" type="image/png" href="/favicon-192.png?v=20260809" sizes="192x192" />
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png?v=20260809" />
+<link rel="preconnect" href="https://fonts.googleapis.com" /><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&family=Newsreader:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet" />
+<script>(function(){try{var k="hy-theme",t=localStorage.getItem(k),m=window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches;document.documentElement.setAttribute("data-theme",t||(m?"dark":"light"));}catch(e){}})();</script>
+<link rel="stylesheet" href="../../../css/style.css?v=20260809" />
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "headline": "The NIST AI Risk Management Framework in Practice: Turning Govern-Map-Measure-Manage into Engineering Work",
+    "description": "Instead of restating the four functions of the NIST AI RMF, this post turns them into engineering work. Why the MEASURE function is the one most teams leave empty, what the Generative AI Profile added, and why the framework is currently under revision.",
+    "mainEntityOfPage": { "@type": "WebPage", "@id": "https://halideyilmaz.com/en/posts/nist-ai-rmf-in-practice/" },
+    "dateModified": "2026-08-13",
+
+    "author": {
+      "@type": "Person",
+      "name": "Halide Yılmaz",
+      "url": "https://halideyilmaz.com/",
+      "worksFor": { "@type": "Organization", "name": "Hatson Teknoloji A.Ş.", "url": "https://hatsontech.com/" }
+    },
+    "publisher": { "@type": "Organization", "name": "Hatson Teknoloji A.Ş.", "url": "https://hatsontech.com/" },
+    "image": "https://halideyilmaz.com/image/bimg-05.jpg",
+    "inLanguage": "en"
+  }
+  </script>
+</head>
+<body>
+<div class="progress"></div>
+  <nav class="nav" id="nav">
+    <div class="wrap">
+      <a class="brand" href="../../" aria-label="Home"><img class="logo-light" src="../../../image/caseon-mark-light.svg" alt="Caseon" width="28" height="28" /><img class="logo-dark" src="../../../image/caseon-mark-dark.svg" alt="Caseon" width="28" height="28" /><span>Halide Yılmaz</span></a>
+      <div class="nav-links" id="navLinks">
+        <a href="../../#about">About</a>
+        <a href="../../#what-i-do">What I Do</a>
+        <a href="../../#expertise">Expertise</a>
+        <a href="../../blog/">Articles</a>
+        <a href="../../#contact">Contact</a>
+      </div>
+      <div class="nav-actions">
+        <a class="lang-switch" href="../../../posts/nist-yapay-zeka-risk-cercevesi/">TR</a>
+        <button class="icon-btn theme-toggle" data-theme-toggle aria-label="Theme"><svg class="sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M6.3 17.7l-1.4 1.4M19.1 4.9l-1.4 1.4"/></svg><svg class="moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg></button>
+        <button class="icon-btn nav-toggle" data-nav-toggle aria-label="Menu"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 6h18M3 12h18M3 18h18"/></svg></button>
+      </div>
+    </div>
+  </nav>
+<article>
+  <div class="wrap narrow article-head">
+    <div class="breadcrumb"><a href="../../">Home</a> <span>/</span>
+        <a href="../../blog/">Articles</a> <span>/</span>
+        <span>Governance</span></div>
+    <span class="tag">Governance</span>
+    <h1>The NIST AI Risk Management Framework in Practice: Turning Govern-Map-Measure-Manage into Engineering Work</h1>
+    <div class="article-meta"><div class="author"><span class="ava">HY</span><div><div style="color:var(--text);font-weight:600">Halide Yılmaz</div><div>HatsonTech · Co-Founder</div></div></div><span>· 10 min read</span></div>
+  </div>
+  <div class="wrap narrow"><div class="article-hero"><img src="../../../image/bimg-05.jpg" alt="The NIST AI Risk Management Framework in Practice: Turning Govern-Map-Measure-Manage into Engineering Work"></div></div>
+  <div class="wrap narrow" style="padding-top:36px;padding-bottom:36px">
+    <div class="prose">
+<p class="lead-p">Almost everything written about the NIST AI Risk Management Framework does the same thing: it names the four functions and stops. But the framework's real difficulty is not in the names — it is in <strong>MEASURE</strong>. NIST asks for measurements most teams cannot produce, and that gap is the actual subject of this post. The framework itself is also under revision right now, which is worth knowing before you build policy on it.</p>
+
+<div class="toc"><h4>Contents</h4><ol>
+<li><a href="#b1">What the framework is and what it looks like</a></li>
+<li><a href="#b2">GOVERN and MAP: the parts that look easy and get skipped</a></li>
+<li><a href="#b3">MEASURE: the genuinely hard part</a></li>
+<li><a href="#b4">MANAGE: accepting risk and responding to incidents</a></li>
+<li><a href="#b5">The Generative AI Profile, and where the framework stands today</a></li>
+<li><a href="#b6">The legal ground underneath is shifting too</a></li>
+</ol></div>
+
+<h2 id="b1">What the framework is and what it looks like</h2>
+<p>NIST AI RMF 1.0 was released on 26 January 2023 (NIST.AI.100-1). It is voluntary, not binding. That does not make it unimportant: it is referenced everywhere from US federal procurement to corporate risk policy, and it overlaps conceptually with most of what the EU AI Act asks organisations to document.</p>
+<p>The framework is organised around four functions:</p>
+<ul>
+<li><strong>GOVERN</strong> — organisation-wide risk culture, roles, policies and accountability. This is the function that surrounds the other three.</li>
+<li><strong>MAP</strong> — establishing context: what the system is for, who is affected, under which assumptions it operates.</li>
+<li><strong>MEASURE</strong> — analysing, assessing, benchmarking and monitoring the risks.</li>
+<li><strong>MANAGE</strong> — prioritising and mitigating risks, accepting residual risk, and responding to incidents.</li>
+</ul>
+<p>The structure overlaps substantially with ISO/IEC 42001 but rests on a different philosophy. 42001 establishes a <em>management system</em> and can be certified; the AI RMF offers a <em>way of thinking</em> and cannot. They are not competitors but different layers, as we detail in <a href="../iso-42001-ai-management-system/">the ISO/IEC 42001 post</a>.</p>
+
+<h2 id="b2">GOVERN and MAP: the parts that look easy and get skipped</h2>
+<p>These two functions look easy on paper because they require no code. That is exactly why they get skipped.</p>
+<h3>GOVERN: who can stop it?</h3>
+<p>A governance structure has one honest test: when the system starts behaving badly, who can stop it, within what time, and on whose authority? If the answer to that question does not contain a name and a duration, governance has not been established yet.</p>
+<h3>MAP: writing down the assumptions</h3>
+<p>MAP establishes context: intended use, affected parties, benefits and potential harms, and — critically — <em>assumptions</em>. A model's assumptions are almost never written down, yet most production failures come straight out of them.</p>
+<ul>
+<li>Do the training data and the production data come from the same distribution?</li>
+<li>How long do labels take to arrive? Do they arrive at all?</li>
+<li>Does the model advise a human, or decide directly?</li>
+<li>Is the input user-generated? Then should you expect adversarial input?</li>
+</ul>
+<div class="callout"><strong>Tip:</strong> Do not make the MAP output a separate document. Write it into the &ldquo;intended use&rdquo;, &ldquo;out-of-scope use&rdquo; and &ldquo;limitations&rdquo; sections of the <a href="../model-cards-governance/">model card</a>. A team that keeps two documents ends up updating neither.</div>
+
+<h2 id="b3">MEASURE: the genuinely hard part</h2>
+<p>Now to the substance. The MEASURE function asks you to <em>measure</em> the risks: not just accuracy, but reliability, robustness, fairness, transparency, privacy, and how each of those moves over time. In practice most teams write one accuracy number under this function and move on.</p>
+<blockquote>The distance between naming a risk and measuring it is the distance between governance documents and engineering. Most organisations have done the first and not the second.</blockquote>
+<p>The headings that need to become measurable, and what they correspond to:</p>
+<ul>
+<li><strong>Accuracy:</strong> not one score, but a score with an interval and broken down by subgroup. How do you know a difference is real? <a href="../statistical-significance-model-comparison/">Confidence intervals and bootstrap</a>.</li>
+<li><strong>Reliability:</strong> whether the model is right where it says it is confident — that is <a href="../model-calibration-probabilities/">calibration</a>. Choosing a threshold on an uncalibrated score is guessing, not measuring.</li>
+<li><strong>Uncertainty:</strong> an interval with a coverage guarantee rather than a point estimate. <a href="../conformal-prediction-uncertainty/">Conformal prediction</a> is the most practical route.</li>
+<li><strong>Fairness:</strong> subgroups must be large enough for the estimate to exceed the noise, or what you are measuring is variance. <a href="../fairness-auditing-in-practice/">Fairness auditing</a>.</li>
+<li><strong>Change over time:</strong> <a href="../model-monitoring-drift/">drift and monitoring</a>, and for the question of what to do before labels arrive, <a href="../performance-estimation-without-labels/">performance estimation without labels</a>.</li>
+<li><strong>The validity of the evaluation itself:</strong> is your measuring instrument reliable? See <a href="../annotator-agreement-evaluator-reliability/">annotator agreement</a> and <a href="../benchmark-contamination/">benchmark contamination</a>.</li>
+</ul>
+<p>A team that takes MEASURE seriously ends up implementing essentially every measurement post on this site. That is not a coincidence: what NIST is asking for is measurement science applied to machine learning.</p>
+
+<h2 id="b4">MANAGE: accepting risk and responding to incidents</h2>
+<p>MANAGE is where you decide what to do about the risk you measured. It contains three separate decisions, and all three should be written down.</p>
+<ul>
+<li><strong>Prioritisation:</strong> which risk gets addressed first? That is a business decision, not an engineering one — but it cannot be made without engineering input.</li>
+<li><strong>Mitigation:</strong> a threshold change, a human review layer, a narrowing of scope, more data collection. Every mitigation has a cost and usually a side effect — a meaningful gain in precision almost always costs recall.</li>
+<li><strong>Accepting residual risk:</strong> risk that cannot be driven to zero has to be explicitly accepted by someone with authority. An unsigned acceptance is not an acceptance.</li>
+</ul>
+<p>Then there is incident response, which is where this framework meets the EU AI Act most directly. If you have a reporting obligation measured in days, your MANAGE function has to include an on-call rota and a rollback procedure. See <a href="../ai-incident-reporting-post-market/">incident reporting and post-market monitoring</a>.</p>
+
+<h2 id="b5">The Generative AI Profile, and where the framework stands today</h2>
+<p>NIST publishes <em>profiles</em> that adapt the framework to particular technologies and sectors. The best known is the <strong>Generative AI Profile, NIST AI 600-1</strong>, published on 26 July 2024, which enumerates risks specific to generative systems and ties RMF actions to each. On 7 April 2026 NIST released a concept note for a profile on trustworthy AI in critical infrastructure.</p>
+<p>And to be candid: <strong>NIST's own page states that AI RMF 1.0 is being revised</strong>, with no published target date (<a href="https://www.nist.gov/itl/ai-risk-management-framework" target="_blank" rel="noopener">source</a>). That is not a flaw but a natural maturation — it is simply something to know when planning. If you are writing internal policy that leans on a voluntary framework, write the version number into the policy.</p>
+<div class="callout"><strong>Tip:</strong> Even when the framework changes, the artefacts you produce do not. A subgroup performance table, an accuracy declaration with intervals, and a versioned risk register are useful regardless of which framework you filed them under. Anchor your documents to measurements, not to function names.</div>
+
+<h2 id="b6">The legal ground underneath is shifting too</h2>
+<p>A voluntary framework in flux would be manageable on its own, but the state law beneath it also turned in 2026. The most striking case is Colorado: the state's AI act was <strong>repealed and replaced by SB 26-189</strong>, signed on 14 May 2026 and effective 1 January 2027. The replacement <em>drops</em> the impact assessment requirement and leaves enforcement solely with the attorney general (<a href="https://leg.colorado.gov/bills/SB26-189" target="_blank" rel="noopener">SB 26-189</a>).</p>
+<p>That is movement in the opposite direction: while Europe deepened its documentation duties, this US state moved from ex-ante assessment towards after-the-fact disclosure. For a product team subject to both regimes, the practical consequence is simple: <strong>build to the strictest regime and the rest follows.</strong> Colorado not requiring an impact assessment does not mean the EU does not.</p>
+<blockquote>A team that builds its compliance strategy around the loosest regime starts over when the strictest one arrives. The reverse is not true.</blockquote>
+<p>For the current EU timeline see <a href="../eu-ai-act-timeline-2026/">the new timeline post</a>, and for a comparison of the impact assessment regimes, <a href="../ai-impact-assessment-fria/">the impact assessment post</a>.</p>
+
+<div class="takeaways"><h4>Key takeaways</h4><ul>
+<li>The AI RMF is voluntary, but most of the artefacts it asks for overlap with what the EU AI Act requires.</li>
+<li>GOVERN has one honest test: when the system misbehaves, who can stop it and within what time?</li>
+<li>MEASURE is the hard function, and in practice it amounts to applying measurement science to machine learning.</li>
+<li>NIST's own page says AI RMF 1.0 is being revised — put a version number in any policy that cites it.</li>
+<li>Colorado shows state law can loosen; always build compliance to the strictest regime you are subject to.</li>
+</ul></div>
+
+<div class="faq">
+<details><summary>Should I choose the NIST AI RMF or ISO/IEC 42001?</summary><p>They are not competitors but different layers. ISO/IEC 42001 establishes a certifiable management system; the AI RMF gives you a way to think about and measure risk, and cannot be certified. Many organisations use 42001 as the skeleton and the AI RMF as the measurement guide.</p></details>
+<details><summary>I operate in the EU. What does a US framework give me?</summary><p>No direct legal effect, but the MEASURE function builds exactly the measurement discipline that the AI Act's Article 15 accuracy declaration and Article 9 risk management require. Its value is preparatory rather than legal.</p></details>
+<details><summary>Can a small team apply the whole framework?</summary><p>Do not try. Start with one sentence from GOVERN (who can stop it), an assumptions list from MAP, and a subgroup performance table from MEASURE. Those three deliver most of the framework's benefit and take days rather than weeks.</p></details>
+</div>
+
+<hr>
+<p>In short: the value of the NIST framework is not in naming four functions but in actually filling in MEASURE. Naming risks is easy; measuring them with intervals is hard. A team that does the hard part is ready whichever framework happens to be in force.</p>
+    </div>
+    <div class="article-tags"><span class="tag">Governance</span><span class="tag">AI</span></div>
+    <div class="author-box"><span class="ava">HY</span><div><h4>Halide Yılmaz</h4><div class="role">Hatson Teknoloji A.Ş. · Co-Founder</div><p>A graduate of METU Computer Engineering; co-founder working in computing and AI.</p></div></div>
+    <div class="post-nav"><a href="../iso-42001-ai-management-system/"><div class="dir">← Previous</div><div class="ttl">ISO/IEC 42001 for Engineers: What an AI Management System Actually Requires — and Why It Is Not AI Act Compliance</div></a><a class="next" href="../../blog/"><div class="dir">More →</div><div class="ttl">Back to all articles</div></a></div>
+  </div>
+</article>
+  <footer class="footer"><div class="wrap"><div class="footer-bottom" style="border:none;margin:0;padding:0"><span>© <span data-year>2026</span> Halide Yılmaz · All rights reserved.</span><span><a href="../../privacy/">Cookie Policy</a> · Ankara · METU Technopark 🌿</span></div></div></footer>
+  <button class="icon-btn to-top" aria-label="Top"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5M5 12l7-7 7 7"/></svg></button>
+  <script src="../../../js/main.js"></script>
+</body>
+</html>

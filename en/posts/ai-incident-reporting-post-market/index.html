@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>AI Incident Reporting and Post-Market Monitoring: The 15-Day, 10-Day and 2-Day Clocks — Halide Yılmaz</title>
+<meta name="description" content="Serious incident reporting runs on a 15-day clock, 10 days in the event of death and 2 days for a widespread infringement. What logging infrastructure, severity taxonomy and on-call path an ML team needs in order to meet those clocks at all." />
+<link rel="canonical" href="https://halideyilmaz.com/en/posts/ai-incident-reporting-post-market/" /><link rel="alternate" hreflang="tr" href="https://halideyilmaz.com/posts/yapay-zeka-olay-bildirimi/" /><meta name="theme-color" content="#3B6BF6" />
+<meta property="og:type" content="article" /><meta property="og:title" content="AI Incident Reporting and Post-Market Monitoring: The 15-Day, 10-Day and 2-Day Clocks" /><meta property="og:description" content="Serious incident reporting runs on a 15-day clock, 10 days in the event of death and 2 days for a widespread infringement. What logging infrastructure, severity taxonomy and on-call path an ML team needs in order to meet those clocks at all." /><meta property="og:image" content="https://halideyilmaz.com/image/bimg-08.jpg" />
+<link rel="icon" href="/favicon.ico?v=20260809" sizes="32x32" />
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg?v=20260809" />
+  <link rel="icon" type="image/png" href="/favicon-192.png?v=20260809" sizes="192x192" />
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png?v=20260809" />
+<link rel="preconnect" href="https://fonts.googleapis.com" /><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&family=Newsreader:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet" />
+<script>(function(){try{var k="hy-theme",t=localStorage.getItem(k),m=window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches;document.documentElement.setAttribute("data-theme",t||(m?"dark":"light"));}catch(e){}})();</script>
+<link rel="stylesheet" href="../../../css/style.css?v=20260809" />
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "headline": "AI Incident Reporting and Post-Market Monitoring: The 15-Day, 10-Day and 2-Day Clocks",
+    "description": "Serious incident reporting runs on a 15-day clock, 10 days in the event of death and 2 days for a widespread infringement. What logging infrastructure, severity taxonomy and on-call path an ML team needs in order to meet those clocks at all.",
+    "mainEntityOfPage": { "@type": "WebPage", "@id": "https://halideyilmaz.com/en/posts/ai-incident-reporting-post-market/" },
+    "dateModified": "2026-08-13",
+
+    "author": {
+      "@type": "Person",
+      "name": "Halide Yılmaz",
+      "url": "https://halideyilmaz.com/",
+      "worksFor": { "@type": "Organization", "name": "Hatson Teknoloji A.Ş.", "url": "https://hatsontech.com/" }
+    },
+    "publisher": { "@type": "Organization", "name": "Hatson Teknoloji A.Ş.", "url": "https://hatsontech.com/" },
+    "image": "https://halideyilmaz.com/image/bimg-08.jpg",
+    "inLanguage": "en"
+  }
+  </script>
+</head>
+<body>
+<div class="progress"></div>
+  <nav class="nav" id="nav">
+    <div class="wrap">
+      <a class="brand" href="../../" aria-label="Home"><img class="logo-light" src="../../../image/caseon-mark-light.svg" alt="Caseon" width="28" height="28" /><img class="logo-dark" src="../../../image/caseon-mark-dark.svg" alt="Caseon" width="28" height="28" /><span>Halide Yılmaz</span></a>
+      <div class="nav-links" id="navLinks">
+        <a href="../../#about">About</a>
+        <a href="../../#what-i-do">What I Do</a>
+        <a href="../../#expertise">Expertise</a>
+        <a href="../../blog/">Articles</a>
+        <a href="../../#contact">Contact</a>
+      </div>
+      <div class="nav-actions">
+        <a class="lang-switch" href="../../../posts/yapay-zeka-olay-bildirimi/">TR</a>
+        <button class="icon-btn theme-toggle" data-theme-toggle aria-label="Theme"><svg class="sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M6.3 17.7l-1.4 1.4M19.1 4.9l-1.4 1.4"/></svg><svg class="moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg></button>
+        <button class="icon-btn nav-toggle" data-nav-toggle aria-label="Menu"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 6h18M3 12h18M3 18h18"/></svg></button>
+      </div>
+    </div>
+  </nav>
+<article>
+  <div class="wrap narrow article-head">
+    <div class="breadcrumb"><a href="../../">Home</a> <span>/</span>
+        <a href="../../blog/">Articles</a> <span>/</span>
+        <span>Production</span></div>
+    <span class="tag">Production</span>
+    <h1>AI Incident Reporting and Post-Market Monitoring: The 15-Day, 10-Day and 2-Day Clocks</h1>
+    <div class="article-meta"><div class="author"><span class="ava">HY</span><div><div style="color:var(--text);font-weight:600">Halide Yılmaz</div><div>HatsonTech · Co-Founder</div></div></div><span>· 10 min read</span></div>
+  </div>
+  <div class="wrap narrow"><div class="article-hero"><img src="../../../image/bimg-08.jpg" alt="AI Incident Reporting and Post-Market Monitoring: The 15-Day, 10-Day and 2-Day Clocks"></div></div>
+  <div class="wrap narrow" style="padding-top:36px;padding-bottom:36px">
+    <div class="prose">
+<p class="lead-p">When you notice a model has broken in production, do you know how many days you have left? The EU AI Act sets explicit clocks for serious incidents: 15 days as a rule, 10 days where a person has died, and 2 days for a widespread infringement. The argument of this post is simple: <strong>those clocks are an engineering problem, not a legal one.</strong> For a team without logs, 15 days is not a reporting window — it is an archaeology window.</p>
+
+<div class="toc"><h4>Contents</h4><ol>
+<li><a href="#b1">What counts as a serious incident, and when does the clock start?</a></li>
+<li><a href="#b2">Article 72: the monitoring plan is a system, not a document</a></li>
+<li><a href="#b3">Severity classification: can you borrow it from SRE?</a></li>
+<li><a href="#b4">Logging: the real infrastructure behind reporting</a></li>
+<li><a href="#b5">The incident path: from model output to a human</a></li>
+<li><a href="#b6">A preparation checklist</a></li>
+</ol></div>
+
+<h2 id="b1">What counts as a serious incident, and when does the clock start?</h2>
+<p>The Regulation defines &ldquo;serious incident&rdquo;, and these are not ordinary bugs: the death of a person or serious harm to health; a serious and irreversible disruption of the management or operation of critical infrastructure; infringement of obligations under Union law intended to protect fundamental rights; and serious harm to property or the environment.</p>
+<p>The reporting clocks run as follows (<a href="https://artificialintelligenceact.eu/article/73/" target="_blank" rel="noopener">Article 73</a>):</p>
+<ul>
+<li><strong>The rule: 15 days.</strong> The provider reports immediately after establishing a causal link — or the reasonable likelihood of one — between the AI system and the incident, and in any event no later than 15 days.</li>
+<li><strong>Widespread infringement or critical infrastructure: 2 days.</strong> Where there is a widespread infringement, or a serious and irreversible disruption of critical infrastructure, the deadline drops to two days.</li>
+<li><strong>Death: 10 days.</strong> In the event of the death of a person, 10 days from the date the provider becomes aware of it.</li>
+<li>Completeness is not required first: where a complete report is not possible, an initial incomplete report is made and completed afterwards. The market surveillance authority is expected to act within 7 days.</li>
+</ul>
+<div class="callout"><strong>Tip:</strong> The clock does not start when the incident <em>happened</em>; it starts when the causal link, or its reasonable likelihood, was <em>established</em>. That converts your detection capability directly into legal exposure: noticing late does not delay the clock, it only shortens your preparation and invites the question &ldquo;why did it take you so long to notice?&rdquo;</div>
+<p>One timing note: for Annex III high-risk systems this obligation starts applying on 2 December 2027 along with the rest. There is a genuine window to prepare — see <a href="../eu-ai-act-timeline-2026/">the new timeline post</a>.</p>
+
+<h2 id="b2">Article 72: the monitoring plan is a system, not a document</h2>
+<p>Behind the reporting duty sits another one: the post-market monitoring plan. A provider must systematically collect, document and analyse the system's performance throughout its lifetime.</p>
+<p>The subtlety is this: a monitoring plan is only a plan if it can show degradation <em>in time</em>. On a model whose labels arrive 90 days later, a monitoring design that rests solely on labels is by definition 90 days late. The plan therefore has to include label-independent signals:</p>
+<ul>
+<li><strong>Input side:</strong> data quality violations, schema changes, jumps in null rates, <a href="../model-monitoring-drift/">data drift</a>, and for text and vector data, <a href="../embedding-drift-monitoring/">embedding drift</a>.</li>
+<li><strong>Output side:</strong> shifts in the score distribution, the rate of above-threshold decisions, flattening of the confidence distribution.</li>
+<li><strong>Label-free performance estimation:</strong> estimating where performance is heading before labels arrive — with its assumptions spelled out, in <a href="../performance-estimation-without-labels/">performance estimation without labels</a>.</li>
+<li><strong>Human feedback:</strong> the operator override rate. This is the cheapest and most neglected signal: if people have started correcting the model, the model has degraded.</li>
+<li><strong>Outlying behaviour:</strong> catching unexpected input and output patterns with <a href="../anomaly-detection/">anomaly detection</a>.</li>
+</ul>
+<blockquote>A monitoring plan that can only see degradation once the labels arrive is a fire alarm that goes off when the fire brigade turns up.</blockquote>
+
+<h2 id="b3">Severity classification: can you borrow it from SRE?</h2>
+<p>Most software teams already have an incident severity taxonomy: SEV1, SEV2, SEV3. You cannot lift it straight into AI incidents, because the classic taxonomy is built around <em>availability</em>. A model does not crash; it starts giving wrong answers while every health check stays green.</p>
+<p>For ML it is more workable to build the taxonomy on two axes:</p>
+<ul>
+<li><strong>Axis 1 — nature of harm:</strong> health and safety, fundamental rights, financial loss, reputation, service quality.</li>
+<li><strong>Axis 2 — reversibility:</strong> can the decision be undone? Can you re-evaluate a rejected application, or has the person already gone elsewhere?</li>
+</ul>
+<p>These two axes map directly onto the Regulation's timing categories. An incident that sits on the health-and-safety axis and on the irreversible side also determines whose phone rings.</p>
+<div class="callout"><strong>Tip:</strong> Do not write the severity definition during the incident. For each level, decide in advance: who is notified, within how many minutes, who holds rollback authority, and which records are automatically frozen. A definition written during an incident always selects the lowest level.</div>
+
+<h2 id="b4">Logging: the real infrastructure behind reporting</h2>
+<p>An incident report has to explain not <em>what</em> happened but <em>how</em> it happened: which system version, which class of input, how many people were affected, when it started, when it stopped. None of that can be manufactured during the incident; it is either in the log or it is not.</p>
+<p>Which is why the automatic logging required by Article 12 is really a precondition for Article 73. A minimum record set looks like this:</p>
+<pre><code># The log that makes incident reporting possible (pseudocode)
+decision_record = {
+  "timestamp":       utc_now(),
+  "model_version":   MODEL_VERSION,     # traceable to a training run
+  "dataset_version": DATASET_VERSION,
+  "threshold":       ACTIVE_THRESHOLD,  # a threshold change is an event too
+  "input_class":     category(input),   # a class, not the personal data
+  "output":          score,
+  "human_action":    operator,          # none / confirm / override
+}
+# Questions asked during an incident, and what the log must answer:
+#   "when did it start?"      -> version deployment timestamp
+#   "how many were affected?" -> decision count in the date range
+#   "on which inputs?"        -> error rate by input class
+#   "can we roll back?"       -> time to restore the previous version</code></pre>
+<p>There is a balance to strike: the log must be detailed enough to reconstruct the incident, and restrained enough not to accumulate unnecessary personal data. Storing an input class and a digest rather than the raw input is usually both sufficient and safer. For the privacy side of that trade-off, see <a href="../privacy-preserving-learning/">privacy-preserving learning</a>.</p>
+
+<h2 id="b5">The incident path: from model output to a human</h2>
+<p>An ML incident response flow differs from a classic SRE flow in three places, and those three are where unprepared teams struggle most.</p>
+<h3>Difference 1: detection is delayed</h3>
+<p>When a server crashes the alarm fires in seconds. When a model becomes wrong, the alarm fires weeks later — sometimes as a customer complaint. So an ML on-call rota does not page; it triggers a <em>threshold-breach review</em>. The signal does not wake someone up, it opens an investigation.</p>
+<h3>Difference 2: rollback does not always fix it</h3>
+<p>Reverting to the previous model version is often the right first move, but if the problem originates upstream in the data, the old model will see the same broken data. A rollback plan has to cover the data pipeline version as well as the model version.</p>
+<h3>Difference 3: identifying affected people is retrospective</h3>
+<p>In a software fault the affected requests are known. In a model fault, &ldquo;affected&rdquo; depends on the decision threshold and has to be recomputed after the fact. Being able to do that computation depends on having logged decisions and thresholds — which brings us back to the log again.</p>
+<blockquote>In a software incident you say &ldquo;the system was down&rdquo;. In a model incident you have to say &ldquo;the system was up, and it was wrong&rdquo;. Proving the second requires a record.</blockquote>
+
+<h2 id="b6">A preparation checklist</h2>
+<p>What to have in place before December 2027, in order of importance:</p>
+<ul>
+<li><strong>The decision log.</strong> Including model version, dataset version, threshold and human intervention. This single item is the precondition for everything below it.</li>
+<li><strong>Version traceability.</strong> You must be able to walk back from a production model to its training data. That is the <a href="../model-cards-governance/">model card</a> and dataset documentation discipline.</li>
+<li><strong>Label-independent monitoring.</strong> At least one input signal, one output signal and one human-feedback signal.</li>
+<li><strong>A severity taxonomy.</strong> Built on nature of harm and reversibility, mapped onto the regulatory timing categories.</li>
+<li><strong>On-call and authority.</strong> Who can stop the system, at which severity, without whose approval — written down.</li>
+<li><strong>A report template.</strong> Rather than writing into a blank page within 15 days, define the fields to be filled in advance.</li>
+<li><strong>A drill.</strong> Run the flow once a year against a fictional incident. A plan with no drill is not a plan but an intention.</li>
+</ul>
+<p>All of this is really the operational side of the Article 12 and Article 15 deliverables described in <a href="../high-risk-ai-system-requirements/">high-risk system requirements</a>. Producing the documents is not the end of it; the system behind the documents has to actually run.</p>
+
+<div class="takeaways"><h4>Key takeaways</h4><ul>
+<li>Serious incident reporting runs on 15 days as a rule, 10 days where a person has died, and 2 days for a widespread infringement or critical infrastructure disruption.</li>
+<li>The clock starts when the causal link or its reasonable likelihood is established, not when the incident occurred — detection capability is legal exposure.</li>
+<li>A monitoring plan resting only on labels is by definition late whenever labels are delayed.</li>
+<li>The classic SRE severity taxonomy does not transfer: a model does not crash, it becomes wrong while health checks stay green.</li>
+<li>The real infrastructure behind reporting is the decision log; if you cannot walk back from a model version to its training data, you cannot write the report.</li>
+</ul></div>
+
+<div class="faq">
+<details><summary>Our model is not high-risk. Does this bind us?</summary><p>Serious incident reporting under Article 73 is directed at high-risk systems. But every engineering practice here — a decision log, version traceability, label-independent monitoring — is useful regardless of risk class. Being out of scope is not a reason to skip the record.</p></details>
+<details><summary>We are not sure the incident was caused by the model. Should we still report?</summary><p>The duty covers establishing a causal link or the reasonable likelihood of one. And completeness is not required first: where a full report is impossible, an initial incomplete report can be filed and completed later. Waiting for certainty is the most common way to miss the deadline.</p></details>
+<details><summary>How much should we keep in the log?</summary><p>Enough to reconstruct the incident, little enough not to accumulate unnecessary personal data. In practice, storing an input class and a digest rather than the raw input — alongside model version, dataset version, threshold and human intervention — is enough to reconstruct most incidents.</p></details>
+</div>
+
+<hr>
+<p>In short: the hard part of this obligation is not writing the report but being in a position to write it. For a team with logging, version traceability and label-independent monitoring, 15 days is generous. For a team without them, 15 days will never be enough.</p>
+    </div>
+    <div class="article-tags"><span class="tag">Production</span><span class="tag">AI</span></div>
+    <div class="author-box"><span class="ava">HY</span><div><h4>Halide Yılmaz</h4><div class="role">Hatson Teknoloji A.Ş. · Co-Founder</div><p>A graduate of METU Computer Engineering; co-founder working in computing and AI.</p></div></div>
+    <div class="post-nav"><a href="../fairness-auditing-in-practice/"><div class="dir">← Previous</div><div class="ttl">Fairness Auditing in Practice: How to Actually Audit a Model — and Why Most Audits Are Theatre</div></a><a class="next" href="../../blog/"><div class="dir">More →</div><div class="ttl">Back to all articles</div></a></div>
+  </div>
+</article>
+  <footer class="footer"><div class="wrap"><div class="footer-bottom" style="border:none;margin:0;padding:0"><span>© <span data-year>2026</span> Halide Yılmaz · All rights reserved.</span><span><a href="../../privacy/">Cookie Policy</a> · Ankara · METU Technopark 🌿</span></div></div></footer>
+  <button class="icon-btn to-top" aria-label="Top"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5M5 12l7-7 7 7"/></svg></button>
+  <script src="../../../js/main.js"></script>
+</body>
+</html>

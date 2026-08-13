@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="tr" data-theme="light">
+<head>
+<meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Konformal Tahmin: Dağılımdan Bağımsız Garantilerle Belirsizliği Ölçmek — Halide Yılmaz</title>
+<meta name="description" content="Konformal tahmin, modelinizi değiştirmeden dağılımdan bağımsız kapsama garantisi verir. Bölmeli yöntemi adım adım, uyumsuzluk skorunu, garantinin sınırlarını ve marjinal kapsamanın koşullu kapsama olmadığını anlatıyoruz." />
+<link rel="canonical" href="https://halideyilmaz.com/posts/konformal-tahmin/" /><link rel="alternate" hreflang="en" href="https://halideyilmaz.com/en/posts/conformal-prediction-uncertainty/" /><meta name="theme-color" content="#3B6BF6" />
+<meta property="og:type" content="article" /><meta property="og:title" content="Konformal Tahmin: Dağılımdan Bağımsız Garantilerle Belirsizliği Ölçmek" /><meta property="og:description" content="Konformal tahmin, modelinizi değiştirmeden dağılımdan bağımsız kapsama garantisi verir. Bölmeli yöntemi adım adım, uyumsuzluk skorunu, garantinin sınırlarını ve marjinal kapsamanın koşullu kapsama olmadığını anlatıyoruz." /><meta property="og:image" content="https://halideyilmaz.com/image/bimg-16.jpg" />
+<link rel="icon" href="/favicon.ico?v=20260809" sizes="32x32" />
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg?v=20260809" />
+  <link rel="icon" type="image/png" href="/favicon-192.png?v=20260809" sizes="192x192" />
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png?v=20260809" />
+<link rel="preconnect" href="https://fonts.googleapis.com" /><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&family=Newsreader:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet" />
+<script>(function(){try{var k="hy-theme",t=localStorage.getItem(k),m=window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches;document.documentElement.setAttribute("data-theme",t||(m?"dark":"light"));}catch(e){}})();</script>
+<link rel="stylesheet" href="../../css/style.css?v=20260809" />
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "headline": "Konformal Tahmin: Dağılımdan Bağımsız Garantilerle Belirsizliği Ölçmek",
+    "description": "Konformal tahmin, modelinizi değiştirmeden dağılımdan bağımsız kapsama garantisi verir. Bölmeli yöntemi adım adım, uyumsuzluk skorunu, garantinin sınırlarını ve marjinal kapsamanın koşullu kapsama olmadığını anlatıyoruz.",
+    "mainEntityOfPage": { "@type": "WebPage", "@id": "https://halideyilmaz.com/posts/konformal-tahmin/" },
+    "dateModified": "2026-08-13",
+
+    "author": {
+      "@type": "Person",
+      "name": "Halide Yılmaz",
+      "url": "https://halideyilmaz.com/",
+      "worksFor": { "@type": "Organization", "name": "Hatson Teknoloji A.Ş.", "url": "https://hatsontech.com/" }
+    },
+    "publisher": { "@type": "Organization", "name": "Hatson Teknoloji A.Ş.", "url": "https://hatsontech.com/" },
+    "image": "https://halideyilmaz.com/image/bimg-16.jpg",
+    "inLanguage": "tr"
+  }
+  </script>
+</head>
+<body>
+<div class="progress"></div>
+  <nav class="nav" id="nav">
+    <div class="wrap">
+      <a class="brand" href="../../" aria-label="Home"><img class="logo-light" src="../../image/caseon-mark-light.svg" alt="Caseon" width="28" height="28" /><img class="logo-dark" src="../../image/caseon-mark-dark.svg" alt="Caseon" width="28" height="28" /><span>Halide Yılmaz</span></a>
+      <div class="nav-links" id="navLinks">
+        <a href="../../#hakkinda">Kimdir</a>
+        <a href="../../#ne-yapiyor">Ne Yapıyor</a>
+        <a href="../../#uzmanlik">Uzmanlık</a>
+        <a href="../../blog/">Yazılar</a>
+        <a href="../../#iletisim">İletişim</a>
+      </div>
+      <div class="nav-actions">
+        <a class="lang-switch" href="../../en/posts/conformal-prediction-uncertainty/">EN</a>
+        <button class="icon-btn theme-toggle" data-theme-toggle aria-label="Theme"><svg class="sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M6.3 17.7l-1.4 1.4M19.1 4.9l-1.4 1.4"/></svg><svg class="moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg></button>
+        <button class="icon-btn nav-toggle" data-nav-toggle aria-label="Menu"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 6h18M3 12h18M3 18h18"/></svg></button>
+      </div>
+    </div>
+  </nav>
+<article>
+  <div class="wrap narrow article-head">
+    <div class="breadcrumb"><a href="../../">Ana sayfa</a> <span>/</span>
+        <a href="../../blog/">Yazılar</a> <span>/</span>
+        <span>Yöntem</span></div>
+    <span class="tag">Yöntem</span>
+    <h1>Konformal Tahmin: Dağılımdan Bağımsız Garantilerle Belirsizliği Ölçmek</h1>
+    <div class="article-meta"><div class="author"><span class="ava">HY</span><div><div style="color:var(--text);font-weight:600">Halide Yılmaz</div><div>HatsonTech · Kurucu Ortak</div></div></div><span>· 11 dakika okuma</span></div>
+  </div>
+  <div class="wrap narrow"><div class="article-hero"><img src="../../image/bimg-16.jpg" alt="Konformal Tahmin: Dağılımdan Bağımsız Garantilerle Belirsizliği Ölçmek"></div></div>
+  <div class="wrap narrow" style="padding-top:36px;padding-bottom:36px">
+    <div class="prose">
+<p class="lead-p">Model bir cevap verir, siz de o cevabın ne kadar güvenilir olduğunu bilmek istersiniz. Konformal tahmin (conformal prediction) bu soruya alışılmadık biçimde net bir yanıt sunar: modelinizi hiç değiştirmeden, çıktıyı tek bir tahminden istediğiniz oranda doğru cevabı içeren bir kümeye ya da aralığa çevirir. Üstelik bunu verinin dağılımı hakkında hiçbir varsayım yapmadan yapar. Bu yazıda yöntemi adım adım kuruyor, garantinin tam olarak neyi vaat ettiğini ve pratikte en sık nerede yanlış okunduğunu anlatıyoruz.</p>
+
+<div class="toc"><h4>İçindekiler</h4><ol>
+<li><a href="#b1">Tek bir cevaptan cevap kümesine</a></li>
+<li><a href="#b2">Bölmeli konformal tahmin adım adım</a></li>
+<li><a href="#b3">Garanti tam olarak neyi vaat ediyor</a></li>
+<li><a href="#b4">Kümeler, aralıklar ve küme büyüklüğünün anlattığı</a></li>
+<li><a href="#b5">Marjinal kapsama, koşullu kapsama değildir</a></li>
+<li><a href="#b6">Uygulamada: kayma, varsayımlar ve araçlar</a></li>
+</ol></div>
+
+<h2 id="b1">Tek bir cevaptan cevap kümesine</h2>
+<p>Deneyimli bir hekim size hiçbir zaman tek kelimelik bir teşhis vermez. Kolay vakalarda tek bir ad söyler, zor vakalarda ise kısa bir liste verir: şu üç ihtimalden biri. Listenin uzunluğu, hekimin ne kadar zorlandığını gösteren en dürüst sinyaldir.</p>
+<p>Sınıflandırma modelleri ise neredeyse her zaman tek bir ad söyler. Yanına bir güven skoru koyarlar, ama o skorun ne anlama geldiği çoğu zaman belirsizdir. <a href="../degerlendirme-metrikleri/">Sınıflandırma metrikleri</a> size modelin ortalamada ne kadar iyi olduğunu söyler; elinizdeki tek bir örnek için hiçbir şey vaat etmez.</p>
+<p><strong>Konformal tahmin (conformal prediction)</strong> bu boşluğu doldurur. Modelinizi değiştirmez, yeniden eğitmez, mimarisine dokunmaz. Üzerine ince bir katman koyar ve çıktıyı tek bir tahminden bir <em>kümeye</em> (sınıflandırmada) ya da bir <em>aralığa</em> (regresyonda) çevirir. Karşılığında size sayısal bir söz verir: bu kümeler, belirlediğiniz oranda gerçek cevabı içerir.</p>
+<p>Bu, <a href="../model-kalibrasyonu/">model kalibrasyonundan</a> farklı bir vaattir. Kalibrasyon skorun ölçeğini düzeltir ve ortalamada doğru olasılıklar üretir. Konformal tahmin ise doğrudan bir kapsama oranını hedefler ve bunu dağılım varsayımı yapmadan yapar. İkisi rakip değil, tamamlayıcıdır: kalibre skorlar konformal katmanın daha küçük, daha kullanışlı kümeler üretmesini sağlar.</p>
+<blockquote>Konformal tahmin modeli daha iyi yapmaz; modelin ne kadar iyi olduğunu dürüstçe itiraf etmesini sağlar.</blockquote>
+
+<h2 id="b2">Bölmeli konformal tahmin adım adım</h2>
+<p>En yaygın ve en kolay anlaşılan biçim <strong>bölmeli (tümevarımsal) konformal tahmindir (split / inductive conformal prediction)</strong>. Üç adımdan oluşur ve üçü de sezgiseldir.</p>
+<p><strong>Birinci adım: uyumsuzluk skoru.</strong> Modelin bir örnekte ne kadar şaşırdığını ölçen bir sayı tanımlarsınız. Türkçe kaynaklarda uyumluluk skoru olarak da geçen bu büyüklük (<strong>nonconformity score</strong>), sınıflandırmada en basit haliyle modelin gerçek etikete verdiği olasılığın birden çıkarılmış halidir: model doğru cevaba ne kadar az olasılık verdiyse skor o kadar yüksektir. Regresyonda ise mutlak hatadır.</p>
+<p><strong>İkinci adım: kalibrasyon kümesinde kuantil.</strong> Modeli eğitirken hiç kullanmadığınız bir kalibrasyon bölmesindeki her örnek için bu skoru hesaplarsınız. Elinizde bir skor dağılımı olur. Hedeflediğiniz kapsama yüzde 90 ise, bu dağılımın yaklaşık yüzde 90'lık kuantilini alırsınız. Bu tek sayı, modelin normal şaşkınlık düzeyinin eşiğidir.</p>
+<p><strong>Üçüncü adım: kümeyi kurmak.</strong> Yeni bir örnek geldiğinde, bütün olası etiketleri tek tek denersiniz ve uyumsuzluk skoru bu eşiğin altında kalan her etiketi kümeye koyarsınız. Bitti.</p>
+<pre><code># Bolmeli konformal tahmin (pseudocode)
+egitim, kalibrasyon, test = bol(veri)      # kalibrasyon egitimde HIC kullanilmaz
+alpha = 0.10                               # hedef kapsama = %90
+
+model = egit(egitim)
+
+# 1) kalibrasyon bolmesinde uyumsuzluk skorlari
+skorlar = []
+for x, y in kalibrasyon:
+    skorlar.append(1 - model.olasilik(x)[y])   # dogru etikete verilen olasilik
+
+# 2) kuantil: (n+1)(1-alpha) yukari yuvarlanir -> sonlu ornek duzeltmesi
+n = len(skorlar)
+k = ceil((n + 1) * (1 - alpha))
+q = sirala(skorlar)[k - 1]
+
+# 3) yeni ornek icin kume: esigi gecmeyen her etiket iceri girer
+def tahmin_kumesi(x):
+    return [y for y in etiketler if 1 - model.olasilik(x)[y] <= q]
+
+# Kume bos ya da cok genisse: model bu ornekte zorlaniyor demektir.</code></pre>
+<p>Kuantilde neden n yerine (n+1) var? Bu küçük düzeltme, garantinin sonsuz veriye değil, elinizdeki sonlu kalibrasyon kümesine dayanmasını sağlar. Bütün yöntemin sırrı bu ayrıntıda saklıdır.</p>
+
+<h2 id="b3">Garanti tam olarak neyi vaat ediyor</h2>
+<p>Konformal tahminin vaadi tek cümleyle şudur: ürettiğiniz kümeler, gerçek etiketi en az hedeflediğiniz oranda içerir. Bu cümlenin her kelimesinin bir bedeli ve bir sınırı var; sözleşmenin küçük yazılarını okumadan bu araç kullanılmaz.</p>
+<ul>
+<li><strong>Dağılımdan bağımsız (distribution-free):</strong> Verinin normal dağıldığını, hataların simetrik olduğunu ya da modelin doğru belirtildiğini varsaymaz. Model bir gradyan artırma ağacı da olabilir, derin bir ağ da, elle yazılmış bir kural kümesi de.</li>
+<li><strong>Sonlu örnek (finite-sample):</strong> Garanti asimptotik değildir. Kalibrasyon kümenizde birkaç yüz örnek varken de geçerlidir; yalnızca daha oynak olur.</li>
+<li><strong>Marjinal (marginal):</strong> Garanti ortalamadadır. Tüm test dağılımı üzerinden ortalama alındığında tutar. Belirli bir örnek, belirli bir sınıf ya da belirli bir alt grup için tutacağını söylemez.</li>
+<li><strong>Değiştirilebilirlik (exchangeability) gerektirir:</strong> Kalibrasyon ve test örneklerinin sırasının bir önemi olmamalıdır. Bu, bağımsız ve aynı dağılımlı olmaktan zayıf ama boş olmayan bir varsayımdır.</li>
+</ul>
+<p>Bir de vaat <em>etmediği</em> şey var: modelinizin iyi olduğu. Zayıf bir model hedefi yine tutturur, ama bunu kocaman kümelerle yapar. Beş sınıflı bir problemde her örnek için dört sınıfı birden içeren bir küme kusursuz biçimde geçerlidir ve tamamen işe yaramazdır. Bu yüzden konformal tahmin iki sayıyla birlikte raporlanır: <strong>kapsama</strong> ve <strong>ortalama küme büyüklüğü</strong>. Birincisi doğruluğun, ikincisi verimliliğin ölçüsüdür.</p>
+
+<h2 id="b4">Kümeler, aralıklar ve küme büyüklüğünün anlattığı</h2>
+<h3>Sınıflandırmada kümeler</h3>
+<p>Sınıflandırmada çıktı bir etiket listesidir. Kolay örneklerde tek elemanlı, zor örneklerde birkaç elemanlı olur. Boş küme ise özel bir işarettir: hiçbir etiket eşiğin altına girememiştir, yani model bu örneğe kalibrasyon verisinde gördüğü hiçbir şeye benzemeyen bir tepki vermiştir. Bu, <a href="../anomali-tespiti/">anomali tespiti</a> için doğrudan kullanılabilecek bir sinyaldir.</p>
+<h3>Regresyonda aralıklar</h3>
+<p>Regresyonda çıktı bir alt ve üst sınırdır. En basit haliyle mutlak hataların kuantilini alır ve tahmine artı-eksi olarak eklersiniz; bu, her örnek için aynı genişlikte bir aralık verir. Daha gelişmiş varyantlar aralığı yerel zorluğa göre uyarlar; örneğin kuantil regresyon üzerine kurulan yöntemler, verinin gürültülü olduğu bölgelerde aralığı genişletir.</p>
+<p>Asıl kazanç, küme büyüklüğünün <em>kullanılabilir</em> bir büyüklük olmasıdır. Büyük küme, örneğin zor olduğunu söyler. Bunu bir iş kuralına çevirebilirsiniz: tek elemanlı kümeler otomatik geçer, çok elemanlı kümeler insana gider. Böylece belirsizlik nicelemesi (uncertainty quantification) bir grafik olmaktan çıkıp iş akışının parçası olur.</p>
+<p>Aynı sinyal etiketleme bütçesi için de değerlidir. <a href="../aktif-ogrenme/">Aktif öğrenmede</a> hangi örneklerin etiketleneceğine karar verirken ham güven skoru yerine küme büyüklüğünü kullanmak, tanımı gereği daha anlamlı bir zorluk ölçüsü sağlar.</p>
+<div class="callout"><strong>İpucu:</strong> Kapsama oranını tek başına raporlamayın. Yanına ortalama küme büyüklüğünü ve boş küme oranını da koyun. Hedefini tutturan ama kümeleri şişmiş bir sistem, teknik olarak doğru, pratikte işe yaramazdır.</div>
+
+<h2 id="b5">Marjinal kapsama, koşullu kapsama değildir</h2>
+<p>Bu yazıdan tek bir şey hatırlayacaksanız, bu bölüm olsun. Konformal tahminin en sık yapılan yanlış okuması, marjinal garantiyi koşullu bir garanti sanmaktır.</p>
+<p>Marjinal kapsama, bütün test dağılımı üzerinden ortalama alınmış kapsamadır. Sisteminiz hedefini tam tutturabilir ve aynı anda belirli bir sınıfta, belirli bir bölgede ya da belirli bir demografik alt grupta hedefin sistematik olarak altında kalabilir. Ortalama, çoğunluk sınıfındaki fazla kapsamayı azınlık sınıfındaki eksik kapsamayla takas eder ve sonuç raporda kusursuz görünür.</p>
+<p>Bu yalnızca teorik bir endişe değil; azınlık sınıfının marjinal konformal tahminde sistematik olarak eksik kapsandığı <a href="https://arxiv.org/abs/2607.06605" target="_blank" rel="noopener">açıkça belgelenmiş bir olgu</a>. Zaten <a href="../sinif-dengesizligi/">sınıf dengesizliği</a> ile uğraşıyorsanız, kalibrasyon kümenizde azınlık sınıfına ait az sayıda örnek vardır ve o sınıfın skor dağılımı ortak kuantilin içinde kaybolur.</p>
+<blockquote>Yüzde 90 kapsama, herkesin yüzde 90 kapsandığı anlamına gelmez. Ortalamanın kimin lehine çalıştığını sormadan hiçbir garanti okunmamalıdır.</blockquote>
+<p>Çare kavramsal olarak basittir: tek bir ortak kuantil yerine grup başına ayrı kuantil hesaplayın. Sınıf koşullu ya da Mondrian konformal olarak anılan bu yaklaşım, her grup için ayrı bir eşik kullanır ve garantiyi grup düzeyine taşır. Bedeli de açıktır: her grubun kendi kalibrasyon örneklerine ihtiyacı vardır, bu yüzden çok küçük gruplarda eşik oynak hale gelir. Yine de doğru soru şudur: garantiyi kim için istiyorsunuz? Cevap ortalama bir kullanıcı değilse, koşullu sürüme geçmeniz gerekir.</p>
+
+<h2 id="b6">Uygulamada: kayma, varsayımlar ve araçlar</h2>
+<p>Değiştirilebilirlik varsayımı, konformal tahminin tek gerçek kırılganlığıdır. Veri dağılımı zamanla kaydığında kalibrasyon kümeniz artık geleceği temsil etmez ve garanti sessizce erir. Mevsimsellik taşıyan zaman serilerinde, kullanıcı tabanı değişen ürünlerde ve kampanya dönemlerinde bu durum kuraldır, istisna değil. Uyarlamalı ve çevrimiçi varyantlar bu sorunu hedefler, ama hiçbiri sizi kalibrasyon kümesini tazelemekten kurtarmaz.</p>
+<p>Araç tarafında ekosistem hızlı hareket ediyor ve internetteki tavsiyelerin önemli bir kısmı bayat. Python tarafında en görünür kütüphane olan <a href="https://pypi.org/project/MAPIE/" target="_blank" rel="noopener">MAPIE</a> 1.5.0 sürümünü 5 Ağustos 2026'da yayımladı; 22 Mayıs 2025'teki v1.0.0 sürümü ise API'yi kırdı, yani 0.x döneminden kalma öğreticilerdeki kod olduğu gibi çalışmaz. <a href="https://mapie.readthedocs.io/en/stable/" target="_blank" rel="noopener">MAPIE</a> scikit-learn-contrib altındadır; Capgemini Invent, Quantmetry, Michelin ve ENS Paris-Saclay katkısıyla sürdürülür ve 2026 güncellemeleri büyük dil modelleri ile görüntü bölütlemesi için risk kontrolü ve uyarlamalı konformal yöntemler ekler. Alternatifler arasında konformal öngörü sistemleri ile değiştirilebilirlik testi martingalleri ekleyen crepes 0.9.1 (Haziran 2026) ve 1.2.1 sürümündeki TorchCP sayılabilir.</p>
+<div class="callout"><strong>İpucu:</strong> Hâlâ AWS Fortuna ya da <code>nonconformist</code> öneren sayfalara rastlarsanız, o sayfa güncelliğini yitirmiştir. Fortuna deposu 23 Nisan 2025'te <a href="https://github.com/awslabs/fortuna" target="_blank" rel="noopener">arşivlendi</a>, <code>nonconformist</code> ise son sürümünü 2017'de verdi. Bu, o sayfadaki diğer tavsiyeler için de bir uyarı işaretidir.</div>
+<p>Kavramsal giriş için Angelopoulos ve Bates'in <a href="https://arxiv.org/abs/2107.07511" target="_blank" rel="noopener">A Gentle Introduction to Conformal Prediction</a> metni hâlâ en iyi başlangıç noktası. Daha derine inmek isteyenler için Angelopoulos, Barber ve Bates'in Cambridge University Press için hazırladığı ve 6 Mart 2026'da güncellenen <a href="https://arxiv.org/abs/2411.11824" target="_blank" rel="noopener">Theoretical Foundations of Conformal Prediction</a> taslağı var. Bu kitap sık sık yanlış atıfla anılıyor; yazarları arasında Candès yoktur.</p>
+<p>Son olarak düzenleme boyutu: <a href="https://artificialintelligenceact.eu/article/15/" target="_blank" rel="noopener">AB Yapay Zekâ Yasası'nın 15. maddesi</a> sağlayıcıdan doğruluk seviyelerini ve ilgili metrikleri beyan etmesini istiyor. Tek bir doğruluk yüzdesi beyan etmek yerine, hedeflenen ve doğrulanmış bir kapsama oranı beyan etmek hem daha savunulabilir hem de denetlenmesi daha kolay bir ifadedir.</p>
+
+<div class="takeaways"><h4>Öne çıkanlar</h4><ul>
+<li>Konformal tahmin modeli değiştirmez; çıktıyı kapsama garantili bir kümeye ya da aralığa çevirir.</li>
+<li>Yöntem üç adımdır: uyumsuzluk skoru, kalibrasyon kümesinde kuantil, eşiği geçmeyen etiketlerin kümesi.</li>
+<li>Garanti dağılımdan bağımsız, sonlu örnek ve marjineldir; değiştirilebilirlik varsayımına dayanır.</li>
+<li>Marjinal kapsama koşullu kapsama değildir: sistem hedefi tutturup azınlık sınıfını eksik kapsayabilir.</li>
+<li>Kapsamayı asla tek başına raporlamayın; ortalama küme büyüklüğü verimliliğin ölçüsüdür.</li>
+</ul></div>
+
+<div class="faq">
+<details><summary>Konformal tahmin için modelimi yeniden eğitmem gerekir mi?</summary><p>Hayır. Bölmeli konformal tahmin modeli olduğu gibi kullanır; tek ihtiyacınız eğitimde kullanılmamış bir kalibrasyon bölmesidir. Zaten eğitilmiş, hatta içine bakamadığınız bir modelin üzerine de uygulanabilir.</p></details>
+<details><summary>Kalibrasyon kümesinde kaç örnek olmalı?</summary><p>Kesin bir sayı yerine şu sezgiyle çalışın: kuantili tahmin ediyorsunuz, yani hedeflediğiniz kapsamanın kuyruğunda yeterince örnek bulunmalı. Küçük kümelerde eşik oynak olur ve gerçekleşen kapsama hedefin etrafında dalgalanır. Grup bazlı garanti istiyorsanız bu ihtiyaç her grup için ayrı ayrı geçerlidir.</p></details>
+<details><summary>Kalibrasyon mu konformal tahmin mi kullanmalıyım?</summary><p>İkisi farklı işler yapar. Kalibrasyon skorun olasılık ölçeğini düzeltir, konformal tahmin ise bir kapsama oranı garanti eder. Kalibre skorlar konformal kümelerin daha küçük olmasını sağladığı için pratikte ikisini birlikte kullanmak en iyi sonucu verir.</p></details>
+</div>
+
+<hr>
+<p>Konformal tahmin, belirsizliği ölçmenin nadiren rastlanan bir özelliğini taşır: ne vaat ettiği ve neyi vaat etmediği tam olarak yazılıdır. Bu yüzden onu bir sihir olarak değil, bir sözleşme olarak okuyun. Sözleşmenin geçerli olduğu koşulları koruduğunuz sürece, modeliniz size ilk kez gerçekten dürüst bir belirsizlik ifadesi verecek.</p>
+    </div>
+    <div class="article-tags"><span class="tag">Yöntem</span><span class="tag">Yapay Zeka</span></div>
+    <div class="author-box"><span class="ava">HY</span><div><h4>Halide Yılmaz</h4><div class="role">Hatson Teknoloji A.Ş. · Kurucu Ortak</div><p>ODTÜ Bilgisayar Mühendisliği mezunu; bilgisayar ve yapay zeka alanında deneyimli kurucu ortak.</p></div></div>
+    <div class="post-nav"><a href="../model-kalibrasyonu/"><div class="dir">← Önceki</div><div class="ttl">Model Kalibrasyonu: Modelinizin "%90 Eminim" Demesi Ne Anlama Geliyor?</div></a><a class="next" href="../../blog/"><div class="dir">Devamı →</div><div class="ttl">Tüm yazılara dön</div></a></div>
+  </div>
+</article>
+  <footer class="footer"><div class="wrap"><div class="footer-bottom" style="border:none;margin:0;padding:0"><span>© <span data-year>2026</span> Halide Yılmaz · Tüm hakları saklıdır.</span><span><a href="../../gizlilik/">Çerez Politikası</a> · Ankara · ODTÜ Teknokent 🌿</span></div></div></footer>
+  <button class="icon-btn to-top" aria-label="Top"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5M5 12l7-7 7 7"/></svg></button>
+  <script src="../../js/main.js"></script>
+</body>
+</html>

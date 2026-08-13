@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Time-Series Foundation Models: Zero-Shot Forecasting Now Beats the Classics — But Does It Beat Yours? — Halide Yılmaz</title>
+<meta name="description" content="The answer flipped and most published content has not caught up. What fev-bench and GIFT-Eval actually report, why LLM-adapted forecasters are a separate story, and how to run the comparison honestly on your own series." />
+<link rel="canonical" href="https://halideyilmaz.com/en/posts/time-series-foundation-models/" /><link rel="alternate" hreflang="tr" href="https://halideyilmaz.com/posts/zaman-serisi-temel-modelleri/" /><meta name="theme-color" content="#3B6BF6" />
+<meta property="og:type" content="article" /><meta property="og:title" content="Time-Series Foundation Models: Zero-Shot Forecasting Now Beats the Classics — But Does It Beat Yours?" /><meta property="og:description" content="The answer flipped and most published content has not caught up. What fev-bench and GIFT-Eval actually report, why LLM-adapted forecasters are a separate story, and how to run the comparison honestly on your own series." /><meta property="og:image" content="https://halideyilmaz.com/image/bimg-03.jpg" />
+<link rel="icon" href="/favicon.ico?v=20260809" sizes="32x32" />
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg?v=20260809" />
+  <link rel="icon" type="image/png" href="/favicon-192.png?v=20260809" sizes="192x192" />
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png?v=20260809" />
+<link rel="preconnect" href="https://fonts.googleapis.com" /><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&family=Newsreader:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet" />
+<script>(function(){try{var k="hy-theme",t=localStorage.getItem(k),m=window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches;document.documentElement.setAttribute("data-theme",t||(m?"dark":"light"));}catch(e){}})();</script>
+<link rel="stylesheet" href="../../../css/style.css?v=20260809" />
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "headline": "Time-Series Foundation Models: Zero-Shot Forecasting Now Beats the Classics — But Does It Beat Yours?",
+    "description": "The answer flipped and most published content has not caught up. What fev-bench and GIFT-Eval actually report, why LLM-adapted forecasters are a separate story, and how to run the comparison honestly on your own series.",
+    "mainEntityOfPage": { "@type": "WebPage", "@id": "https://halideyilmaz.com/en/posts/time-series-foundation-models/" },
+    "dateModified": "2026-08-13",
+
+    "author": {
+      "@type": "Person",
+      "name": "Halide Yılmaz",
+      "url": "https://halideyilmaz.com/",
+      "worksFor": { "@type": "Organization", "name": "Hatson Teknoloji A.Ş.", "url": "https://hatsontech.com/" }
+    },
+    "publisher": { "@type": "Organization", "name": "Hatson Teknoloji A.Ş.", "url": "https://hatsontech.com/" },
+    "image": "https://halideyilmaz.com/image/bimg-03.jpg",
+    "inLanguage": "en"
+  }
+  </script>
+</head>
+<body>
+<div class="progress"></div>
+  <nav class="nav" id="nav">
+    <div class="wrap">
+      <a class="brand" href="../../" aria-label="Home"><img class="logo-light" src="../../../image/caseon-mark-light.svg" alt="Caseon" width="28" height="28" /><img class="logo-dark" src="../../../image/caseon-mark-dark.svg" alt="Caseon" width="28" height="28" /><span>Halide Yılmaz</span></a>
+      <div class="nav-links" id="navLinks">
+        <a href="../../#about">About</a>
+        <a href="../../#what-i-do">What I Do</a>
+        <a href="../../#expertise">Expertise</a>
+        <a href="../../blog/">Articles</a>
+        <a href="../../#contact">Contact</a>
+      </div>
+      <div class="nav-actions">
+        <a class="lang-switch" href="../../../posts/zaman-serisi-temel-modelleri/">TR</a>
+        <button class="icon-btn theme-toggle" data-theme-toggle aria-label="Theme"><svg class="sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M6.3 17.7l-1.4 1.4M19.1 4.9l-1.4 1.4"/></svg><svg class="moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg></button>
+        <button class="icon-btn nav-toggle" data-nav-toggle aria-label="Menu"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 6h18M3 12h18M3 18h18"/></svg></button>
+      </div>
+    </div>
+  </nav>
+<article>
+  <div class="wrap narrow article-head">
+    <div class="breadcrumb"><a href="../../">Home</a> <span>/</span>
+        <a href="../../blog/">Articles</a> <span>/</span>
+        <span>Methods</span></div>
+    <span class="tag">Methods</span>
+    <h1>Time-Series Foundation Models: Zero-Shot Forecasting Now Beats the Classics — But Does It Beat Yours?</h1>
+    <div class="article-meta"><div class="author"><span class="ava">HY</span><div><div style="color:var(--text);font-weight:600">Halide Yılmaz</div><div>HatsonTech · Co-Founder</div></div></div><span>· 11 min read</span></div>
+  </div>
+  <div class="wrap narrow"><div class="article-hero"><img src="../../../image/bimg-03.jpg" alt="Time-Series Foundation Models: Zero-Shot Forecasting Now Beats the Classics — But Does It Beat Yours?"></div></div>
+  <div class="wrap narrow" style="padding-top:36px;padding-bottom:36px">
+    <div class="prose">
+<p class="lead-p">In time-series forecasting, the sentence that was true two years ago is false today. The 2024-era verdict that foundation models still lose to ARIMA no longer holds; but the launch-copy claim that forecasting is now solved is not right either. The honest headline sits between them: <strong>purpose-built time-series foundation models won, and bolting a language model onto forecasting did not.</strong> This post covers what the numbers say, what they do not say, and how to set the comparison up on your own data.</p>
+
+<div class="toc"><h4>Contents</h4><ol>
+<li><a href="#b1">The answer flipped; most content still prints the old one</a></li>
+<li><a href="#b2">What zero-shot forecasting means, and why it works</a></li>
+<li><a href="#b3">What the numbers say — and on what date they said it</a></li>
+<li><a href="#b4">The counterweight: bolting an LLM onto forecasting did not work</a></li>
+<li><a href="#b5">Will it beat yours? Setting the comparison up properly</a></li>
+<li><a href="#b6">When do classical methods still win?</a></li>
+</ol></div>
+
+<h2 id="b1">The answer flipped; most content still prints the old one</h2>
+<p>Search this topic and you get two kinds of article. The first is the launch content that forms around model announcements: zero-shot forecasting beats everything. The second is the critique written around 2024, entirely justified by the evidence available then: foundation models fall behind simple statistical methods. Both are now misleading.</p>
+<p>The difference between them is a date. The field moved quickly and benchmarks published towards the end of 2025 reversed the conclusion of earlier evaluations. But a benchmark result flipping does not mean the flipped version is permanent; it only tells you what the most recent measurement we have says.</p>
+<p>So in this post every number is tied to the dated paper that reports it. Presenting a benchmark table as the current state of the world is the most common way an article becomes wrong six months after publication.</p>
+<blockquote>A benchmark table tells you something about the models and the datasets in the table. Your series is not in the table.</blockquote>
+<p>And that is the real point. A win rate measured over a hundred tasks says nothing about what will happen on your weekly demand series. The second half of this post is devoted precisely to that question: how do you run the comparison on your own data?</p>
+
+<h2 id="b2">What zero-shot forecasting means, and why it works</h2>
+<p>In the classical approach you build a separate model for each series: look at the data, identify the seasonality, estimate parameters from that series' own history. That is the discipline described in <a href="../time-series-forecasting/">time-series forecasting</a>, and it works well — as long as you have enough history.</p>
+<p>A time-series foundation model inverts that arrangement. The model is pretrained on a large corpus of millions of different series. What it learns is not the parameters of any one series but the general grammar of series: how a trend looks, how seasonality breaks, how a spike decays. It then takes a series it has never seen and produces a forecast <strong>with no training at all</strong>. That is zero-shot forecasting.</p>
+<p>To see why it helps, think about the weakest case: you have eighteen months of history. Not enough to estimate seasonality with confidence, and nowhere near enough to train a machine-learning model. The best the classical route can do is fit parameters on a coarse assumption. A pretrained model, by contrast, looks at that series carrying the knowledge of thousands of similar patterns it has already seen. That is where its advantage in the low-data regime comes from.</p>
+<p>The scale involved is also no longer enormous. Chronos-2 (<a href="https://github.com/amazon-science/chronos-forecasting" target="_blank" rel="noopener">October 2025, 120 M parameters</a>) and TimesFM 2.5 (<a href="https://github.com/google-research/timesfm" target="_blank" rel="noopener">September 2025, 200 M parameters, 16k context</a>) are small models next to today's language models, which puts the setup cost within reach for many teams.</p>
+
+<h2 id="b3">What the numbers say — and on what date they said it</h2>
+<p><a href="https://arxiv.org/abs/2509.26468" target="_blank" rel="noopener">As reported in the fev-bench paper</a>, across 100 tasks drawn from 7 domains, the results are as follows — win rate and skill score respectively:</p>
+<ul>
+<li><strong>Chronos-2:</strong> 91.4% win rate, 47.3% skill score.</li>
+<li><strong>TiRex:</strong> 83.3% and 42.6%.</li>
+<li><strong>TimesFM-2.5:</strong> 79.6% and 42.2%.</li>
+<li><strong>Statistical Ensemble:</strong> 45.5% and 20.7%.</li>
+<li><strong>CatBoost:</strong> 34.4% and 23.0%.</li>
+<li><strong>Seasonal Naive:</strong> 19.6% and 0.0%.</li>
+</ul>
+<p>The paper's own conclusion is blunt: all pretrained models are substantially more accurate <em>and faster</em> than the best statistical and task-specific models. The speed half gets dropped from most summaries, and in production it is often the half that decides.</p>
+<p>As a second yardstick there is <a href="https://arxiv.org/abs/2410.10393" target="_blank" rel="noopener">GIFT-Eval</a>: 23 datasets, 144,000 time series, 177 million data points, 7 domains, 10 frequencies and 17 baselines. Looking at two independent harnesses rather than leaning on one is the cheapest way to tell whether a result is a property of the models or of the harness.</p>
+<div class="callout"><strong>Tip:</strong> The figures above are measurements as of the publication of those papers, not the current live standing. Leaderboards move: new model versions ship, datasets get updated, evaluation protocols change. Before making a decision, check the live board for the benchmark in question and note which version was measured.</div>
+<p>One more caveat: win rate and error magnitude are not the same thing. A model can lead on 91% of tasks and lead by a hair on every one of them. How a single aggregate metric hides its own distribution is a permanent theme in the <a href="../classification-metrics/">choice of metric</a>, and it applies here exactly as it does elsewhere.</p>
+
+<h2 id="b4">The counterweight: bolting an LLM onto forecasting did not work</h2>
+<p>To keep this from turning into marketing copy, it is worth stopping to draw a distinction. Two different ideas have been running under one heading in time-series forecasting:</p>
+<ul>
+<li><strong>Models pretrained specifically for time series</strong> — the Chronos family and its peers. Both architecture and pretraining corpus were designed for series.</li>
+<li><strong>LLM-adapted forecasters</strong> — an off-the-shelf language model adapted to consume numeric series.</li>
+</ul>
+<p><a href="https://arxiv.org/abs/2406.16964" target="_blank" rel="noopener">A study of the second group</a> finds that removing the LLM component, or replacing it with a basic attention layer, does not degrade forecasting performance. In other words the performance was not coming from the language model at all.</p>
+<p>Read that finding carefully: <strong>the critique targets LLM-adapted forecasters, not purpose-built time-series foundation models like Chronos.</strong> Conflating the two is the most frequent citation error in this area. The accurate summary is that pretraining worked, and wedging a language model into the middle did not.</p>
+<p>A similar story is unfolding on the tabular side and calls for the same caution. The reported result for TabPFN-3 is ambitious: it <a href="https://arxiv.org/abs/2605.13986" target="_blank" rel="noopener">beats 8-hour-tuned gradient-boosted-tree baselines on datasets up to 1M training rows</a>. Against that, an independent <a href="https://arxiv.org/abs/2605.22892" target="_blank" rel="noopener">insurance-pricing study</a> finds it does not consistently outperform established baselines. Both can be true, because “wins on average” and “wins in your domain” are not the same sentence.</p>
+
+<h2 id="b5">Will it beat yours? Setting the comparison up properly</h2>
+<p>A benchmark table gives you a shortlist; it does not make the decision. Only a measurement on your own data does that, and running that measurement has a specific discipline.</p>
+<h3>The measurement setup</h3>
+<ul>
+<li><strong>Seasonal-naive baseline first.</strong> The rule that sets next period equal to the same period last year is a stubbornly hard opponent on a surprising number of production series. Any model that cannot beat it does not enter the conversation.</li>
+<li><strong>Walk-forward validation.</strong> A random split on a time series leaks the future into the past. Move the cutoff forward, forecast repeatedly, and pool the errors across those windows.</li>
+<li><strong>The same horizon and the same cutoff for every candidate.</strong> Two models measured at different horizons cannot be compared. This is the most common and the easiest mistake to miss.</li>
+<li><strong>A leakage check.</strong> A zero-shot model may have seen a public version of your dataset in its pretraining corpus. If you are testing on a public dataset, note that possibility explicitly.</li>
+</ul>
+<pre><code># A fair time-series comparison (pseudocode)
+candidates = [seasonal_naive, statistical_model, gbdt_model, foundation_model]
+horizon = 28                                # identical for every candidate
+for cutoff in walk_forward_windows(series, step=horizon, count=12):
+    history = series[:cutoff]               # nothing after the cutoff is visible
+    for cand in candidates:
+        t0 = now()
+        pred = cand.forecast(history, horizon)   # same horizon, same cutoff
+        record(cand, cutoff, error(pred, series[cutoff:cutoff+horizon]),
+               latency=now()-t0)            # cost is part of the result
+# Average over windows and report the spread too;
+# a single window measures luck, not a model.</code></pre>
+<h3>Count cost as part of the result</h3>
+<p>Reporting a model's error metric without its inference cost and latency hides half the decision. If you forecast ten thousand series every night, a model that is 2% better and thirty times more expensive is usually the wrong choice. That is why the fev-bench paper's emphasis on speed matters: here, speed is a decision variable rather than a convenience.</p>
+<div class="callout"><strong>Tip:</strong> Report the variation across windows, not just the mean. If two models land close together, the question is whether the gap can be told apart from noise at all — which is exactly the subject of <a href="../statistical-significance-model-comparison/">statistical significance in model comparison</a>. Do not change architecture over one decimal place.</div>
+
+<h2 id="b6">When do classical methods still win?</h2>
+<p>General superiority in benchmarks does not retire the classics. In four situations they remain the first choice.</p>
+<ul>
+<li><strong>Strong, known seasonality:</strong> if you already know the seasonal structure for certain — public holidays, payday cycles, the academic calendar — encoding that knowledge directly is more reliable than waiting for a model to rediscover it from data.</li>
+<li><strong>Exogenous regressors you must control:</strong> if you need to see the effect of price, promotion or weather <em>separately</em>, a model with readable coefficients gives you something a foundation model will not.</li>
+<li><strong>Hard interpretability requirements:</strong> if you have to explain to an auditor or a board how a forecast was formed, an explainable structure is not negotiable.</li>
+<li><strong>Tiny compute budgets:</strong> on an edge device, inside an embedded system, or on a pipeline refreshing millions of series hourly, a statistical model is still the cheapest correct answer.</li>
+</ul>
+<p>It is also worth drawing one boundary clearly: forecasting and <a href="../anomaly-detection/">anomaly detection</a> are not the same job. A foundation model may produce an excellent expected value, but “is this point anomalous” needs a threshold, an uncertainty band and a false-alarm budget. Swapping the forecasting model also breaks the calibration of your anomaly detector, so do not change both at once.</p>
+<blockquote>The useful question is not “which model is better” but “which measurement will make this decision”. A team that answers the second is still ready when the answer to the first changes.</blockquote>
+<p>A practical closing recommendation: add the foundation model to your pipeline as an <em>additional candidate</em>, not as a replacement. Seasonal naive, your current model and one zero-shot foundation model — measure all three in the same harness, at the same horizon, on the same cutoffs. Let your own measurement decide rather than the table.</p>
+
+<div class="takeaways"><h4>Key takeaways</h4><ul>
+<li>The answer flipped: as reported in the fev-bench paper, pretrained models came out both more accurate and faster than the best statistical and task-specific models.</li>
+<li>Purpose-built time-series foundation models won; for LLM-adapted forecasters, removing the LLM component did not degrade performance.</li>
+<li>A win rate measured over a hundred tasks tells you nothing about your series; only your own measurement decides.</li>
+<li>Set the comparison up with a seasonal-naive baseline, walk-forward validation, and the same horizon and cutoff for every candidate.</li>
+<li>Classical methods can still be the first choice under known seasonality, exogenous regressors, interpretability requirements or tiny compute budgets.</li>
+</ul></div>
+
+<div class="faq">
+<details><summary>If I use a foundation model, do I still have to train anything?</summary><p>You may not need training, but you always need evaluation. Zero-shot forecasting produces output directly for a series it has never seen, which removes most of the setup cost. Whether it works well on your series, however, is shown only by your own walk-forward measurement. Inference cost and latency are also now part of the decision.</p></details>
+<details><summary>Can I trust the ranking on the benchmark boards?</summary><p>As a starting point yes, as a decision no. The numbers in this post are the measurements those papers reported, not the current live standing; leaderboards move as model versions and protocols change. Check the live board for the benchmark before deciding, and note which version was actually measured.</p></details>
+<details><summary>Is the advantage on short series real?</summary><p>The low-data regime is where pretrained models are strongest. On an eighteen-month series you cannot estimate seasonality with confidence or train a machine-learning model at all, whereas a pretrained model looks at it carrying patterns it has already seen. Even so, do not decide without comparing against a seasonal-naive baseline.</p></details>
+</div>
+
+<hr>
+<p>In short: the default starting point in time-series forecasting has changed, and refusing to accept that means working from stale information. But a benchmark headline is not a measurement of your series. The right reflex is simple: baseline with seasonal naive, measure candidates in one harness, count cost as part of the result, and run the same measurement again a year from now.</p>
+    </div>
+    <div class="article-tags"><span class="tag">Methods</span><span class="tag">AI</span></div>
+    <div class="author-box"><span class="ava">HY</span><div><h4>Halide Yılmaz</h4><div class="role">Hatson Teknoloji A.Ş. · Co-Founder</div><p>A graduate of METU Computer Engineering; co-founder working in computing and AI.</p></div></div>
+    <div class="post-nav"><a href="../machine-unlearning-right-to-be-forgotten/"><div class="dir">← Previous</div><div class="ttl">Machine Unlearning: Can You Really Make a Model Forget Someone?</div></a><a class="next" href="../../blog/"><div class="dir">More →</div><div class="ttl">Back to all articles</div></a></div>
+  </div>
+</article>
+  <footer class="footer"><div class="wrap"><div class="footer-bottom" style="border:none;margin:0;padding:0"><span>© <span data-year>2026</span> Halide Yılmaz · All rights reserved.</span><span><a href="../../privacy/">Cookie Policy</a> · Ankara · METU Technopark 🌿</span></div></div></footer>
+  <button class="icon-btn to-top" aria-label="Top"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5M5 12l7-7 7 7"/></svg></button>
+  <script src="../../../js/main.js"></script>
+</body>
+</html>

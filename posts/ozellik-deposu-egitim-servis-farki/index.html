@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="tr" data-theme="light">
+<head>
+<meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Özellik Deposu ve Eğitim-Servis Farkı: Model Neden Sahada Farklı Davranıyor? — Halide Yılmaz</title>
+<meta name="description" content="Modelin çevrimdışı skoru iyi ama sahadaki davranışı farklı. Eğitim-servis farkının dört somut kaynağını, noktasal-zaman doğruluğunun neden sızıntı önleme olduğunu ve özellik deposunun ne zaman maliyetini hak ettiğini anlatıyoruz." />
+<link rel="canonical" href="https://halideyilmaz.com/posts/ozellik-deposu-egitim-servis-farki/" /><link rel="alternate" hreflang="en" href="https://halideyilmaz.com/en/posts/feature-stores-training-serving-skew/" /><meta name="theme-color" content="#3B6BF6" />
+<meta property="og:type" content="article" /><meta property="og:title" content="Özellik Deposu ve Eğitim-Servis Farkı: Model Neden Sahada Farklı Davranıyor?" /><meta property="og:description" content="Modelin çevrimdışı skoru iyi ama sahadaki davranışı farklı. Eğitim-servis farkının dört somut kaynağını, noktasal-zaman doğruluğunun neden sızıntı önleme olduğunu ve özellik deposunun ne zaman maliyetini hak ettiğini anlatıyoruz." /><meta property="og:image" content="https://halideyilmaz.com/image/bimg-20.jpg" />
+<link rel="icon" href="/favicon.ico?v=20260809" sizes="32x32" />
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg?v=20260809" />
+  <link rel="icon" type="image/png" href="/favicon-192.png?v=20260809" sizes="192x192" />
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png?v=20260809" />
+<link rel="preconnect" href="https://fonts.googleapis.com" /><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&family=Newsreader:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet" />
+<script>(function(){try{var k="hy-theme",t=localStorage.getItem(k),m=window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches;document.documentElement.setAttribute("data-theme",t||(m?"dark":"light"));}catch(e){}})();</script>
+<link rel="stylesheet" href="../../css/style.css?v=20260809" />
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "headline": "Özellik Deposu ve Eğitim-Servis Farkı: Model Neden Sahada Farklı Davranıyor?",
+    "description": "Modelin çevrimdışı skoru iyi ama sahadaki davranışı farklı. Eğitim-servis farkının dört somut kaynağını, noktasal-zaman doğruluğunun neden sızıntı önleme olduğunu ve özellik deposunun ne zaman maliyetini hak ettiğini anlatıyoruz.",
+    "mainEntityOfPage": { "@type": "WebPage", "@id": "https://halideyilmaz.com/posts/ozellik-deposu-egitim-servis-farki/" },
+    "dateModified": "2026-08-13",
+
+    "author": {
+      "@type": "Person",
+      "name": "Halide Yılmaz",
+      "url": "https://halideyilmaz.com/",
+      "worksFor": { "@type": "Organization", "name": "Hatson Teknoloji A.Ş.", "url": "https://hatsontech.com/" }
+    },
+    "publisher": { "@type": "Organization", "name": "Hatson Teknoloji A.Ş.", "url": "https://hatsontech.com/" },
+    "image": "https://halideyilmaz.com/image/bimg-20.jpg",
+    "inLanguage": "tr"
+  }
+  </script>
+</head>
+<body>
+<div class="progress"></div>
+  <nav class="nav" id="nav">
+    <div class="wrap">
+      <a class="brand" href="../../" aria-label="Home"><img class="logo-light" src="../../image/caseon-mark-light.svg" alt="Caseon" width="28" height="28" /><img class="logo-dark" src="../../image/caseon-mark-dark.svg" alt="Caseon" width="28" height="28" /><span>Halide Yılmaz</span></a>
+      <div class="nav-links" id="navLinks">
+        <a href="../../#hakkinda">Kimdir</a>
+        <a href="../../#ne-yapiyor">Ne Yapıyor</a>
+        <a href="../../#uzmanlik">Uzmanlık</a>
+        <a href="../../blog/">Yazılar</a>
+        <a href="../../#iletisim">İletişim</a>
+      </div>
+      <div class="nav-actions">
+        <a class="lang-switch" href="../../en/posts/feature-stores-training-serving-skew/">EN</a>
+        <button class="icon-btn theme-toggle" data-theme-toggle aria-label="Theme"><svg class="sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M6.3 17.7l-1.4 1.4M19.1 4.9l-1.4 1.4"/></svg><svg class="moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg></button>
+        <button class="icon-btn nav-toggle" data-nav-toggle aria-label="Menu"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 6h18M3 12h18M3 18h18"/></svg></button>
+      </div>
+    </div>
+  </nav>
+<article>
+  <div class="wrap narrow article-head">
+    <div class="breadcrumb"><a href="../../">Ana sayfa</a> <span>/</span>
+        <a href="../../blog/">Yazılar</a> <span>/</span>
+        <span>Üretim</span></div>
+    <span class="tag">Üretim</span>
+    <h1>Özellik Deposu ve Eğitim-Servis Farkı: Model Neden Sahada Farklı Davranıyor?</h1>
+    <div class="article-meta"><div class="author"><span class="ava">HY</span><div><div style="color:var(--text);font-weight:600">Halide Yılmaz</div><div>HatsonTech · Kurucu Ortak</div></div></div><span>· 10 dakika okuma</span></div>
+  </div>
+  <div class="wrap narrow"><div class="article-hero"><img src="../../image/bimg-20.jpg" alt="Özellik Deposu ve Eğitim-Servis Farkı: Model Neden Sahada Farklı Davranıyor?"></div></div>
+  <div class="wrap narrow" style="padding-top:36px;padding-bottom:36px">
+    <div class="prose">
+<p class="lead-p">Çevrimdışı değerlendirmede güzel bir skor aldınız, modeli yayına aldınız ve saha davranışı beklediğiniz gibi çıkmadı. İlk refleks veri kaymasını (data drift) suçlamaktır. Oysa vakaların büyük kısmında dünya değişmemiştir: eğitimde hesapladığınız özellik (feature) ile servis anında hesaplanan özellik aynı sayı değildir. Buna eğitim-servis farkı (training-serving skew) denir ve üretimdeki model sürprizlerinin en sık, en sessiz sebebidir. Bu yazıda farkın nereden çıktığını, noktasal-zaman doğruluğunun neden aslında bir sızıntı önleme meselesi olduğunu ve ticari olarak rahatsız edici soruyu konuşuyoruz: özellik deposuna (feature store) gerçekten ihtiyacınız var mı?</p>
+
+<div class="toc"><h4>İçindekiler</h4><ol>
+<li><a href="#b1">Aynı model, iki farklı dünya</a></li>
+<li><a href="#b2">Farkın dört somut yolu</a></li>
+<li><a href="#b3">Noktasal-zaman doğruluğu, aslında sızıntı önlemedir</a></li>
+<li><a href="#b4">Parite testi: inanç değil kanıt</a></li>
+<li><a href="#b5">Özellik deposuna gerçekten ihtiyacınız var mı?</a></li>
+<li><a href="#b6">Kategori ölmedi, soğuruldu</a></li>
+</ol></div>
+
+<h2 id="b1">Aynı model, iki farklı dünya</h2>
+<p>Belirti hep aynıdır. Çevrimdışı ölçümler iyidir, doğrulama seti temizdir, veri hatları yeşildir, hiçbir yerde hata kaydı yoktur. Ama modelin sahadaki davranışı çevrimdışı beklentiyle örtüşmez. Kimse bir şey kırmamıştır; yalnızca aynı özellik iki farklı biçimde hesaplanmıştır.</p>
+<p>Bu iki kavramı net ayırmakta fayda var. <a href="../model-izleme-drift/">Veri kayması</a> dünyanın değişmesidir: girdilerin dağılımı zamanla kayar. Eğitim-servis farkı ise dünyanın değil, sizin iki kod yolunuzun farkıdır. Kayma bir süreç, fark bir durumdur.</p>
+<p>Bu ayrım aynı zamanda en ucuz teşhis aracıdır. Model yayına alındığı <em>ilk günden</em> itibaren beklenenden farklı davranıyorsa, bu kayma olamaz; kaymanın oluşması için zaman gerekir. Fark ise sıfırıncı günde oradadır ve hiçbir alarm çalmaz, çünkü izleme sisteminiz dağılımların zaman içindeki değişimine bakacak biçimde kurulmuştur, iki hesaplama yolunun tutarlılığına değil.</p>
+<p>Farkın pahalı olmasının sebebi de tam olarak budur: kendini bir hata olarak göstermez. Bir servis çökerse alarm çalar, bir veri hattı kırılırsa iş başarısız olur. Ama iki tarafta farklı hesaplanan bir özellik, her iki tarafta da geçerli görünen bir sayı üretir. Kimse aranmaz, kimse bakmaz; model sadece sessizce biraz daha kötü çalışır ve bu &ldquo;biraz&rdquo; aylarca birikir.</p>
+<blockquote>Kayma zamanla gelir, fark ilk günden vardır. Model yayına alındığı gün beklenenden farklı davrandıysa dünyayı değil, kendi iki kod yolunuzu inceleyin.</blockquote>
+
+<h2 id="b2">Farkın dört somut yolu</h2>
+<p>Eğitim ile servis arasındaki ayrışma soyut bir tehlike değildir; pratikte hep aynı dört yerden çıkar.</p>
+<ol>
+<li><strong>Aynı dönüşümün iki ayrı uygulaması.</strong> Eğitim tarafında SQL ya da pandas ile yazılmış bir toplama, servis tarafında başka bir dilde yazılmış bir servis. İkisi de doğru yazılmıştır, ama yuvarlama, boşluk kırpma, büyük-küçük harf, sıralama ve bölme sıfıra denk geldiğinde ne olacağı gibi kenar durumlarda ayrışırlar. Kimse hata yapmamıştır; aynı şey iki kez yazılmıştır.</li>
+<li><strong>Farklı toplama pencereleri.</strong> &ldquo;Son 30 gün&rdquo; eğitimde takvim günü, serviste kayan 720 saat olabilir. Pencerenin uç noktası dâhil mi değil mi, saat dilimi hangisi, bugünün yarım günü sayılıyor mu? Bu ayrıntılar özellik değerini sessizce kaydırır.</li>
+<li><strong>Boş değer ve varsayılan işleme.</strong> Eğitimde eksik değerler eğitim setinin ortancasıyla doldurulur; serviste bir arama isabetsiz kaldığında 0 ya da -1 gönderilir. Üretimde başarısız bir arama, geçerli görünen bir sayıya dönüşür ve hiçbir uyarı üretmez.</li>
+<li><strong>Etiket zamanı ile servis zamanı arasındaki erişilebilirlik farkı.</strong> Eğitim satırında her sütun doludur, çünkü olay çoktan yerleşmiştir. Servis anında ise o sütun henüz oluşmamıştır. Bu dördüncü kalem aynı zamanda bir sızıntı kaynağıdır ve bir sonraki bölümün konusudur.</li>
+</ol>
+<p>Bu dört maddeyi <a href="../ozellik-muhendisligi/">özellik mühendisliği</a> tarafında bir kontrol listesi gibi kullanabilirsiniz. Önemli olan, her özelliğin tanımının tek bir yerde yaşamasıdır: pencere uzunluğu, saat dilimi, eksik değer politikası ve tip dönüşümü tek bir yerde yazılıyorsa, iki yol arasında ayrışacak bir şey kalmaz.</p>
+<div class="callout"><strong>İpucu:</strong> Fark avına bütün özelliklerle başlamayın. Modelin en çok ağırlık verdiği beş özelliği seçin ve önce onları eşitleyin. Üretimdeki davranış sürprizlerinin büyük kısmı, birkaç yüksek etkili özelliğin küçük bir tanım farkından doğar.</div>
+
+<h2 id="b3">Noktasal-zaman doğruluğu, aslında sızıntı önlemedir</h2>
+<p>Noktasal-zaman doğruluğu (point-in-time correctness) kulağa teknik geliyor ama tanımı sadedir: etiket zamanı <em>t</em> olan her eğitim satırında, her özellik yalnızca <em>t</em> anında gerçekten var olan veriyle hesaplanmalıdır. Yani çevrim içi sistemin o an döndüreceği değerle; bugün tabloda duran değerle değil.</p>
+<p>Klasik hata şudur: değişken bir boyut tablosunu &mdash; müşteri statüsü, risk segmenti, yaşam boyu değer &mdash; bugünkü hâliyle eğitim satırına birleştirmek. O sütun bugün &ldquo;riskli&rdquo; yazıyorsa, bunun sebebi büyük ihtimalle tam da tahmin etmeye çalıştığınız olayın gerçekleşmiş olmasıdır. Geleceği özelliğin içine koymuş olursunuz.</p>
+<h3>Aynı hata, iki farklı pencereden</h3>
+<p>Burada söylenmesi gereken şey şu: noktasal-zaman doğruluğu, üretim tarafından bakıldığında <a href="../veri-sizintisi-capraz-dogrulama/">veri sızıntısının</a> ta kendisidir. Çapraz doğrulamada sızıntıyı satırlar ve katlar arasında engellersiniz; burada zaman ekseninde engellersiniz. Mekanizma aynıdır: modele, tahmin anında sahip olmayacağı bir bilgiyi vermiş olursunuz.</p>
+<p>Sonucu da aynıdır ve birinci bölümdeki belirtiyle birebir örtüşür: çevrimdışı skor mükemmel görünür, saha hayal kırıklığı yaratır. Yani &ldquo;üretimde beklenenden kötü&rdquo; şikâyetinin arkasında çoğu zaman kayma değil, geçmişe kaçmış bir birleştirme vardır.</p>
+<p>Pratikte üç kural yeter. Özellik değerlerini yalnızca güncel hâliyle değil, geçerlilik zaman damgasıyla birlikte saklayın. Eğitim setini kurarken olay zamanına göre geriye doğru birleştirme yapın. Ve özellik tablolarında yerinde güncelleme yerine ekleme yapın; üzerine yazılan her satır, geçmişi yeniden yazar.</p>
+<blockquote>Çevrimdışı skorunuz gerçek olamayacak kadar iyiyse, muhtemelen gerçek değildir. Fazla iyi bir skor, çoğu zaman bir zaman ihlalinin imzasıdır.</blockquote>
+
+<h2 id="b4">Parite testi: inanç değil kanıt</h2>
+<p>Ekiplerin çoğu &ldquo;iki taraf aynı mantığı kullanıyor&rdquo; cümlesine inanır. Bu bir inançtır; kanıt değildir. Kanıt üretmenin yolu basit ve ucuzdur.</p>
+<p>Önce servis anında modele giren özellik vektörünü <em>olduğu gibi</em> kaydedin. Ham girdiyi değil, hesaplanmış vektörü; yanına istek kimliğini, zaman damgasını ve model sürümünü. Sonra bu kayıtları alıp eğitim dönüşümünden yeniden geçirin ve özellik özellik farkı çıkarın.</p>
+<p>Raporunuz üç şey söylemelidir: her özellik için uyuşmazlık oranı, farkların dağılımı ve en kötü birkaç özellik. Küçük ve kararlı bir uyuşmazlık oranı normaldir; geç gelen veri bunu üretir. Asıl sinyal oranın kendisi değil, oranın <em>değişmesidir</em>.</p>
+<p>Toleransı da özellik başına belirleyin. Bir para tutarında binde birlik sapma önemsizken, bir kategori kodunda tek karakterlik fark modelin gördüğü şeyi tamamen değiştirir. Tek bir genel eşik, önemsiz farkları gürültüye, önemli farkları görünmezliğe iter.</p>
+<pre><code># Egitim-servis paritesi: iddiayi kanitla (sözde-kod)
+# 1) Servis aninda kullanilan vektoru oldugu gibi kaydet
+kaydet(istek_id, zaman_damgasi, ozellik_vektoru, model_surumu)
+
+# 2) Ayni girdileri egitim donusumunden gecir ve karsilastir
+for kayit in servis_kayitlari(gun):
+    yeniden = egitim_donusumu(kayit.ham_girdi, an=kayit.zaman_damgasi)
+    for ad in ozellik_adlari:
+        fark = mutlak(yeniden[ad] - kayit.vektor[ad])
+        if fark &gt; tolerans[ad]:
+            uyusmazlik[ad] += 1
+
+# 3) Ozellik basina orani rapor et, taban cizgisi asilinca uyar
+rapor(sirala(uyusmazlik, azalan=True))
+# Kucuk ve kararli bir uyusmazlik normaldir; sinyal, oranin degismesidir.</code></pre>
+<p>Bu kurulumun ikinci bir faydası var ve genelde gözden kaçar. Servis anında kaydettiğiniz vektörler, etiketler geldiğinde tanımı gereği noktasal-zaman doğru bir eğitim seti oluşturur; çünkü o vektörler zaten yalnızca o an mevcut olan veriyle üretilmiştir. Kaydet ve bekle yaklaşımı yavaştır, ama bir hata sınıfını tamamen ortadan kaldırır.</p>
+<div class="callout"><strong>İpucu:</strong> Parite testini bir kereye mahsus bir doğrulama değil, günlük çalışan bir iş olarak kurun. Farkların çoğu yeni bir sürümle birlikte girer; ilk gün yakalanan bir uyuşmazlık ucuz, altı ay sonra fark edilen aynı uyuşmazlık ise altı aylık yanlış karardır.</div>
+
+<h2 id="b5">Özellik deposuna gerçekten ihtiyacınız var mı?</h2>
+<p>Şimdi satıcıların pek sevmediği soruya gelelim. Bir özellik deposu aslında dört ayrı yetenek satar ve bunlar birbirinden bağımsızdır.</p>
+<ul>
+<li><strong>Tek dönüşüm tanımı:</strong> aynı hesabın hem eğitim hem servis tarafından çağrılması.</li>
+<li><strong>Noktasal-zaman doğru geçmiş sorgusu:</strong> eğitim seti kurarken zaman ihlali yapmayan birleştirme.</li>
+<li><strong>Düşük gecikmeli çevrim içi depo:</strong> istek anında milisaniyeler içinde özellik okuma.</li>
+<li><strong>Keşif, yeniden kullanım ve yönetişim:</strong> hangi özelliği kimin ürettiği, kimin tükettiği, neyin bozulduğunda kimin arandığı.</li>
+</ul>
+<p>Ekiplerin çoğunun gerçekten ihtiyaç duyduğu şey ilk ikisidir. İlk ikisi ise bir ürün değil, iki mühendislik kararıdır: ortak bir dönüşüm kütüphanesi ve olay zamanına göre geriye doğru birleştiren bir sorgu deseni. Bunlar için yeni bir sistem kurmanız gerekmez; mevcut veri ambarınızda da kurulabilirler.</p>
+<h3>Basit bir karar kuralı</h3>
+<p>Üçüncü yetenek, özellikleriniz akış hâlindeki olaylardan hesaplanıyorsa ve gecikme bütçeniz milisaniyelerle ölçülüyorsa maliyetini hak eder. Dördüncüsü ise çok sayıda ekip ve model aynı özellikleri paylaşıyorsa, yani kimin neyi ürettiği artık kimsenin aklında tutamayacağı kadar çoğaldıysa hak eder.</p>
+<p>Buna karşılık maliyet tarafı da gerçektir: durum tutan yeni bir sistem, yeni bir arıza modu, yeni bir nöbet listesi ve ileride yapılacak yeni bir göç. Tek bir modeliniz, gecelik toplu hesaplanan özellikleriniz ve tek bir ekibiniz varsa, ortak kütüphane artı geriye doğru birleştirme artı günlük parite testi büyük olasılıkla daha az riskle aynı sonucu verir.</p>
+
+<h2 id="b6">Kategori ölmedi, soğuruldu</h2>
+<p>Peki bu alanda ne oldu? Kısa cevap: özellik deposu kategorisi ortadan kalkmadı, veri platformunun içine çekildi.</p>
+<p>Databricks, Tecton&rsquo;u satın aldığını <a href="https://www.databricks.com/blog/tecton-joining-databricks-power-real-time-data-personalized-ai-agents" target="_blank" rel="noopener">22 Ağustos 2025&rsquo;te</a> duyurdu. Aynı tarafta eski Workspace Feature Store kullanımdan kaldırıldı; bugünkü yol, <a href="https://docs.databricks.com/aws/en/machine-learning/feature-store/" target="_blank" rel="noopener">Unity Catalog nesneleri olarak Feature View&rsquo;lar</a> ve Lakebase üzerinden çevrim içi servis. Yani özellik deposu ayrı bir ürün olmayı bırakıp katalog ve göl evi katmanının bir parçası hâline geldi.</p>
+<p>Bağımsız tarafta Feast ayakta: <a href="https://pypi.org/project/feast/" target="_blank" rel="noopener">0.65.0 sürümü 20 Temmuz 2026&rsquo;da</a> yayımlandı, <a href="https://github.com/feast-dev/feast" target="_blank" rel="noopener">deposunda</a> yaklaşık 7,2 bin yıldız ve 4.681 işleme var, yol haritasına vektör arama (alfa) girmiş durumda. Ama README artık projeyi yalnızca bir topluluk projesi olarak tanımlıyor; bu, kendi başına okunması gereken bir cümle. Hopsworks tam yığını sunmayı sürdürüyor (SDK 5.0.4, 5 Ağustos 2026). Google ise Vertex AI belgelerinde artık bir Agent Platform Feature Store yüzeyini öne çıkarıyor.</p>
+<p>Akademik tarafta da benzer bir sessizlik var: arXiv aramaları 2025-2026 döneminden özellik deposu makalesi getirmiyor ve konuya en yakın güncel çalışma, geleneksel özel yapım özellik depoları yerine <a href="https://arxiv.org/abs/2408.02498" target="_blank" rel="noopener">sorgulanabilir meta veri görünümlerini</a> savunuyor.</p>
+<h3>Bundan ne çıkarmalı?</h3>
+<p>Problem gerçek ve kalıcı; ürün kategorisi ise veri platformunun bir özelliğine dönüştü. Pratik sonuç şu: yeteneği verinizin zaten yaşadığı yerden alın ya da gerçekten önemli olan iki şeyi kendiniz kurun. Hangi yolu seçerseniz seçin, özelliği üreten ekiple tüketen ekip arasındaki arayüz bir sözleşmedir; <a href="../veri-sozlesmeleri/">veri sözleşmeleri</a> yazısında anlattığımız disiplin, özellik tanımları için de aynen geçerlidir.</p>
+
+<div class="takeaways"><h4>Öne çıkanlar</h4><ul>
+<li>Eğitim-servis farkı dünyanın değil, iki kod yolunuzun farkıdır; kayma zamanla gelir, fark ilk günden vardır.</li>
+<li>Ayrışma hep aynı dört yerden çıkar: iki ayrı uygulama, farklı pencereler, farklı boş değer politikası, servis anında olmayan veri.</li>
+<li>Noktasal-zaman doğruluğu, üretim tarafından bakılan veri sızıntısıdır; fazla iyi bir çevrimdışı skor genelde bir zaman ihlalidir.</li>
+<li>Parite testi kurun: servis vektörünü kaydedin, eğitim dönüşümünden yeniden geçirin, özellik özellik farkı raporlayın.</li>
+<li>Çoğu ekibin ihtiyacı ortak dönüşüm kütüphanesi ve noktasal-zaman doğru birleştirmedir; özellik deposu bunun ötesinde bir maliyettir.</li>
+</ul></div>
+
+<div class="faq">
+<details><summary>Üretimdeki sorunun kayma mı yoksa eğitim-servis farkı mı olduğunu nasıl anlarım?</summary><p>En hızlı ayrım zamanlamadır. Model yayına alındığı ilk günden itibaren beklenenden farklı davranıyorsa bu fark demektir, çünkü kaymanın oluşması zaman ister. Kesin kanıt için parite testi kurun: servis anında kullanılan özellik vektörünü kaydedip aynı girdileri eğitim dönüşümünden geçirin. Uyuşmazlık varsa tartışma biter.</p></details>
+<details><summary>Özellik deposu kurmadan noktasal-zaman doğruluğunu sağlayabilir miyim?</summary><p>Evet. Gereken şey ürün değil desendir: özellik değerlerini geçerlilik zaman damgasıyla saklamak, eğitim setini olay zamanına göre geriye doğru birleştirmeyle kurmak ve özellik tablolarında yerinde güncelleme yapmamak. Bunlar standart bir veri ambarında da yapılabilir; özellik deposu bu deseni kolaylaştırır, tek yolu değildir.</p></details>
+<details><summary>Özellik deposu kategorisi öldü mü?</summary><p>Hayır, soğuruldu. Databricks Tecton&rsquo;u satın aldı ve yeteneği katalog katmanına taşıdı, Feast bağımsız bir topluluk projesi olarak sürüyor, Hopsworks tam yığını sunmayı sürdürüyor. Çözdüğü problem kalıcı; değişen şey, bunun ayrı bir ürün olarak mı yoksa veri platformunun bir özelliği olarak mı alındığıdır.</p></details>
+</div>
+
+<hr>
+<p>Modelin sahada farklı davranmasının arkasında çoğu zaman gizemli bir dünya değişimi değil, aynı hesabın iki kez yazılmış olması yatar. Bu yüzden üretim kalitesinin ilk adımı yeni bir sistem kurmak değil, tanımı tekilleştirmek ve iddiayı ölçmektir. Ortak bir dönüşüm tanımı, olay zamanına saygı duyan bir birleştirme ve her gün çalışan bir parite testi; bu üçü, çoğu ekibin bir özellik deposundan beklediği faydanın büyük kısmını, çok daha az işletme maliyetiyle verir.</p>
+    </div>
+    <div class="article-tags"><span class="tag">Üretim</span><span class="tag">Yapay Zeka</span></div>
+    <div class="author-box"><span class="ava">HY</span><div><h4>Halide Yılmaz</h4><div class="role">Hatson Teknoloji A.Ş. · Kurucu Ortak</div><p>ODTÜ Bilgisayar Mühendisliği mezunu; bilgisayar ve yapay zeka alanında deneyimli kurucu ortak.</p></div></div>
+    <div class="post-nav"><a href="../etiketsiz-performans-tahmini/"><div class="dir">← Önceki</div><div class="ttl">Etiket Gelmeden Modelin Bozulduğunu Anlamak: Etiketsiz Performans Tahmini</div></a><a class="next" href="../../blog/"><div class="dir">Devamı →</div><div class="ttl">Tüm yazılara dön</div></a></div>
+  </div>
+</article>
+  <footer class="footer"><div class="wrap"><div class="footer-bottom" style="border:none;margin:0;padding:0"><span>© <span data-year>2026</span> Halide Yılmaz · Tüm hakları saklıdır.</span><span><a href="../../gizlilik/">Çerez Politikası</a> · Ankara · ODTÜ Teknokent 🌿</span></div></div></footer>
+  <button class="icon-btn to-top" aria-label="Top"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5M5 12l7-7 7 7"/></svg></button>
+  <script src="../../js/main.js"></script>
+</body>
+</html>

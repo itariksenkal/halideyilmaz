@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Labelling AI-Generated Content: Article 50, Machine-Readable Watermarks and C2PA — Halide Yılmaz</title>
+<meta name="description" content="Article 50 transparency obligations took effect on 2 August 2026 and were not deferred. What machine-readable marking actually means, hard binding versus soft binding, C2PA content credentials, and why a watermark usually dies at the first re-encode." />
+<link rel="canonical" href="https://halideyilmaz.com/en/posts/ai-content-labeling-transparency/" /><link rel="alternate" hreflang="tr" href="https://halideyilmaz.com/posts/yapay-zeka-icerik-etiketleme/" /><meta name="theme-color" content="#3B6BF6" />
+<meta property="og:type" content="article" /><meta property="og:title" content="Labelling AI-Generated Content: Article 50, Machine-Readable Watermarks and C2PA" /><meta property="og:description" content="Article 50 transparency obligations took effect on 2 August 2026 and were not deferred. What machine-readable marking actually means, hard binding versus soft binding, C2PA content credentials, and why a watermark usually dies at the first re-encode." /><meta property="og:image" content="https://halideyilmaz.com/image/bimg-03.jpg" />
+<link rel="icon" href="/favicon.ico?v=20260809" sizes="32x32" />
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg?v=20260809" />
+  <link rel="icon" type="image/png" href="/favicon-192.png?v=20260809" sizes="192x192" />
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png?v=20260809" />
+<link rel="preconnect" href="https://fonts.googleapis.com" /><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&family=Newsreader:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet" />
+<script>(function(){try{var k="hy-theme",t=localStorage.getItem(k),m=window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches;document.documentElement.setAttribute("data-theme",t||(m?"dark":"light"));}catch(e){}})();</script>
+<link rel="stylesheet" href="../../../css/style.css?v=20260809" />
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "headline": "Labelling AI-Generated Content: Article 50, Machine-Readable Watermarks and C2PA",
+    "description": "Article 50 transparency obligations took effect on 2 August 2026 and were not deferred. What machine-readable marking actually means, hard binding versus soft binding, C2PA content credentials, and why a watermark usually dies at the first re-encode.",
+    "mainEntityOfPage": { "@type": "WebPage", "@id": "https://halideyilmaz.com/en/posts/ai-content-labeling-transparency/" },
+    "dateModified": "2026-08-13",
+
+    "author": {
+      "@type": "Person",
+      "name": "Halide Yılmaz",
+      "url": "https://halideyilmaz.com/",
+      "worksFor": { "@type": "Organization", "name": "Hatson Teknoloji A.Ş.", "url": "https://hatsontech.com/" }
+    },
+    "publisher": { "@type": "Organization", "name": "Hatson Teknoloji A.Ş.", "url": "https://hatsontech.com/" },
+    "image": "https://halideyilmaz.com/image/bimg-03.jpg",
+    "inLanguage": "en"
+  }
+  </script>
+</head>
+<body>
+<div class="progress"></div>
+  <nav class="nav" id="nav">
+    <div class="wrap">
+      <a class="brand" href="../../" aria-label="Home"><img class="logo-light" src="../../../image/caseon-mark-light.svg" alt="Caseon" width="28" height="28" /><img class="logo-dark" src="../../../image/caseon-mark-dark.svg" alt="Caseon" width="28" height="28" /><span>Halide Yılmaz</span></a>
+      <div class="nav-links" id="navLinks">
+        <a href="../../#about">About</a>
+        <a href="../../#what-i-do">What I Do</a>
+        <a href="../../#expertise">Expertise</a>
+        <a href="../../blog/">Articles</a>
+        <a href="../../#contact">Contact</a>
+      </div>
+      <div class="nav-actions">
+        <a class="lang-switch" href="../../../posts/yapay-zeka-icerik-etiketleme/">TR</a>
+        <button class="icon-btn theme-toggle" data-theme-toggle aria-label="Theme"><svg class="sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M6.3 17.7l-1.4 1.4M19.1 4.9l-1.4 1.4"/></svg><svg class="moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg></button>
+        <button class="icon-btn nav-toggle" data-nav-toggle aria-label="Menu"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 6h18M3 12h18M3 18h18"/></svg></button>
+      </div>
+    </div>
+  </nav>
+<article>
+  <div class="wrap narrow article-head">
+    <div class="breadcrumb"><a href="../../">Home</a> <span>/</span>
+        <a href="../../blog/">Articles</a> <span>/</span>
+        <span>Governance</span></div>
+    <span class="tag">Governance</span>
+    <h1>Labelling AI-Generated Content: Article 50, Machine-Readable Watermarks and C2PA</h1>
+    <div class="article-meta"><div class="author"><span class="ava">HY</span><div><div style="color:var(--text);font-weight:600">Halide Yılmaz</div><div>HatsonTech · Co-Founder</div></div></div><span>· 11 min read</span></div>
+  </div>
+  <div class="wrap narrow"><div class="article-hero"><img src="../../../image/bimg-03.jpg" alt="Labelling AI-Generated Content: Article 50, Machine-Readable Watermarks and C2PA"></div></div>
+  <div class="wrap narrow" style="padding-top:36px;padding-bottom:36px">
+    <div class="prose">
+<p class="lead-p">Labelling AI-generated content is no longer a matter of good intentions; it is an obligation that is already in force. Article 50 of the EU AI Act started applying on 2 August 2026 and was <strong>not</strong> deferred by the July 2026 amendment. Yet the technical half of the duty — what &ldquo;machine-readable marking&rdquo; actually means, how it is implemented, and why it so often fails — is explained almost nowhere. This post covers that half.</p>
+
+<div class="toc"><h4>Contents</h4><ol>
+<li><a href="#b1">What Article 50 actually requires</a></li>
+<li><a href="#b2">The article that was not deferred: live since 2 August 2026</a></li>
+<li><a href="#b3">What &amp;ldquo;machine-readable&amp;rdquo; means: hard binding and soft binding</a></li>
+<li><a href="#b4">C2PA: how content credentials work</a></li>
+<li><a href="#b5">Why watermarks die: an honest list of limits</a></li>
+<li><a href="#b6">An implementation checklist</a></li>
+</ol></div>
+
+<h2 id="b1">What Article 50 actually requires</h2>
+<p>Article 50 is not one rule but a bundle of four duties, and they fall on different parties: some on the <em>provider</em> who builds the system, some on the <em>deployer</em> who uses it.</p>
+<ul>
+<li><strong>Interaction notice (provider):</strong> systems intended to interact directly with natural persons must be designed so that the person is informed they are interacting with an AI system — unless this is obvious from the circumstances and context of use.</li>
+<li><strong>Marking of synthetic content (provider):</strong> systems generating synthetic audio, image, video or text must mark the outputs in a <em>machine-readable</em> format and make them detectable as artificially generated or manipulated.</li>
+<li><strong>Emotion recognition and biometric categorisation (deployer):</strong> the people exposed to the system must be informed of its operation.</li>
+<li><strong>Deepfakes and text on matters of public interest (deployer):</strong> deepfake content must be disclosed as artificially generated or manipulated. A comparable disclosure applies to text published to inform the public on matters of public interest, except where the content has undergone human review or editorial control and a natural or legal person holds editorial responsibility. For artistic, satirical, fictional and analogous works, the disclosure is made in an appropriate manner that does not hamper the display or enjoyment of the work.</li>
+</ul>
+<div class="callout"><strong>Tip:</strong> Settle early whether a duty falls on the provider or the deployer. A team consuming a generative model over an API assumes the provider marks the output; the provider assumes the publisher will disclose. If both assume, nobody does it.</div>
+<p>The full text is at <a href="https://artificialintelligenceact.eu/article/50/" target="_blank" rel="noopener">Article 50</a>; the complete timeline and what was deferred is in <a href="../eu-ai-act-timeline-2026/">the new timeline post</a>.</p>
+
+<h2 id="b2">The article that was not deferred: live since 2 August 2026</h2>
+<p>In July 2026, Regulation (EU) 2026/1744 pushed the high-risk deadlines back. The impression this created in public discussion — &ldquo;the AI Act has been delayed&rdquo; — is simply false as far as Article 50 is concerned. Article 50 was not amended and started applying on <strong>2 August 2026</strong>.</p>
+<p>The only concession is narrow: for systems placed on the market <em>before</em> 2 August 2026, the machine-readable marking duty applies from <strong>2 December 2026</strong>. That is a four-month technical window for existing products to add marking to their generation pipeline — not a deferral of transparency itself.</p>
+<p>Alongside the hard obligation, a voluntary framework also took shape: the <strong>Code of Practice on Transparency of AI-generated Content</strong> was finalised on 10 June 2026, and roughly 190 organisations had signed by the end of July 2026. A code of practice creates no obligation of its own; it offers a shared reading of how the obligation can be met. Details on the <a href="https://digital-strategy.ec.europa.eu/en/policies/code-practice-ai-generated-content" target="_blank" rel="noopener">Commission's page</a>.</p>
+<blockquote>A regulation the public was calling &ldquo;delayed&rdquo; had a chapter switching on that very week. There is no better argument against reading law from headlines.</blockquote>
+
+<h2 id="b3">What &amp;ldquo;machine-readable&amp;rdquo; means: hard binding and soft binding</h2>
+<p>The whole obligation turns on one phrase: <em>machine-readable</em>. A caption reading &ldquo;Generated with AI&rdquo; does not satisfy it, because it disappears the moment someone screenshots, crops or re-encodes the file. There are two basic technical approaches, and neither is sufficient alone.</p>
+<h3>Hard binding</h3>
+<p>The mark is embedded <em>inside</em> the content itself: in pixel values, in the audio waveform, or in the token-selection distribution of generated text. Its advantage is that it survives a format change to some degree. Its disadvantage is an unavoidable trade-off between robustness and imperceptibility: the more durable you make the watermark, the more it degrades the content; the more invisible you make it, the more easily it is erased.</p>
+<h3>Soft binding</h3>
+<p>The mark travels <em>alongside</em> the content, as a signed metadata package attached to the file. Its advantage is far richer information — which model, what date, what edits were applied. Its disadvantage is fragility: most platforms strip metadata on upload, and a screenshot never carries it at all. Soft binding is therefore usually backed by a <em>fingerprint</em>: a perceptual digest of the content is stored in a registry so that a match can be looked up even after the metadata is gone.</p>
+<div class="callout"><strong>Tip:</strong> Do not rest on a single method. The design that works in practice is threefold: an embedded watermark (hard binding), a signed manifest (soft binding), and a fingerprint registry. When one is stripped, the others keep producing evidence.</div>
+
+<h2 id="b4">C2PA: how content credentials work</h2>
+<p>On the soft-binding side the most mature technical framework is C2PA. It is a specification, currently at version 2.4 and <a href="https://spec.c2pa.org/specifications/specifications/2.4/specs/C2PA_Specification.html" target="_blank" rel="noopener">published openly</a>. The core idea is simple: carry the content's history inside a cryptographically signed manifest.</p>
+<ul>
+<li><strong>Assertion:</strong> a single statement about the content — &ldquo;this image was produced by a generative model&rdquo;, &ldquo;this region was cropped&rdquo;, &ldquo;this audio segment was added&rdquo;.</li>
+<li><strong>Claim:</strong> the assertions gathered and summarised together.</li>
+<li><strong>Signature:</strong> applied with the certificate of the party issuing the claim. Validation checks both signature validity and the trustworthiness of the chain.</li>
+<li><strong>Manifest store:</strong> as content is edited, new manifests are appended, producing a chain of edit history.</li>
+</ul>
+<p>Two common misreadings are worth correcting. First: a C2PA manifest does not prove that content is <em>authentic</em>. It proves who asserted what, and when. A manifest is worth exactly as much as the party that signed it. Second: the absence of a manifest does not mean content is synthetic — the metadata may simply have been stripped. A verification interface must distinguish these two states; &ldquo;no signature&rdquo; and &ldquo;invalid signature&rdquo; must never render the same way.</p>
+<pre><code># The correct order in a labelling pipeline (pseudocode)
+output = model.generate(prompt)
+output = embed_watermark(output)           # 1) hard binding, at generation time
+manifest = {
+    "generator":  MODEL_NAME_VERSION,
+    "timestamp":  utc_now(),
+    "assertions": ["ai_generated", "no_edits"],
+}
+output = attach_manifest(output, sign(manifest))     # 2) soft binding
+register_fingerprint(perceptual_hash(output), manifest)  # 3) fallback record
+# The wrong order: publish first, mark later.
+# A published copy can never be recalled.</code></pre>
+
+<h2 id="b5">Why watermarks die: an honest list of limits</h2>
+<p>Most products sold in this space report laboratory detection rates as if they were real-world rates. In the real world, content passes through the following operations, and each of them erases part of the mark:</p>
+<ul>
+<li><strong>Re-encoding:</strong> social platforms recompress every image and video on upload. Lossy compression targets exactly the low-amplitude signal a watermark lives in.</li>
+<li><strong>Cropping and rescaling:</strong> a spatially localised mark is partly or wholly lost to a crop.</li>
+<li><strong>Screenshots:</strong> all metadata is gone; only the pixel-embedded signal remains, and resampling weakens that too.</li>
+<li><strong>The special case of text:</strong> text watermarks are placed in the token-selection distribution. A short passage has no statistical room to carry one, and paraphrasing the text with another model reliably removes it. Text is the most fragile of the four content types.</li>
+<li><strong>Deliberate attack:</strong> a party who knows the mark is there will try to remove it. Robustness claims must be tested under an adversarial assumption, not an average one.</li>
+</ul>
+<blockquote>A watermark is a seal, not a lock. It will not stop a determined attacker; it makes provenance visible in ordinary circulation. That, in fact, is what the obligation is for.</blockquote>
+<p>This creates an asymmetry on the detection side: false negatives (marked content appearing unmarked) are very common, while false positives are rare but far more damaging — labelling a human's work as synthetic is a serious harm. Why threshold choice is a cost-benefit decision rather than a technical default is covered in <a href="../classification-metrics/">classification metrics</a>, and the same logic applies here.</p>
+
+<h2 id="b6">An implementation checklist</h2>
+<p>For a team turning the obligation into a product plan, in order:</p>
+<ul>
+<li><strong>Take an inventory.</strong> Which product surfaces generate or publish synthetic content? Most teams realise late that a summarisation feature counts too.</li>
+<li><strong>Establish your role.</strong> For each surface, are you the provider or the deployer? The duty differs.</li>
+<li><strong>Put marking inside the generation step</strong>, not the publishing step. A published copy cannot be recalled.</li>
+<li><strong>Design the notice.</strong> An interaction disclosure is not a checkbox in the terms of service; it is an interface element visible when the conversation starts.</li>
+<li><strong>Build the verification side too.</strong> Test your own output through your own validator, and preserve the distinction between &ldquo;no signature&rdquo; and &ldquo;invalid signature&rdquo; in the interface.</li>
+<li><strong>Document it.</strong> Which method, in which scope, with which known limitations. That is a natural section of the <a href="../model-cards-governance/">model card</a>.</li>
+</ul>
+<p>One closing connection: generating synthetic training data and publishing synthetic content are different things, but they rest on the same discipline — knowing what you produced, with what, and how you marked it. The record-keeping habit in <a href="../synthetic-data-generation/">synthetic data</a> transfers directly here, and for the measurement side, the subgroup discipline in <a href="../bias-and-fairness/">bias and fairness</a> applies to detector performance as well.</p>
+
+<div class="takeaways"><h4>Key takeaways</h4><ul>
+<li>Article 50 was not deferred: it has applied since 2 August 2026, with only pre-existing systems getting until 2 December 2026 to add marking.</li>
+<li>Machine-readable marking cannot be satisfied by a caption a human can read; it must survive re-encoding.</li>
+<li>Hard binding (embedded watermark) and soft binding (signed manifest) are not substitutes — use both, plus a fingerprint registry.</li>
+<li>A C2PA manifest proves who asserted what, not that the content is authentic; an absent signature is not evidence of synthesis.</li>
+<li>Text is the most fragile content type: short passages cannot carry a watermark, and paraphrasing reliably strips it.</li>
+</ul></div>
+
+<div class="faq">
+<details><summary>Is a visible &ldquo;Made with AI&rdquo; caption enough?</summary><p>No. A visible label supports the disclosure duty towards people, but it does not satisfy the machine-readable marking requirement — it disappears with a screenshot or a crop. Use a visible label and an embedded, machine-readable mark together.</p></details>
+<details><summary>I use a model through a provider's API. Whose job is marking?</summary><p>Machine-readable marking of synthetic output is the provider's obligation; disclosing a deepfake at publication is the deployer's. In practice you may hold both. Write into the contract which party produces which mark, and verify it yourself on the output.</p></details>
+<details><summary>If watermarks can be removed, why bother?</summary><p>Because the obligation aims to make provenance visible in ordinary circulation, not to defeat a determined attacker. The overwhelming majority of content passes through a routine share, not a deliberate removal attack. And having implemented marking is itself a documentable compliance effort.</p></details>
+</div>
+
+<hr>
+<p>In short: content labelling is the most technical obligation in the whole text. It cannot be discharged with a warning line under an image; it is a design decision that reaches inside the generation pipeline. A team that does this now both meets a live obligation and becomes one of the few publishers who can prove where their content came from.</p>
+    </div>
+    <div class="article-tags"><span class="tag">Governance</span><span class="tag">AI</span></div>
+    <div class="author-box"><span class="ava">HY</span><div><h4>Halide Yılmaz</h4><div class="role">Hatson Teknoloji A.Ş. · Co-Founder</div><p>A graduate of METU Computer Engineering; co-founder working in computing and AI.</p></div></div>
+    <div class="post-nav"><a href="../high-risk-ai-system-requirements/"><div class="dir">← Previous</div><div class="ttl">High-Risk AI Systems: What an ML Team Actually Has to Build Before December 2027</div></a><a class="next" href="../../blog/"><div class="dir">More →</div><div class="ttl">Back to all articles</div></a></div>
+  </div>
+</article>
+  <footer class="footer"><div class="wrap"><div class="footer-bottom" style="border:none;margin:0;padding:0"><span>© <span data-year>2026</span> Halide Yılmaz · All rights reserved.</span><span><a href="../../privacy/">Cookie Policy</a> · Ankara · METU Technopark 🌿</span></div></div></footer>
+  <button class="icon-btn to-top" aria-label="Top"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5M5 12l7-7 7 7"/></svg></button>
+  <script src="../../../js/main.js"></script>
+</body>
+</html>
