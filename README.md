@@ -30,7 +30,6 @@ halideyilmaz/
 ├── posts/
 │   ├── halide-yilmaz-kimdir.html
 │   ├── hatsontech-nedir.html
-│   ├── caseon-nedir.html
 │   ├── buyuk-dil-modeli-nedir.html
 │   ├── rag-nedir.html
 │   └── turkce-yapay-zeka.html
