@@ -7,7 +7,7 @@ category: "Sınırlar"
 tags: ["Sınırlar", "Yapay Zeka"]
 translation: "context-window-long-documents"
 heroImage:
-  src: "../../../assets/blog/bimg-16.jpg"
+  src: "../../../assets/blog/covers/baglam-penceresi.jpg"
   alt: "Bağlam Penceresi ve Uzun Belgeler: Token Sınırı, Ortada Kaybolma, Uzun Bağlam vs RAG"
 ---
 

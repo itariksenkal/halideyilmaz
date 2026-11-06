@@ -7,7 +7,7 @@ category: "Metrics"
 tags: ["Metrics", "AI"]
 translation: "etiketleyici-uyumu-kappa"
 heroImage:
-  src: "../../../assets/blog/bimg-12.jpg"
+  src: "../../../assets/blog/covers/annotator-agreement-evaluator-reliability.jpg"
   alt: "Annotator Agreement and Evaluator Reliability: Kappa, Alpha, and Validating an LLM Judge"
 ---
 

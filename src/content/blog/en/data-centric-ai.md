@@ -7,7 +7,7 @@ category: "Data"
 tags: ["Data", "AI"]
 translation: "veri-merkezli-yapay-zeka"
 heroImage:
-  src: "../../../assets/blog/bimg-01.jpg"
+  src: "../../../assets/blog/covers/data-centric-ai.jpg"
   alt: "Data-Centric AI: Improving the Data Instead of the Model"
 ---
 

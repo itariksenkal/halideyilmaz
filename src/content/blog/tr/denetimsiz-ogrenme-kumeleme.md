@@ -7,7 +7,7 @@ category: "Öğrenme"
 tags: ["Öğrenme", "Yapay Zeka"]
 translation: "unsupervised-learning-clustering"
 heroImage:
-  src: "../../../assets/blog/bimg-06.jpg"
+  src: "../../../assets/blog/covers/denetimsiz-ogrenme-kumeleme.jpg"
   alt: "Denetimsiz Öğrenme ve Kümeleme: Etiketsiz Veriden Örüntü Çıkarmak"
 ---
 

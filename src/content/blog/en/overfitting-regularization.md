@@ -7,7 +7,7 @@ category: "Fundamentals"
 tags: ["Fundamentals", "AI"]
 translation: "overfitting-duzenlilestirme"
 heroImage:
-  src: "../../../assets/blog/bimg-03.jpg"
+  src: "../../../assets/blog/covers/overfitting-regularization.jpg"
   alt: "Overfitting and Regularization: Why Models Memorize Instead of Learn"
 ---
 

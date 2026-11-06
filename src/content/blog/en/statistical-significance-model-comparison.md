@@ -7,7 +7,7 @@ category: "Evaluation"
 tags: ["Evaluation", "AI"]
 translation: "model-karsilastirma-istatistik"
 heroImage:
-  src: "../../../assets/blog/bimg-14.jpg"
+  src: "../../../assets/blog/covers/statistical-significance-model-comparison.jpg"
   alt: "Is That 1 % Real? Confidence Intervals and Bootstrap for Comparing Models"
 ---
 

@@ -7,7 +7,7 @@ category: "Data"
 tags: ["Data", "AI"]
 translation: "veri-kokeni-ve-lisanslama"
 heroImage:
-  src: "../../../assets/blog/bimg-09.jpg"
+  src: "../../../assets/blog/covers/data-provenance-training-data-licensing.jpg"
   alt: "Data Provenance and Training-Data Licensing: Can You Prove Where Your Dataset Came From?"
 ---
 

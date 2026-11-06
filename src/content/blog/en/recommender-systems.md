@@ -7,7 +7,7 @@ category: "Methods"
 tags: ["Methods", "AI"]
 translation: "oneri-sistemleri"
 heroImage:
-  src: "../../../assets/blog/bimg-08.jpg"
+  src: "../../../assets/blog/covers/recommender-systems.jpg"
   alt: "Recommender Systems: Collaborative Filtering, Content-Based Methods and Cold Start"
 ---
 

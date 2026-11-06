@@ -7,7 +7,7 @@ category: "Production"
 tags: ["Production", "AI"]
 translation: "yapay-zeka-olay-bildirimi"
 heroImage:
-  src: "../../../assets/blog/bimg-08.jpg"
+  src: "../../../assets/blog/covers/ai-incident-reporting-post-market.jpg"
   alt: "AI Incident Reporting and Post-Market Monitoring: The 15-Day, 10-Day and 2-Day Clocks"
 ---
 

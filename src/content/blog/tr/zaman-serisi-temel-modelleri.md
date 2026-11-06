@@ -7,7 +7,7 @@ category: "Yöntem"
 tags: ["Yöntem", "Yapay Zeka"]
 translation: "time-series-foundation-models"
 heroImage:
-  src: "../../../assets/blog/bimg-03.jpg"
+  src: "../../../assets/blog/covers/zaman-serisi-temel-modelleri.jpg"
   alt: "Zaman Serisi Temel Modelleri: Sıfır-Atış Tahmin Artık Klasik Yöntemleri Geçiyor — Peki Sizin Verinizde de Geçer mi?"
 ---
 

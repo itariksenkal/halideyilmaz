@@ -7,7 +7,7 @@ category: "Üretim"
 tags: ["Üretim", "Yapay Zeka"]
 translation: "performance-estimation-without-labels"
 heroImage:
-  src: "../../../assets/blog/bimg-19.jpg"
+  src: "../../../assets/blog/covers/etiketsiz-performans-tahmini.jpg"
   alt: "Etiket Gelmeden Modelin Bozulduğunu Anlamak: Etiketsiz Performans Tahmini"
 ---
 

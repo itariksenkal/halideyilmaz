@@ -7,7 +7,7 @@ category: "Vision"
 tags: ["Vision", "AI"]
 translation: "cnn-goruntu-isleme"
 heroImage:
-  src: "../../../assets/blog/bimg-01.jpg"
+  src: "../../../assets/blog/covers/cnn-image-processing-basics.jpg"
   alt: "CNNs and the Basics of Image Processing: How Does a Machine \"See\" an Image?"
 ---
 

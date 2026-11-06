@@ -7,7 +7,7 @@ category: "Limits"
 tags: ["Limits", "AI"]
 translation: "baglam-penceresi"
 heroImage:
-  src: "../../../assets/blog/bimg-16.jpg"
+  src: "../../../assets/blog/covers/context-window-long-documents.jpg"
   alt: "The Context Window and Long Documents: Token Limits, Lost in the Middle, Long Context vs RAG"
 ---
 

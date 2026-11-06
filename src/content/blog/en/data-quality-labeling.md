@@ -7,7 +7,7 @@ category: "Data"
 tags: ["Data", "AI"]
 translation: "veri-kalitesi-etiketleme"
 heroImage:
-  src: "../../../assets/blog/bimg-20.jpg"
+  src: "../../../assets/blog/covers/data-quality-labeling.jpg"
   alt: "Data Quality and Labeling: A Model's Real Fuel"
 ---
 

@@ -7,7 +7,7 @@ category: "Üretim"
 tags: ["Üretim", "Yapay Zeka"]
 translation: "embedding-drift-monitoring"
 heroImage:
-  src: "../../../assets/blog/bimg-18.jpg"
+  src: "../../../assets/blog/covers/gomme-kaymasi-izleme.jpg"
   alt: "Embedding Kayması: Temel Model Çağında Drift'i İzlemek"
 ---
 

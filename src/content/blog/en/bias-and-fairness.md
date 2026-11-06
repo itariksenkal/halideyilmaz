@@ -7,7 +7,7 @@ category: "Ethics"
 tags: ["Ethics", "AI"]
 translation: "onyargi-ve-adalet"
 heroImage:
-  src: "../../../assets/blog/bimg-05.jpg"
+  src: "../../../assets/blog/covers/bias-and-fairness.jpg"
   alt: "Bias and Fairness in AI: Why Models Discriminate"
 ---
 

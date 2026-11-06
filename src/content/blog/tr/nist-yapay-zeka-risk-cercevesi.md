@@ -7,7 +7,7 @@ category: "Yönetişim"
 tags: ["Yönetişim", "Yapay Zeka"]
 translation: "nist-ai-rmf-in-practice"
 heroImage:
-  src: "../../../assets/blog/bimg-05.jpg"
+  src: "../../../assets/blog/covers/nist-yapay-zeka-risk-cercevesi.jpg"
   alt: "NIST Yapay Zekâ Risk Yönetimi Çerçevesi: Govern, Map, Measure, Manage'i Bir ML Ekibine Uyarlamak"
 ---
 

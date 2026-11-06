@@ -7,7 +7,7 @@ category: "Metrics"
 tags: ["Metrics", "AI"]
 translation: "model-kalibrasyonu"
 heroImage:
-  src: "../../../assets/blog/bimg-15.jpg"
+  src: "../../../assets/blog/covers/model-calibration-probabilities.jpg"
   alt: "Model Calibration: What Does It Mean When Your Model Says \"90 % Confident\"?"
 ---
 

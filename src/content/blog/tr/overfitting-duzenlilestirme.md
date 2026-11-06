@@ -7,7 +7,7 @@ category: "Temeller"
 tags: ["Temeller", "Yapay Zeka"]
 translation: "overfitting-regularization"
 heroImage:
-  src: "../../../assets/blog/bimg-03.jpg"
+  src: "../../../assets/blog/covers/overfitting-duzenlilestirme.jpg"
   alt: "Aşırı Öğrenme (Overfitting) ve Düzenlileştirme: Model Neden Ezberler?"
 ---
 

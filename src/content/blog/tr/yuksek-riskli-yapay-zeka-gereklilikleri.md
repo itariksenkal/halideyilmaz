@@ -7,7 +7,7 @@ category: "Yönetişim"
 tags: ["Yönetişim", "Yapay Zeka"]
 translation: "high-risk-ai-system-requirements"
 heroImage:
-  src: "../../../assets/blog/bimg-02.jpg"
+  src: "../../../assets/blog/covers/yuksek-riskli-yapay-zeka-gereklilikleri.jpg"
   alt: "Yüksek Riskli Yapay Zekâ Sistemleri: Bir ML Ekibinin Aralık 2027'ye Kadar Gerçekten Kurması Gerekenler"
 ---
 

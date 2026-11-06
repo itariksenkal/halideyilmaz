@@ -7,7 +7,7 @@ category: "Methods"
 tags: ["Methods", "AI"]
 translation: "anomali-tespiti"
 heroImage:
-  src: "../../../assets/blog/bimg-06.jpg"
+  src: "../../../assets/blog/covers/anomaly-detection.jpg"
   alt: "Anomaly Detection: Finding the Outlier Without Labels"
 ---
 

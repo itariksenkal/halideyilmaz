@@ -7,7 +7,7 @@ category: "Evaluation"
 tags: ["Evaluation", "AI"]
 translation: "sinif-dengesizligi"
 heroImage:
-  src: "../../../assets/blog/bimg-02.jpg"
+  src: "../../../assets/blog/covers/class-imbalance.jpg"
   alt: "Class Imbalance: Building Models That Do Not Miss the Rare Event"
 ---
 

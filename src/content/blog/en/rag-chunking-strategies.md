@@ -7,7 +7,7 @@ category: "RAG"
 tags: ["RAG", "AI"]
 translation: "rag-chunking-stratejileri"
 heroImage:
-  src: "../../../assets/blog/bimg-14.jpg"
+  src: "../../../assets/blog/covers/rag-chunking-strategies.jpg"
   alt: "Chunking Strategies for RAG: How Splitting Decides Quality"
 ---
 

@@ -7,7 +7,7 @@ category: "Yönetişim"
 tags: ["Yönetişim", "Yapay Zeka"]
 translation: "eu-ai-act-timeline-2026"
 heroImage:
-  src: "../../../assets/blog/bimg-01.jpg"
+  src: "../../../assets/blog/covers/yapay-zeka-yasasi-yeni-takvim.jpg"
   alt: "AB Yapay Zekâ Yasası'nda Yeni Takvim: 2026/1744 Sayılı Omnibus Neyi Değiştirdi, Şu An Hangi Yükümlülükler Yürürlükte?"
 ---
 

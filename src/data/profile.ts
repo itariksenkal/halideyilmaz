@@ -18,7 +18,10 @@ export const site = {
     { label: 'GitHub', icon: 'github', href: 'https://github.com/halideyilmaz' },
     { label: 'X', icon: 'x', href: 'https://x.com/hatsontech' }
   ],
-  company: { name: 'HatsonTech', legal: 'Hatson Teknoloji A.Ş.', url: 'https://hatsontech.com/' }
+  companies: [
+    { name: 'HatsonTech', legal: 'Hatson Teknoloji Ltd. Şti.', url: 'https://hatsontech.com/' },
+    { name: 'Caseon AI', legal: 'Caseon Teknoloji A.Ş.', url: 'https://caseon.ai/' }
+  ]
 }
 
 export const profile: L<{
@@ -31,255 +34,314 @@ export const profile: L<{
   status: string
   about: { lead: string; points: { title: string; text: string }[] }
   focus: string[]
-  process: { title: string; steps: { title: string; text: string }[] }
+  ventures: {
+    title: string
+    items: { name: string; legal: string; since: string; tag: string; text: string; url: string }[]
+  }
   now: string
   expertise: { icon: string; title: string; text: string }[]
   timeline: { when: string; title: string; text: string }[]
   stats: { value: string; label: string }[]
   contact: { title: string; text: string; cta: string }
-  sections: Record<'about' | 'expertise' | 'journey' | 'writing' | 'contact' | 'process', string>
+  sections: Record<'about' | 'expertise' | 'journey' | 'writing' | 'contact' | 'ventures', string>
 }> = {
   tr: {
-    metaTitle: 'Halide Yılmaz — Bilgisayar ve yapay zeka mühendisi',
+    metaTitle: 'Halide Yılmaz — HatsonTech ve Caseon AI kurucu ortağı',
     metaDescription:
-      'Halide Yılmaz: ODTÜ Bilgisayar Mühendisliği mezunu bilgisayar ve yapay zeka mühendisi. Makine öğrenmesi, NLP, veri ve yapay zekâ yönetişimi üzerine yazılar. HatsonTech kurucu ortağı.',
-    role: 'Bilgisayar ve yapay zeka mühendisi · HatsonTech kurucu ortağı',
-    eyebrow: 'Bilgisayar mühendisliği · Yapay zeka · NLP',
-    headline: 'Makine öğrenmesini, insanların güvenebileceği ürünlere dönüştürüyorum.',
+      'Halide Yılmaz: ODTÜ Bilgisayar Mühendisliği mezunu; HatsonTech ve Caseon AI’ın kurucu ortaklarından. Makine öğrenmesi, veri ve yapay zekâ yönetişimi üzerine öğrendiklerini burada yazıyor.',
+    role: 'Bilgisayar mühendisi · HatsonTech ve Caseon AI kurucu ortağı',
+    eyebrow: 'Girişimcilik · Makine öğrenmesi · Veri',
+    headline: 'Yapay zeka ve yazılım alanında şirketler kuruyor, yol boyunca öğrendiklerimi paylaşıyorum.',
     intro:
-      'ODTÜ Bilgisayar Mühendisliği mezunuyum. Makine öğrenmesi ve doğal dil işlemeyle gerçekten kullanılan ürünler kuruyorum; modellerin yalnızca çalışmasını değil, doğru, ölçülebilir ve güvenilir olmasını önemsiyorum.',
+      'ODTÜ Bilgisayar Mühendisliği mezunuyum ve HatsonTech ile Caseon AI’ın kurucu ortaklarındanım. Bu sitede makine öğrenmesi, veri ve yapay zekâ yönetişimi üzerine notlarımı paylaşıyorum.',
     status: 'Yeni yazı',
     about: {
-      lead: 'Kısaca: makine öğrenmesini ve doğal dil işlemeyi, insanların güvenebileceği ürünlere dönüştürüyorum.',
+      lead: 'Kısaca: iki teknoloji şirketinin kurucu ortağıyım. Mühendislik geçmişimi, ekiplerimizle birlikte kurumlar için güvenle kullanılabilecek yapay zeka ürünleri geliştirmek için kullanıyorum.',
       points: [
         {
-          title: 'Fikirden ürüne',
-          text: 'Bir fikri alıp, sağlam bir mühendislik temeliyle uçtan uca ölçeklenebilir bir ürüne dönüştürmekle ilgileniyorum.'
+          title: 'Girişimcilik',
+          text: 'Bir fikri sağlam bir mühendislik temeli üzerinde, sürdürülebilir bir işe dönüştürmeyi önemsiyorum.'
         },
         {
-          title: 'Makine öğrenmesi ve NLP',
-          text: 'Makine öğrenmesi, doğal dil işleme ve dil modelleriyle çalışıyor; bir modeli denemeden üretime kadar taşıyorum.'
+          title: 'Mühendislik ve ürün',
+          text: 'Sistem mimarisi, makine öğrenmesi ve dil modelleri tarafındaki ürün kararlarına yakından dahil oluyorum.'
         },
         {
-          title: 'Güvenilir, ölçülebilir AI',
-          text: 'Modellerin yalnızca çalışmasını değil; doğru, ölçülebilir ve güvenilir olmasını önemsiyorum.'
+          title: 'Ölçmek ve güven',
+          text: 'Bir modelin ne kadar iyi çalıştığını ölçmeyi ve bunu müşterilerimize açıkça anlatabilmeyi önemsiyorum.'
         }
       ]
     },
     focus: [
+      'Girişimcilik',
       'Bilgisayar Mühendisliği',
-      'Sistem Mimarisi',
-      'Büyük Dil Modelleri',
+      'Makine Öğrenmesi',
       'Doğal Dil İşleme',
-      'RAG & Semantik Arama',
-      'Ürün Vizyonu',
-      'Girişimcilik'
+      'Model Değerlendirme',
+      'Hukuk Teknolojisi',
+      'Yapay Zekâ Yönetişimi'
     ],
-    process: {
-      title: 'Fikirden ürüne, üç adımda',
-      steps: [
-        { title: 'Uyarla', text: 'Önce veriyi ve modeli ele aldığım probleme uyarlıyorum.' },
-        { title: 'Bağla', text: 'Cevapları RAG ile gerçek kaynaklara bağlayıp güvenilir hâle getiriyorum.' },
-        { title: 'İzle', text: 'Modeli üretime taşıyıp izlenebilir ve ölçeklenebilir kılıyorum.' }
+    ventures: {
+      title: 'Kurucu ortağı olduğum şirketler',
+      items: [
+        {
+          name: 'HatsonTech',
+          legal: 'Hatson Teknoloji Ltd. Şti.',
+          since: 'Ağustos 2026, Ankara',
+          tag: 'Yazılım ve yapay zeka',
+          text: 'Kurumlar için yapay zeka ajanları, kaynak gösteren RAG asistanları, dil modeli ince ayarı, görüntü işleme, veri mühendisliği ile web ve mobil yazılım geliştiriyoruz.',
+          url: 'https://hatsontech.com/'
+        },
+        {
+          name: 'Caseon AI',
+          legal: 'Caseon Teknoloji A.Ş.',
+          since: '2026',
+          tag: 'Hukuk teknolojisi',
+          text: 'Avukatların durum tespiti (due diligence) ve sözleşme inceleme işleri için bir yazılım geliştiriyoruz. Her cevap dayandığı belge paragrafıyla birlikte gösteriliyor; son kontrol her zaman avukatta.',
+          url: 'https://caseon.ai/'
+        }
       ]
     },
-    now: 'Bugünlerde bunu HatsonTech’te yapıyorum — Türkçe hukuk diline özel yapay zeka sistemleri üzerinde çalışıyorum.',
+    now: 'Bugün zamanımı bu iki şirketin büyümesine, ürünlerine ve ekiplerine ayırıyorum.',
     expertise: [
       {
         icon: 'brain',
         title: 'Büyük Dil Modelleri',
-        text: 'Türkçe hukuk diline göre ince ayar yapılmış modeller eğitiyor ve üretime alıyorum.'
+        text: 'Dil modellerini Türkçe’ye ve belirli alanlara uyarlamak için ince ayar ve değerlendirme çalışmaları.'
       },
       {
         icon: 'text',
         title: 'Doğal Dil İşleme',
-        text: 'Türkçe ve çok dilli metni anlama: sınıflandırma, çıkarım ve anlam temelli işleme.'
+        text: 'Türkçe ve çok dilli metinlerde sınıflandırma, bilgi çıkarımı ve anlam temelli işleme.'
       },
       {
         icon: 'layers',
         title: 'RAG',
-        text: 'Modelin uydurmasını engelleyip cevapları gerçek belgelere dayandıran getirim mimarileri.'
+        text: 'Cevapları ilgili belgelere dayandıran ve kaynağını gösteren getirim mimarileri.'
       },
       {
         icon: 'search',
         title: 'Semantik Arama & Vektör DB',
-        text: 'Anahtar kelime değil anlam temelli, geniş arşivlerde isabetli ve hızlı arama.'
+        text: 'Anahtar kelimenin yanında anlamı da gözeten arama sistemleri.'
+      },
+      {
+        icon: 'check',
+        title: 'Veri ve Model Değerlendirme',
+        text: 'Veri kalitesi, etiketleme ve modelleri doğru ölçütlerle değerlendirme.'
+      },
+      {
+        icon: 'book',
+        title: 'Hukuk Yazılımları',
+        text: 'Durum tespiti (due diligence) ve sözleşme inceleme gibi hukuk iş akışları için yazılım.'
       },
       {
         icon: 'network',
         title: 'MCP & Ajan Sistemleri',
-        text: 'Model Context Protocol ile araç kullanan ve akıllı yönlendirme yapan ajan mimarileri.'
+        text: 'Araç kullanan ve önemli adımlarda insan onayı bekleyen ajan iş akışları.'
       },
       {
         icon: 'server',
-        title: 'Model Eğitimi & MLOps',
-        text: 'Büyük ölçekli altyapıda eğitim, ince ayar, izleme ve sürekli dağıtım.'
+        title: 'Sistem Mimarisi & MLOps',
+        text: 'Web ve arka uç sistemlerin mimarisi; modellerin eğitimi, dağıtımı ve izlenmesi.'
       }
     ],
     timeline: [
       {
-        when: 'Eğitim',
+        when: 'Lisans',
         title: 'ODTÜ Bilgisayar Mühendisliği',
-        text: 'Orta Doğu Teknik Üniversitesi Bilgisayar Mühendisliği’nde algoritmalar, bilgisayar bilimleri ve sistem tasarımı üzerine sağlam bir mühendislik temeli edindim.'
+        text: 'Orta Doğu Teknik Üniversitesi Bilgisayar Mühendisliği bölümünden mezun oldum; algoritmalar, veri yapıları ve sistem tasarımı üzerine temelimi burada attım.'
       },
       {
         when: 'Deneyim',
-        title: 'Bilgisayar ve yapay zeka mühendisliği',
-        text: 'Bilgisayar ve yapay zeka alanında mühendislik deneyimi biriktirdim; sistem mimarisi ve ürün geliştirme üzerine çalıştım.'
-      },
-      {
-        when: 'Fikir',
-        title: 'İhtiyaçtan ürün fikrine',
-        text: 'Hukuk alanındaki gerçek bir ihtiyaçtan yola çıkarak bir sorunu, hukuk profesyonellerine değer katacak bir ürün fikrine dönüştürdüm.'
+        title: 'Yazılım ve yapay zeka mühendisliği',
+        text: 'Yazılım ve yapay zeka projelerinde mühendis olarak çalıştım; sistem mimarisi ve ürün geliştirme üzerine deneyim kazandım.'
       },
       {
         when: '2024',
-        title: 'HatsonTech’in kuruluşu',
-        text: 'Ankara ODTÜ Teknokent’te Hatson Teknoloji A.Ş.’yi kurucu ortak olarak hayata geçirdim. Hedef: Türkçe’ye odaklı yapay zeka ürünleri.'
+        title: 'İlk girişim',
+        text: 'Ankara’da bir yapay zeka Ar-Ge şirketini kurucu ortak olarak kurduk; Türkçe dil modelleri ve kaynak gösteren arama sistemleri üzerine ürünler geliştirdik.'
       },
       {
-        when: 'Bugün',
-        title: 'Türkçe hukuk için yapay zeka',
-        text: 'Türkçe hukuk diline özel LLM ve RAG mimarileri geliştiriyor, kurucu ortağım İsmail Tarık Şenkal ile ekibi büyütüyorum.'
+        when: 'Temmuz 2026',
+        title: 'Yeni bir sayfa',
+        text: 'Bu şirketteki görevimden ayrıldım; orada edindiğim ürün ve şirket kurma deneyimini yeni şirketlerimize taşıdım.'
+      },
+      {
+        when: 'Ağustos 2026',
+        title: 'HatsonTech',
+        text: 'Hatson Teknoloji’yi Ankara’da kurduk. Kurumlar için yapay zeka ajanları, kaynak gösteren RAG asistanları, dil modeli ince ayarı, görüntü işleme, veri mühendisliği ile web ve mobil yazılım geliştiriyoruz.'
+      },
+      {
+        when: '2026',
+        title: 'Caseon AI',
+        text: 'Hukuk teknolojisine odaklanan ayrı bir şirket olarak Caseon AI’ı kurduk. Avukatların durum tespiti ve sözleşme inceleme işlerinde belgelerle daha rahat çalışabilmesi için bir yazılım geliştiriyoruz; her cevap dayandığı kaynakla birlikte gösteriliyor.'
       }
     ],
     stats: [
-      { value: '2024', label: 'HatsonTech kuruluşu' },
+      { value: '2026', label: 'HatsonTech ve Caseon AI' },
       { value: 'ODTÜ', label: 'Bilgisayar Mühendisliği' },
       { value: 'TR · EN', label: 'iki dilde yazılar' }
     ],
     contact: {
-      title: 'Yapay zeka, ürün ya da iş birliği konuşalım',
-      text: 'Yapay zeka, ürün ya da olası bir iş birliği hakkında konuşmak isterseniz yazmaktan çekinmeyin.',
+      title: 'İş birliği için iletişim',
+      text: 'Projeleriniz, olası iş birlikleri ya da şirketlerimiz hakkında konuşmak isterseniz e-postayla ulaşabilirsiniz; en kısa sürede dönmeye çalışırım.',
       cta: 'E-posta gönder'
     },
     sections: {
       about: 'Hakkımda',
-      process: 'Nasıl çalışıyorum',
-      expertise: 'Uzmanlık alanları',
+      ventures: 'Şirketler',
+      expertise: 'İlgi ve çalışma alanları',
       journey: 'Yolculuk',
       writing: 'Yazılar',
       contact: 'İletişim'
     }
   },
   en: {
-    metaTitle: 'Halide Yılmaz — Computer and AI engineer',
+    metaTitle: 'Halide Yılmaz — Co-founder of HatsonTech and Caseon AI',
     metaDescription:
-      'Halide Yılmaz: computer and AI engineer, METU Computer Engineering graduate. Writing on machine learning, NLP, data and AI governance. Co-founder of HatsonTech.',
-    role: 'Computer and AI engineer · Co-founder at HatsonTech',
-    eyebrow: 'Computer engineering · AI · NLP',
-    headline: 'I turn machine learning into products people can trust.',
+      'Halide Yılmaz: METU Computer Engineering graduate and one of the co-founders of HatsonTech and Caseon AI, writing about what she learns on machine learning, data and AI governance.',
+    role: 'Computer engineer · Co-founder of HatsonTech and Caseon AI',
+    eyebrow: 'Entrepreneurship · Machine learning · Data',
+    headline: 'I build companies in AI and software, and share what I learn along the way.',
     intro:
-      'I’m a METU Computer Engineering graduate. I build genuinely useful products with machine learning and natural language processing, and I care that models are not just working but accurate, measurable and reliable.',
+      'I’m a METU Computer Engineering graduate and one of the co-founders of HatsonTech and Caseon AI. On this site I share notes on machine learning, data and AI governance.',
     status: 'New post',
     about: {
-      lead: 'In short: I turn machine learning and natural language processing into products people can rely on.',
+      lead: 'In short: I co-founded two technology companies. I use my engineering background to build, together with our teams, AI products that organisations can use with confidence.',
       points: [
         {
-          title: 'From idea to product',
-          text: 'I care about taking an idea and turning it into an end-to-end, scalable product on a solid engineering foundation.'
+          title: 'Entrepreneurship',
+          text: 'I care about turning an idea into a sustainable business on a solid engineering foundation.'
         },
         {
-          title: 'Machine learning and NLP',
-          text: 'I work with machine learning, natural language processing and language models — carrying a model from experiment to production.'
+          title: 'Engineering and product',
+          text: 'I stay closely involved in product decisions around system architecture, machine learning and language models.'
         },
         {
-          title: 'Reliable, measurable AI',
-          text: 'I care that models don’t just work, but are accurate, measurable and trustworthy.'
+          title: 'Measurement and trust',
+          text: 'I care about measuring how well a model really works, and explaining it openly to our customers.'
         }
       ]
     },
     focus: [
+      'Entrepreneurship',
       'Computer Engineering',
-      'System Architecture',
-      'Large Language Models',
+      'Machine Learning',
       'Natural Language Processing',
-      'RAG & Semantic Search',
-      'Product Vision',
-      'Entrepreneurship'
+      'Model Evaluation',
+      'Legal Technology',
+      'AI Governance'
     ],
-    process: {
-      title: 'From idea to product, in three steps',
-      steps: [
-        { title: 'Adapt', text: 'First I adapt the data and the model to the problem at hand.' },
-        { title: 'Ground', text: 'Then I ground the answers in real sources with RAG to make them reliable.' },
-        { title: 'Monitor', text: 'Finally I move the model into production and keep it observable and scalable.' }
+    ventures: {
+      title: 'Companies I co-founded',
+      items: [
+        {
+          name: 'HatsonTech',
+          legal: 'Hatson Teknoloji Ltd. Şti.',
+          since: 'August 2026, Ankara',
+          tag: 'Software and AI',
+          text: 'We build AI agents, source-citing RAG assistants, language-model fine-tuning, computer vision, data engineering, and web and mobile software for organisations.',
+          url: 'https://hatsontech.com/'
+        },
+        {
+          name: 'Caseon AI',
+          legal: 'Caseon Teknoloji A.Ş.',
+          since: '2026',
+          tag: 'Legal technology',
+          text: 'We are building software for lawyers’ due diligence and contract review work. Every answer is shown with the document paragraph it relies on, and the final check always stays with the lawyer.',
+          url: 'https://caseon.ai/en/'
+        }
       ]
     },
-    now: 'These days I do this at HatsonTech — working on AI systems purpose-built for the Turkish legal language.',
+    now: 'Today I spend my time on the growth, products and teams of these two companies.',
     expertise: [
       {
         icon: 'brain',
         title: 'Large Language Models',
-        text: 'I train and deploy models fine-tuned to the Turkish legal language.'
+        text: 'Fine-tuning and evaluation work to adapt language models to Turkish and to specific domains.'
       },
       {
         icon: 'text',
         title: 'Natural Language Processing',
-        text: 'Understanding Turkish and multilingual text: classification, inference and meaning-based processing.'
+        text: 'Classification, information extraction and meaning-based processing of Turkish and multilingual text.'
       },
       {
         icon: 'layers',
         title: 'RAG',
-        text: 'Retrieval architectures that ground answers in real documents and stop the model from making things up.'
+        text: 'Retrieval architectures that ground answers in the relevant documents and show their sources.'
       },
       {
         icon: 'search',
         title: 'Semantic Search & Vector DB',
-        text: 'Meaning-based rather than keyword search — precise, fast retrieval across large archives.'
+        text: 'Search systems that consider meaning as well as keywords.'
+      },
+      {
+        icon: 'check',
+        title: 'Data and Model Evaluation',
+        text: 'Data quality, labelling, and evaluating models with the right metrics.'
+      },
+      {
+        icon: 'book',
+        title: 'Legal Software',
+        text: 'Software for legal workflows such as due diligence and contract review.'
       },
       {
         icon: 'network',
         title: 'MCP & Agent Systems',
-        text: 'Agent architectures that use tools and route intelligently via the Model Context Protocol.'
+        text: 'Agent workflows that use tools and wait for human approval at important steps.'
       },
       {
         icon: 'server',
-        title: 'Model Training & MLOps',
-        text: 'Training, fine-tuning, monitoring and continuous deployment on large-scale infrastructure.'
+        title: 'System Architecture & MLOps',
+        text: 'Architecture of web and backend systems; training, deploying and monitoring models.'
       }
     ],
     timeline: [
       {
-        when: 'Education',
+        when: 'Bachelor’s',
         title: 'METU Computer Engineering',
-        text: 'At Middle East Technical University’s Computer Engineering department I built a solid foundation in algorithms, computer science and system design.'
+        text: 'I graduated from Middle East Technical University’s Computer Engineering department, where I built my foundation in algorithms, data structures and system design.'
       },
       {
         when: 'Experience',
-        title: 'Computer and AI engineering',
-        text: 'I gained engineering experience in computing and artificial intelligence, working on system architecture and product development.'
-      },
-      {
-        when: 'Idea',
-        title: 'From a real need to a product idea',
-        text: 'Starting from a real need in the legal domain, I turned a problem into a product idea that would add value for legal professionals.'
+        title: 'Software and AI engineering',
+        text: 'I worked as an engineer on software and AI projects, gaining experience in system architecture and product development.'
       },
       {
         when: '2024',
-        title: 'Founding HatsonTech',
-        text: 'I co-founded Hatson Teknoloji A.Ş. at METU Technopark in Ankara, with one goal: AI products focused on Turkish.'
+        title: 'A first startup',
+        text: 'We co-founded an AI R&D company in Ankara, where we built products around Turkish language models and source-citing search.'
       },
       {
-        when: 'Today',
-        title: 'AI for Turkish law',
-        text: 'I build LLM and RAG architectures for the Turkish legal language and grow the team together with my co-founder İsmail Tarık Şenkal.'
+        when: 'July 2026',
+        title: 'A new chapter',
+        text: 'I left my role at that company and carried the product and company-building experience I gained there into our new companies.'
+      },
+      {
+        when: 'August 2026',
+        title: 'HatsonTech',
+        text: 'We founded Hatson Teknoloji in Ankara. We build AI agents, source-citing RAG assistants, language-model fine-tuning, computer vision, data engineering, and web and mobile software for organisations.'
+      },
+      {
+        when: '2026',
+        title: 'Caseon AI',
+        text: 'We founded Caseon AI as a separate company focused on legal technology. We are building software that helps lawyers work through documents in due diligence and contract review; every answer is shown together with its source.'
       }
     ],
     stats: [
-      { value: '2024', label: 'HatsonTech founded' },
+      { value: '2026', label: 'HatsonTech & Caseon AI' },
       { value: 'METU', label: 'Computer Engineering' },
       { value: 'TR · EN', label: 'writing in two languages' }
     ],
     contact: {
-      title: 'Let’s talk AI, products or collaboration',
-      text: 'If you’d like to talk about artificial intelligence, products or a possible collaboration, don’t hesitate to write.',
+      title: 'Get in touch',
+      text: 'If you’d like to talk about a project, a possible partnership or our companies, feel free to email me; I’ll reply as soon as I can.',
       cta: 'Send an email'
     },
     sections: {
       about: 'About',
-      process: 'How I work',
-      expertise: 'Expertise',
+      ventures: 'Companies',
+      expertise: 'Interests & work',
       journey: 'Journey',
       writing: 'Writing',
       contact: 'Contact'

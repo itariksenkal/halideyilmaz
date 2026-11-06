@@ -7,7 +7,7 @@ category: "Tarihçe"
 tags: ["Tarihçe", "Yapay Zeka"]
 translation: "rnn-lstm-to-transformer"
 heroImage:
-  src: "../../../assets/blog/bimg-02.jpg"
+  src: "../../../assets/blog/covers/rnn-den-transformer.jpg"
   alt: "RNN ve LSTM'den Transformer'a: Dizi Mimarilerinin Evrimi"
 ---
 

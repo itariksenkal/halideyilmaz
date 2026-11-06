@@ -7,7 +7,7 @@ category: "Ethics"
 tags: ["Ethics", "AI"]
 translation: "adalet-denetimi-pratikte"
 heroImage:
-  src: "../../../assets/blog/bimg-07.jpg"
+  src: "../../../assets/blog/covers/fairness-auditing-in-practice.jpg"
   alt: "Fairness Auditing in Practice: How to Actually Audit a Model — and Why Most Audits Are Theatre"
 ---
 

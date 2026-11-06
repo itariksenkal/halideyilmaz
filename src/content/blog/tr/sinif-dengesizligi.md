@@ -7,7 +7,7 @@ category: "Değerlendirme"
 tags: ["Değerlendirme", "Yapay Zeka"]
 translation: "class-imbalance"
 heroImage:
-  src: "../../../assets/blog/bimg-02.jpg"
+  src: "../../../assets/blog/covers/sinif-dengesizligi.jpg"
   alt: "Sınıf Dengesizliği: Nadir Olayı Kaçırmayan Model Nasıl Kurulur?"
 ---
 

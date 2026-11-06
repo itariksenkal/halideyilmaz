@@ -7,7 +7,7 @@ category: "İleri RAG"
 tags: ["İleri RAG", "Yapay Zeka"]
 translation: "knowledge-graph-rag"
 heroImage:
-  src: "../../../assets/blog/bimg-18.jpg"
+  src: "../../../assets/blog/covers/bilgi-grafigi-rag.jpg"
   alt: "Bilgi Grafiği + RAG (GraphRAG): İlişkileri Yakalayan Getirim"
 ---
 

@@ -7,7 +7,7 @@ category: "Production"
 tags: ["Production", "AI"]
 translation: "etiketsiz-performans-tahmini"
 heroImage:
-  src: "../../../assets/blog/bimg-19.jpg"
+  src: "../../../assets/blog/covers/performance-estimation-without-labels.jpg"
   alt: "Knowing Your Model Broke Before the Labels Arrive: Performance Estimation Without Ground Truth"
 ---
 

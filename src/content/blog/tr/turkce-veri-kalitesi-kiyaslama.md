@@ -7,7 +7,7 @@ category: "Türkçe NLP"
 tags: ["Türkçe NLP", "Yapay Zeka"]
 translation: "turkish-nlp-data-quality-benchmarks"
 heroImage:
-  src: "../../../assets/blog/bimg-04.jpg"
+  src: "../../../assets/blog/covers/turkce-veri-kalitesi-kiyaslama.jpg"
   alt: "Türkçe Yapay Zekâda Veri Kalitesi ve Kıyaslama: Elimizde Gerçekte Ne Var?"
 ---
 

@@ -7,7 +7,7 @@ category: "Görü"
 tags: ["Görü", "Yapay Zeka"]
 translation: "cnn-image-processing-basics"
 heroImage:
-  src: "../../../assets/blog/bimg-01.jpg"
+  src: "../../../assets/blog/covers/cnn-goruntu-isleme.jpg"
   alt: "CNN ve Görüntü İşleme Temelleri: Bir Makine Görüntüyü Nasıl \"Görür\"?"
 ---
 

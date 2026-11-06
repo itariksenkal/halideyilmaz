@@ -7,7 +7,7 @@ category: "Governance"
 tags: ["Governance", "AI"]
 translation: "yapay-zeka-etki-degerlendirmesi"
 heroImage:
-  src: "../../../assets/blog/bimg-06.jpg"
+  src: "../../../assets/blog/covers/ai-impact-assessment-fria.jpg"
   alt: "AI Impact Assessment: How FRIA, ISO 42005 and a DPIA Differ — and How to Run One"
 ---
 

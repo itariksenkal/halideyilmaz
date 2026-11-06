@@ -7,7 +7,7 @@ category: "Üretim"
 tags: ["Üretim", "Yapay Zeka"]
 translation: "feature-stores-training-serving-skew"
 heroImage:
-  src: "../../../assets/blog/bimg-20.jpg"
+  src: "../../../assets/blog/covers/ozellik-deposu-egitim-servis-farki.jpg"
   alt: "Özellik Deposu ve Eğitim-Servis Farkı: Model Neden Sahada Farklı Davranıyor?"
 ---
 

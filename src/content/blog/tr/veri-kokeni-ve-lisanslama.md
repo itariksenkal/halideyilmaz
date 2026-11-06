@@ -7,7 +7,7 @@ category: "Veri"
 tags: ["Veri", "Yapay Zeka"]
 translation: "data-provenance-training-data-licensing"
 heroImage:
-  src: "../../../assets/blog/bimg-09.jpg"
+  src: "../../../assets/blog/covers/veri-kokeni-ve-lisanslama.jpg"
   alt: "Veri Kökeni ve Eğitim Verisi Lisanslama: Veri Setinizin Nereden Geldiğini Kanıtlayabiliyor musunuz?"
 ---
 

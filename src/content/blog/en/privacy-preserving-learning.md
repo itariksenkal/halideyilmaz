@@ -7,7 +7,7 @@ category: "Privacy"
 tags: ["Privacy", "AI"]
 translation: "gizlilik-korumali-ogrenme"
 heroImage:
-  src: "../../../assets/blog/bimg-09.jpg"
+  src: "../../../assets/blog/covers/privacy-preserving-learning.jpg"
   alt: "Privacy-Preserving Learning: Federated Learning and Differential Privacy"
 ---
 

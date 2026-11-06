@@ -1,53 +1,51 @@
 ---
 title: "Halide Yılmaz kimdir?"
-description: "Halide Yılmaz kimdir? Hatson Teknoloji A.Ş.'nin kurucu ortağı, ODTÜ Bilgisayar Mühendisliği mezunu, Türkçe yapay zeka ve hukuk teknolojileri üzerine çalışan mühendisin hikâyesi."
+description: "Halide Yılmaz; ODTÜ Bilgisayar Mühendisliği mezunu, HatsonTech ve Caseon AI'ın kurucu ortaklarından. Yapay zeka ve yazılım alanında şirketler kuruyor."
 publishDate: "2026-08-09T23:05:00+03:00"
+updatedDate: "2026-11-06T18:00:00+03:00"
 lang: tr
 category: "Profil"
-tags: ["Profil", "Girişimcilik", "Yapay Zeka", "HatsonTech"]
+tags: ["Profil", "Girişimcilik", "HatsonTech", "Caseon AI"]
 translation: "who-is-halide-yilmaz"
 heroImage:
   src: "../../../assets/blog/halideyilmaz.jpeg"
   alt: "Halide Yılmaz"
 ---
 
-Merhaba, ben **Halide Yılmaz**. ODTÜ Bilgisayar Mühendisliği mezunuyum ve yıllardır bilgisayar ve yapay zeka alanındayım; karmaşık sistemleri sade, çalışan ürünlere dönüştürmeyi seven bir mühendisim. Bugün, kurucu ortağı olduğum **Hatson Teknoloji A.Ş.** çatısı altında, Türkçe'ye odaklanan yapay zeka ürünleri inşa ediyorum.
-
-> “İyi mühendislik gürültü yapmaz; sessizce işe yarar. Benim derdim de tam olarak bu — her gün açılan, güvenilen bir ürün kurmak.”
+Merhaba, ben **Halide Yılmaz**. ODTÜ Bilgisayar Mühendisliği mezunuyum; bugün **HatsonTech** ve **Caseon AI**'ın kurucu ortaklarındanım. Bu yazıda kendimi ve bugüne kadarki yolculuğumu kısaca anlatmak istedim.
 
 ## Kısaca
 
--   **Kim:** Bilgisayar ve yapay zeka mühendisi, kurucu ortak.
--   **Eğitim:** ODTÜ (Orta Doğu Teknik Üniversitesi) Bilgisayar Mühendisliği.
--   **Ne yaparım:** Sistem mimarisi tasarlar, büyük dil modelleri ve RAG mimarileriyle ürün kurarım.
--   **Nerede:** Ankara, ODTÜ Teknokent.
--   **Şirket:** Hatson Teknoloji A.Ş. — kurucu ortak.
+-   **Eğitim:** ODTÜ (Orta Doğu Teknik Üniversitesi), Bilgisayar Mühendisliği.
+-   **Şirketler:** HatsonTech (Hatson Teknoloji Ltd. Şti.) ve Caseon AI (Caseon Teknoloji A.Ş.), kurucu ortak.
+-   **İlgi alanları:** Makine öğrenmesi, doğal dil işleme, model değerlendirme, veri kalitesi ve yapay zekâ yönetişimi.
+-   **Nerede:** Ankara.
 
 ## ODTÜ'den mühendisliğe
 
-Hikâyem ODTÜ Bilgisayar Mühendisliği sıralarında, bir sorunun peşine düşmekle başladı: iyi tasarlanmış bir sistem, insanın işini ne kadar kolaylaştırabilir? Okulda algoritmaları, veri yapılarını ve dağıtık sistemleri öğrenirken aklımda hep aynı soru vardı — bunları gerçek hayatta birinin derdine deva olacak bir şeye nasıl çeviririm?
+Hikâyem ODTÜ Bilgisayar Mühendisliği'nde başladı. Algoritmaları, veri yapılarını ve sistem tasarımını öğrenirken aklımda hep aynı soru vardı: Bunları gerçek hayatta birinin işini kolaylaştıracak bir şeye nasıl dönüştürebilirim?
 
-Mezuniyetten sonra yıllarımı mühendisliğin derinliklerinde geçirdim. Ölçeklenen sistemler kurdum, mimari kararların altından kalktım, ekipler topladım ve büyüttüm. Zamanla ilgim doğal dil işleme (NLP) ve yapay zekaya kaydı; çünkü asıl zorlu mesele oradaydı: makinelere dili gerçekten anlamayı ve güvenilir biçimde üretmeyi öğretmek. Bu uzun mühendislik geçmişi, bana bir alışkanlık kazandırdı — önce sağlam temel, sonra parlak özellik.
+Mezuniyetten sonra yazılım ve yapay zeka projelerinde mühendis olarak çalıştım. Zamanla ilgim makine öğrenmesine ve doğal dil işlemeye kaydı. Bu yıllar bana önemli bir alışkanlık kazandırdı: önce sağlam bir temel kurmak, sonra üzerine eklemek.
 
-<div class="callout"><strong>Neden önemli?</strong> Yapay zeka ürünleri demoda etkileyici, üretimde kırılgan olmaya meyillidir. Yılların verdiği mühendislik disiplini, bir fikri yalnızca çalıştırmayı değil; binlerce kullanıcının altında ayakta tutmayı, ölçeklemeyi ve güvenilir kılmayı mümkün kılar. Benim HatsonTech'e kattığım şey tam olarak bu.</div>
+## İlk girişim
 
-## Hukuk için yapay zeka
+2024'te İsmail Tarık Şenkal ile birlikte Ankara'da bir yapay zeka Ar-Ge şirketini kurucu ortak olarak kurduk. Türkçe dil modelleri ve kaynak gösteren arama sistemleri üzerine ürünler geliştirdik. Bir ürünün mimarisini kurmayı, ekip oluşturmayı ve bir şirketin günlük işlerini yürütmeyi en çok o yıllarda öğrendim. Temmuz 2026'da bu şirketteki görevimden ayrıldım.
 
-HatsonTech'i 2024 yılında, Ankara ODTÜ Teknokent'te kurucu ortağım **İsmail Tarık Şenkal** ile birlikte hayata geçirdik. Çıkış noktamız netti: Türkçe'yi gerçekten anlayan, güvenilir ve işe yarayan ürünler üretmek. HatsonTech bir “danışmanlık” evi değil; **kendi ürünlerini** inşa eden bir Ar-Ge şirketi.
+## HatsonTech ve Caseon AI
 
-Hukuk dünyasının taşıdığı muazzam metin yükünü ve bu metinde “doğru bilgiyi” bulmanın ne kadar zahmetli olduğunu gördüğümde, bunun tam da yapay zekanın çözmesi gereken bir problem olduğunu düşündüm. Ürünün ilk mimarisini kurarken sorduğum soru şuydu: avukatın saatlerini alan içtihat aramasını, belge analizini ve hukuki soru-cevabı tek bir güvenilir asistanda nasıl toplarız? Mimarinin iskeleti bu sorunun cevabından doğdu.
+Ağustos 2026'da Ankara'da **HatsonTech**'i kurduk. HatsonTech'te kurumlar için yapay zeka ajanları, kaynak gösteren RAG asistanları, dil modeli ince ayarı, görüntü işleme, veri mühendisliği ile web ve mobil yazılım projeleri yürütüyoruz. Bir projeye başlamadan önce neyin başarı sayılacağını müşterimizle birlikte yazmayı ve sonucu gerçek örneklerle ölçmeyi önemsiyoruz.
 
-Bugün bu çalışmanın arkasında, HatsonTech'in Türkçe hukuk diline göre ince ayarlanmış kendi dil modeli yer alıyor. Cevapların gerçek belgelere dayanması, “uydurmaması” gerektiği için işin merkezine [RAG](/posts/rag-chunking-stratejileri/) mimarisini koyduk — bu, ürünün mimari tasarımında benim en çok üstüne titrediğim karar oldu.
+Yine 2026'da, hukuk teknolojisine odaklanan ayrı bir şirket olarak **Caseon AI**'ı kurduk. Caseon'da avukatların durum tespiti (due diligence) ve sözleşme inceleme işlerine yardımcı olan bir yazılım geliştiriyoruz. Sistemin verdiği her cevap, dayandığı belge paragrafıyla birlikte gösteriliyor ve son kontrol her zaman avukatta kalıyor.
 
-## Neye inanıyor?
+Bugün zamanımı bu iki şirketin büyümesine, ürünlerine ve ekiplerine ayırıyorum.
 
-Çalışmalarımı yönlendiren birkaç temel ilke var:
+## Önemsediğim birkaç şey
 
--   **Sağlam mühendislik her şeyin temelidir.** Doğru tasarlanmış bir sistem mimarisi, üzerine kurulan her özelliği daha güçlü ve uzun ömürlü kılar.
--   **Türkçe hak ettiği yapay zekayı bekliyor.** [Büyük dil modellerinin](/posts/attention-mekanizmasi/) çoğu İngilizce'ye göre tasarlanır; Türkçe konuşan herkesin ana dilinde aynı kaliteye erişmesi gerekir.
--   **Doğruluk pazarlıksızdır.** Özellikle hukuk gibi alanlarda, cevaplarını gerçek belgelere dayandıran sistemler şart.
--   **Araştırma ürüne dönüşmeli.** Bir prototip değerlidir; ama asıl değer, onu binlerce kişinin güvenle kullandığı bir ürüne çevirmektir.
+-   **Sağlam mühendislik.** İyi tasarlanmış bir sistem, üzerine eklenen her özelliği daha kolay ve daha kalıcı kılıyor.
+-   **Ölçmek.** Bir modelin "iyi" olduğunu söylemeden önce, neye göre iyi olduğunu açıkça ortaya koymaya çalışıyorum.
+-   **Ekip.** Bu yazıda adı geçen her işin arkasında birlikte çalıştığım insanların emeği var.
+-   **Öğrendikçe yazmak.** Bu blog biraz da kendime aldığım notlar. Bir yanlışım olursa düzeltilmekten memnuniyet duyarım.
 
 ---
 
-Özetle: ODTÜ'den gelen mühendislik temelimi, yılların verdiği deneyimi ve ürün vizyonumu Türkçe yapay zekayı gerçek hayata indirmek için kullanıyorum. Daha derine inmek isterseniz, [HatsonTech'in ne olduğunu](/posts/hatsontech-nedir/) ya da [büyük dil modellerinin nasıl çalıştığını](/posts/attention-mekanizmasi/) anlatan yazılarla devam edebilirsiniz.
+Şirketlerimizin nasıl ortaya çıktığını [HatsonTech nasıl ortaya çıktı?](/posts/hatsontech-nedir/) yazısında anlattık. Bir proje ya da iş birliği hakkında konuşmak isterseniz bana [e-postayla](mailto:halide.yilmaz@hatsontech.com) ulaşabilirsiniz.

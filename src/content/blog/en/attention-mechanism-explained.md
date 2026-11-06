@@ -7,7 +7,7 @@ category: "Deep"
 tags: ["Deep", "AI"]
 translation: "attention-mekanizmasi"
 heroImage:
-  src: "../../../assets/blog/bimg-11.jpg"
+  src: "../../../assets/blog/covers/attention-mechanism-explained.jpg"
   alt: "The Attention Mechanism, Intuitively: Query, Key, Value, Self-Attention, and Why It Was Revolutionary"
 ---
 

@@ -7,7 +7,7 @@ category: "Agents"
 tags: ["Agents", "AI"]
 translation: "llm-ajanlari"
 heroImage:
-  src: "../../../assets/blog/bimg-17.jpg"
+  src: "../../../assets/blog/covers/llm-agents-tool-use.jpg"
   alt: "LLM Agents and Tool Use: Planning, MCP, and Multi-Step Tasks"
 ---
 

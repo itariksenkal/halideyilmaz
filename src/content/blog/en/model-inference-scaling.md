@@ -7,7 +7,7 @@ category: "Scaling"
 tags: ["Scaling", "AI"]
 translation: "model-cikarimi-olcekleme"
 heroImage:
-  src: "../../../assets/blog/bimg-19.jpg"
+  src: "../../../assets/blog/covers/model-inference-scaling.jpg"
   alt: "Model Inference and Scaling: Cutting GPU Costs with Latency, Throughput, Quantization and the KV-Cache"
 ---
 

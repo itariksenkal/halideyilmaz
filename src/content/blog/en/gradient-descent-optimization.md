@@ -7,7 +7,7 @@ category: "Training"
 tags: ["Training", "AI"]
 translation: "gradyan-inisi-optimizasyon"
 heroImage:
-  src: "../../../assets/blog/bimg-04.jpg"
+  src: "../../../assets/blog/covers/gradient-descent-optimization.jpg"
   alt: "Gradient Descent and Optimization: How Does a Model \"Learn\"?"
 ---
 

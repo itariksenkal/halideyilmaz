@@ -7,7 +7,7 @@ category: "Yönetişim"
 tags: ["Yönetişim", "Yapay Zeka"]
 translation: "model-cards-governance"
 heroImage:
-  src: "../../../assets/blog/bimg-10.jpg"
+  src: "../../../assets/blog/covers/model-kartlari-yonetisim.jpg"
   alt: "Model Kartları ve Yapay Zekâ Yönetişimi: Bir Modeli Belgelemek"
 ---
 

@@ -7,7 +7,7 @@ category: "Retrieval"
 tags: ["Retrieval", "AI"]
 translation: "reranking-hibrit-arama"
 heroImage:
-  src: "../../../assets/blog/bimg-15.jpg"
+  src: "../../../assets/blog/covers/reranking-hybrid-search.jpg"
   alt: "Reranking and Hybrid Search: Combining BM25 with Semantic Search"
 ---
 

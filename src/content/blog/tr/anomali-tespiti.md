@@ -7,7 +7,7 @@ category: "Yöntem"
 tags: ["Yöntem", "Yapay Zeka"]
 translation: "anomaly-detection"
 heroImage:
-  src: "../../../assets/blog/bimg-06.jpg"
+  src: "../../../assets/blog/covers/anomali-tespiti.jpg"
   alt: "Anomali Tespiti: Etiket Olmadan Aykırıyı Bulmak"
 ---
 

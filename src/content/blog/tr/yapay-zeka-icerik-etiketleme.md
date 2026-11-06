@@ -7,7 +7,7 @@ category: "Yönetişim"
 tags: ["Yönetişim", "Yapay Zeka"]
 translation: "ai-content-labeling-transparency"
 heroImage:
-  src: "../../../assets/blog/bimg-03.jpg"
+  src: "../../../assets/blog/covers/yapay-zeka-icerik-etiketleme.jpg"
   alt: "Yapay Zekâ Üretimi İçeriği Etiketlemek: Madde 50, Makine Okunur Filigran ve C2PA"
 ---
 

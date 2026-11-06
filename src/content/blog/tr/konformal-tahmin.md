@@ -7,7 +7,7 @@ category: "Yöntem"
 tags: ["Yöntem", "Yapay Zeka"]
 translation: "conformal-prediction-uncertainty"
 heroImage:
-  src: "../../../assets/blog/bimg-16.jpg"
+  src: "../../../assets/blog/covers/konformal-tahmin.jpg"
   alt: "Konformal Tahmin: Dağılımdan Bağımsız Garantilerle Belirsizliği Ölçmek"
 ---
 

@@ -7,7 +7,7 @@ category: "Governance"
 tags: ["Governance", "AI"]
 translation: "iso-42001-yapay-zeka-yonetim-sistemi"
 heroImage:
-  src: "../../../assets/blog/bimg-04.jpg"
+  src: "../../../assets/blog/covers/iso-42001-ai-management-system.jpg"
   alt: "ISO/IEC 42001 for Engineers: What an AI Management System Actually Requires — and Why It Is Not AI Act Compliance"
 ---
 

@@ -7,7 +7,7 @@ category: "Türkçe NLP"
 tags: ["Türkçe NLP", "Yapay Zeka"]
 translation: "tokenization-turkish-challenges"
 heroImage:
-  src: "../../../assets/blog/bimg-12.jpg"
+  src: "../../../assets/blog/covers/tokenizasyon-turkce.jpg"
   alt: "Tokenizasyon ve Türkçe'nin Zorlukları: Eklemeli Dil, Kelime Patlaması ve Verimli Tokenizasyon"
 ---
 

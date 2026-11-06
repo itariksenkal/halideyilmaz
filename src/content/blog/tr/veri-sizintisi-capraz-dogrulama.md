@@ -7,7 +7,7 @@ category: "Değerlendirme"
 tags: ["Değerlendirme", "Yapay Zeka"]
 translation: "data-leakage-cross-validation"
 heroImage:
-  src: "../../../assets/blog/bimg-04.jpg"
+  src: "../../../assets/blog/covers/veri-sizintisi-capraz-dogrulama.jpg"
   alt: "Veri Sızıntısı ve Çapraz Doğrulama: Test Skorunuz Neden Yalan Söylüyor?"
 ---
 

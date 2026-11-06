@@ -7,7 +7,7 @@ category: "Ajanlar"
 tags: ["Ajanlar", "Yapay Zeka"]
 translation: "llm-agents-tool-use"
 heroImage:
-  src: "../../../assets/blog/bimg-17.jpg"
+  src: "../../../assets/blog/covers/llm-ajanlari.jpg"
   alt: "LLM Ajanları ve Araç Kullanımı: Planlama, MCP ve Çok Adımlı Görevler"
 ---
 

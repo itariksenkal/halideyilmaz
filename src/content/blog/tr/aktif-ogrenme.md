@@ -7,7 +7,7 @@ category: "Veri"
 tags: ["Veri", "Yapay Zeka"]
 translation: "active-learning"
 heroImage:
-  src: "../../../assets/blog/bimg-03.jpg"
+  src: "../../../assets/blog/covers/aktif-ogrenme.jpg"
   alt: "Aktif Öğrenme: Etiketleme Bütçesini En Değerli Örneklere Harcamak"
 ---
 

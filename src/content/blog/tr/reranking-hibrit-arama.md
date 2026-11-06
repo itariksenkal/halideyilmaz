@@ -7,7 +7,7 @@ category: "Getirim"
 tags: ["Getirim", "Yapay Zeka"]
 translation: "reranking-hybrid-search"
 heroImage:
-  src: "../../../assets/blog/bimg-15.jpg"
+  src: "../../../assets/blog/covers/reranking-hibrit-arama.jpg"
   alt: "Reranking ve Hibrit Arama: BM25 ile Semantik Aramayı Birleştirmek"
 ---
 

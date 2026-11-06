@@ -7,7 +7,7 @@ category: "Governance"
 tags: ["Governance", "AI"]
 translation: "yapay-zeka-yasasi-yeni-takvim"
 heroImage:
-  src: "../../../assets/blog/bimg-01.jpg"
+  src: "../../../assets/blog/covers/eu-ai-act-timeline-2026.jpg"
   alt: "The EU AI Act's New Timeline: What the 2026 Omnibus Changed and What Is Actually in Force Today"
 ---
 

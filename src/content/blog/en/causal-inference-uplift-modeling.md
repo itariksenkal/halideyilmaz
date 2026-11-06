@@ -7,7 +7,7 @@ category: "Methods"
 tags: ["Methods", "AI"]
 translation: "nedensel-cikarim-uplift"
 heroImage:
-  src: "../../../assets/blog/bimg-01.jpg"
+  src: "../../../assets/blog/covers/causal-inference-uplift-modeling.jpg"
   alt: "Causal Inference and Uplift Modelling: “Who Will Buy?” Is the Wrong Question"
 ---
 

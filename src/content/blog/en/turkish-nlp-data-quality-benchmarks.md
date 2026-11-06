@@ -7,7 +7,7 @@ category: "Turkish NLP"
 tags: ["Turkish NLP", "AI"]
 translation: "turkce-veri-kalitesi-kiyaslama"
 heroImage:
-  src: "../../../assets/blog/bimg-04.jpg"
+  src: "../../../assets/blog/covers/turkish-nlp-data-quality-benchmarks.jpg"
   alt: "Turkish AI Data Quality and Benchmarks: What Actually Exists"
 ---
 

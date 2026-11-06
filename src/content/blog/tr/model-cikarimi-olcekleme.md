@@ -7,7 +7,7 @@ category: "Ölçekleme"
 tags: ["Ölçekleme", "Yapay Zeka"]
 translation: "model-inference-scaling"
 heroImage:
-  src: "../../../assets/blog/bimg-19.jpg"
+  src: "../../../assets/blog/covers/model-cikarimi-olcekleme.jpg"
   alt: "Model Çıkarımı ve Ölçekleme: Gecikme, Verim, Niceleme ve KV-Cache ile GPU Maliyetini Düşürmek"
 ---
 

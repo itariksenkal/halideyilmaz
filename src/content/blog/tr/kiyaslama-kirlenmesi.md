@@ -7,7 +7,7 @@ category: "Değerlendirme"
 tags: ["Değerlendirme", "Yapay Zeka"]
 translation: "benchmark-contamination"
 heroImage:
-  src: "../../../assets/blog/bimg-13.jpg"
+  src: "../../../assets/blog/covers/kiyaslama-kirlenmesi.jpg"
   alt: "Kıyaslama Kirlenmesi: Lider Tablolarındaki Skorlar Neden Şişkin?"
 ---
 

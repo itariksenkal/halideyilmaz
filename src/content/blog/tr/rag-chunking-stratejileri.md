@@ -7,7 +7,7 @@ category: "RAG"
 tags: ["RAG", "Yapay Zeka"]
 translation: "rag-chunking-strategies"
 heroImage:
-  src: "../../../assets/blog/bimg-14.jpg"
+  src: "../../../assets/blog/covers/rag-chunking-stratejileri.jpg"
   alt: "RAG İçin Chunking Stratejileri: Parçalama Kaliteyi Nasıl Belirler?"
 ---
 

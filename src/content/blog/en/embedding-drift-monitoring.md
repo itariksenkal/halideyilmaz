@@ -7,7 +7,7 @@ category: "Production"
 tags: ["Production", "AI"]
 translation: "gomme-kaymasi-izleme"
 heroImage:
-  src: "../../../assets/blog/bimg-18.jpg"
+  src: "../../../assets/blog/covers/embedding-drift-monitoring.jpg"
   alt: "Embedding Drift: Monitoring for Drift in the Foundation-Model Era"
 ---
 

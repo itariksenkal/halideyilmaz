@@ -7,7 +7,7 @@ category: "Data"
 tags: ["Data", "AI"]
 translation: "veri-sozlesmeleri"
 heroImage:
-  src: "../../../assets/blog/bimg-10.jpg"
+  src: "../../../assets/blog/covers/data-contracts-for-ml.jpg"
   alt: "Data Contracts for ML: Stopping the Schema Change That Silently Breaks Your Pipeline"
 ---
 

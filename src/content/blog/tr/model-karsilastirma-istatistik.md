@@ -7,7 +7,7 @@ category: "Değerlendirme"
 tags: ["Değerlendirme", "Yapay Zeka"]
 translation: "statistical-significance-model-comparison"
 heroImage:
-  src: "../../../assets/blog/bimg-14.jpg"
+  src: "../../../assets/blog/covers/model-karsilastirma-istatistik.jpg"
   alt: "%1'lik Fark Gerçek mi? Model Karşılaştırmasında Güven Aralığı ve Bootstrap"
 ---
 

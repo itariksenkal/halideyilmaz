@@ -7,7 +7,7 @@ category: "Governance"
 tags: ["Governance", "AI"]
 translation: "yuksek-riskli-yapay-zeka-gereklilikleri"
 heroImage:
-  src: "../../../assets/blog/bimg-02.jpg"
+  src: "../../../assets/blog/covers/high-risk-ai-system-requirements.jpg"
   alt: "High-Risk AI Systems: What an ML Team Actually Has to Build Before December 2027"
 ---
 

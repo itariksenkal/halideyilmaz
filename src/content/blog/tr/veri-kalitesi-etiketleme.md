@@ -7,7 +7,7 @@ category: "Veri"
 tags: ["Veri", "Yapay Zeka"]
 translation: "data-quality-labeling"
 heroImage:
-  src: "../../../assets/blog/bimg-20.jpg"
+  src: "../../../assets/blog/covers/veri-kalitesi-etiketleme.jpg"
   alt: "Veri Kalitesi ve Etiketleme: Modelin Asıl Yakıtı"
 ---
 

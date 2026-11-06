@@ -7,7 +7,7 @@ category: "History"
 tags: ["History", "AI"]
 translation: "rnn-den-transformer"
 heroImage:
-  src: "../../../assets/blog/bimg-02.jpg"
+  src: "../../../assets/blog/covers/rnn-lstm-to-transformer.jpg"
   alt: "From RNNs and LSTMs to the Transformer: The Evolution of Sequence Architectures"
 ---
 

@@ -7,7 +7,7 @@ category: "Ölçme"
 tags: ["Ölçme", "Yapay Zeka"]
 translation: "model-calibration-probabilities"
 heroImage:
-  src: "../../../assets/blog/bimg-15.jpg"
+  src: "../../../assets/blog/covers/model-kalibrasyonu.jpg"
   alt: "Model Kalibrasyonu: Modelinizin \"%90 Eminim\" Demesi Ne Anlama Geliyor?"
 ---
 

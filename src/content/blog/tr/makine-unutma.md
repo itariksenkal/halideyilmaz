@@ -7,7 +7,7 @@ category: "Gizlilik"
 tags: ["Gizlilik", "Yapay Zeka"]
 translation: "machine-unlearning-right-to-be-forgotten"
 heroImage:
-  src: "../../../assets/blog/bimg-02.jpg"
+  src: "../../../assets/blog/covers/makine-unutma.jpg"
   alt: "Makine Unutması: Bir Modele Bir Kişiyi Gerçekten Unutturabilir misiniz?"
 ---
 

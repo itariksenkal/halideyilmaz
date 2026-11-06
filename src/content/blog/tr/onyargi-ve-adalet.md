@@ -7,7 +7,7 @@ category: "Etik"
 tags: ["Etik", "Yapay Zeka"]
 translation: "bias-and-fairness"
 heroImage:
-  src: "../../../assets/blog/bimg-05.jpg"
+  src: "../../../assets/blog/covers/onyargi-ve-adalet.jpg"
   alt: "Yapay Zekâda Önyargı ve Adalet: Model Neden Ayrımcılık Yapar?"
 ---
 

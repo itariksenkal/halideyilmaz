@@ -7,7 +7,7 @@ category: "Advanced RAG"
 tags: ["Advanced RAG", "AI"]
 translation: "bilgi-grafigi-rag"
 heroImage:
-  src: "../../../assets/blog/bimg-18.jpg"
+  src: "../../../assets/blog/covers/knowledge-graph-rag.jpg"
   alt: "Knowledge Graph + RAG (GraphRAG): Retrieval That Captures Relationships"
 ---
 

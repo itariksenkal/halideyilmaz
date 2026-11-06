@@ -1,16 +1,17 @@
 # Halide Yılmaz
 
-> HatsonTech kurucu ortağı; ODTÜ Bilgisayar Mühendisliği mezunu bilgisayar ve yapay zeka mühendisi. — Co-founder of HatsonTech, a computer & AI engineer (METU Computer Engineering graduate).
+> HatsonTech ve Caseon AI kurucu ortağı; ODTÜ Bilgisayar Mühendisliği mezunu. — Co-founder of HatsonTech and Caseon AI; METU Computer Engineering graduate.
 
 Bu site Halide Yılmaz'ın kişisel blogudur; makine öğrenmesinin temelleri, attention/transformer mimarileri, RAG, model izleme ve özellik mühendisliği gibi konuları Türkçe ve İngilizce ele alır. — Personal site of Halide Yılmaz, covering machine-learning fundamentals, attention/transformer architectures, RAG, model monitoring and feature engineering, in Turkish and English.
 
-Hatson Teknoloji A.Ş. — Ankara, ODTÜ Teknokent merkezli, Türkçe odaklı yapay zeka Ar-Ge şirketi.
+HatsonTech (Hatson Teknoloji Ltd. Şti.) — Ağustos 2026'da Ankara'da kurulan yazılım ve yapay zeka şirketi. — Software and AI company founded in Ankara in August 2026: https://hatsontech.com/
+Caseon AI (Caseon Teknoloji A.Ş.) — 2026'da kurulan, avukatlar için durum tespiti ve sözleşme inceleme yazılımı geliştiren hukuk teknolojisi şirketi. — Legal-technology company building due diligence and contract review software: https://caseon.ai/
 
 ## Hakkında / Background
-- [Halide Yılmaz kimdir?](https://halideyilmaz.com/posts/halide-yilmaz-kimdir/): Halide Yılmaz kimdir? Hatson Teknoloji A.Ş.'nin kurucu ortağı, ODTÜ Bilgisayar Mühendisliği mezunu, Türkçe yapay zeka ve hukuk teknolojileri üzerine çalışan mühendisin hikâyesi.
-- [HatsonTech nasıl ortaya çıktı?](https://halideyilmaz.com/posts/hatsontech-nedir/): HatsonTech nasıl ortaya çıktı? 2024'te Ankara ODTÜ Teknokent'te kurulan Türkçe yapay zeka girişiminin doğuş hikâyesi: hangi sorundan yola çıkıldı, neden kendi ürünlerini geliştiriyor?
-- [Who is Halide Yılmaz?](https://halideyilmaz.com/en/posts/who-is-halide-yilmaz/): Who is Halide Yılmaz? The story of a co-founder of Hatson Teknoloji A.Ş., a graduate of METU Computer Engineering and an engineer working on Turkish artificial intelligence and legal technologies.
-- [How did HatsonTech come about?](https://halideyilmaz.com/en/posts/how-hatsontech-started/): How did HatsonTech come about? The origin story of a Turkish AI startup founded in 2024 at ODTÜ Teknokent in Ankara: what problem it set out to solve, and why it builds its own products.
+- [Halide Yılmaz kimdir?](https://halideyilmaz.com/posts/halide-yilmaz-kimdir/): Halide Yılmaz; ODTÜ Bilgisayar Mühendisliği mezunu, HatsonTech ve Caseon AI'ın kurucu ortaklarından. Yapay zeka ve yazılım alanında şirketler kuruyor.
+- [HatsonTech nasıl ortaya çıktı?](https://halideyilmaz.com/posts/hatsontech-nedir/): HatsonTech, Ağustos 2026'da Ankara'da kurulan bir yazılım ve yapay zeka şirketi. Nasıl başladığını, ne yaptığını ve hukuk teknolojisine odaklanan Caseon AI ile ilişkisini kısaca anlatıyoruz.
+- [Who is Halide Yılmaz?](https://halideyilmaz.com/en/posts/who-is-halide-yilmaz/): Halide Yılmaz is a METU Computer Engineering graduate and one of the co-founders of HatsonTech and Caseon AI, building companies in AI and software.
+- [How did HatsonTech come about?](https://halideyilmaz.com/en/posts/how-hatsontech-started/): HatsonTech is a software and AI company founded in Ankara in August 2026. A short account of how it started, what it does, and how it relates to Caseon AI, our legal-technology company.
 
 ## Yazılar — Türkçe
 - [Veri Merkezli Yapay Zeka: Modeli Değil Veriyi İyileştirmek](https://halideyilmaz.com/posts/veri-merkezli-yapay-zeka/): Veri merkezli yapay zeka, modeli sabit tutup veriyi sistematik olarak iyileştirme yaklaşımıdır. Etiket tutarlılığı, kapsam boşlukları ve hata analizi ile aynı mimariden nasıl daha yüksek doğruluk çıkar, sezgisel örneklerle anlatıyoruz.

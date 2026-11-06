@@ -7,7 +7,7 @@ category: "Veri"
 tags: ["Veri", "Yapay Zeka"]
 translation: "datasheets-for-datasets"
 heroImage:
-  src: "../../../assets/blog/bimg-11.jpg"
+  src: "../../../assets/blog/covers/veri-seti-belgelendirme.jpg"
   alt: "Veri Seti Belgelendirme (Datasheets for Datasets): Model Kartının Eksik Yarısı"
 ---
 

@@ -7,7 +7,7 @@ category: "Learning"
 tags: ["Learning", "AI"]
 translation: "denetimsiz-ogrenme-kumeleme"
 heroImage:
-  src: "../../../assets/blog/bimg-06.jpg"
+  src: "../../../assets/blog/covers/unsupervised-learning-clustering.jpg"
   alt: "Unsupervised Learning and Clustering: Finding Patterns in Unlabeled Data"
 ---
 

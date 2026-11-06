@@ -7,7 +7,7 @@ category: "Yönetişim"
 tags: ["Yönetişim", "Yapay Zeka"]
 translation: "ai-impact-assessment-fria"
 heroImage:
-  src: "../../../assets/blog/bimg-06.jpg"
+  src: "../../../assets/blog/covers/yapay-zeka-etki-degerlendirmesi.jpg"
   alt: "Yapay Zekâ Etki Değerlendirmesi: FRIA, ISO 42005 ve VERBİS/DPIA Aynı Belge mi?"
 ---
 

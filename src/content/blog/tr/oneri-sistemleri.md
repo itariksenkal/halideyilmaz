@@ -7,7 +7,7 @@ category: "Yöntem"
 tags: ["Yöntem", "Yapay Zeka"]
 translation: "recommender-systems"
 heroImage:
-  src: "../../../assets/blog/bimg-08.jpg"
+  src: "../../../assets/blog/covers/oneri-sistemleri.jpg"
   alt: "Öneri Sistemleri: İşbirlikçi Filtreleme, İçerik Tabanlı Yaklaşım ve Soğuk Başlangıç"
 ---
 

@@ -7,7 +7,7 @@ category: "Etik"
 tags: ["Etik", "Yapay Zeka"]
 translation: "fairness-auditing-in-practice"
 heroImage:
-  src: "../../../assets/blog/bimg-07.jpg"
+  src: "../../../assets/blog/covers/adalet-denetimi-pratikte.jpg"
   alt: "Adalet Denetimi Pratikte: Bir Modeli Gerçekten Nasıl Denetlersiniz (ve Denetimler Neden Tiyatroya Dönüşür)?"
 ---
 

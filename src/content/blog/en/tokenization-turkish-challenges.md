@@ -7,7 +7,7 @@ category: "Turkish NLP"
 tags: ["Turkish NLP", "AI"]
 translation: "tokenizasyon-turkce"
 heroImage:
-  src: "../../../assets/blog/bimg-12.jpg"
+  src: "../../../assets/blog/covers/tokenization-turkish-challenges.jpg"
   alt: "Tokenization and the Challenges of Turkish: Agglutination, Vocabulary Explosion, and Efficient Tokenization"
 ---
 

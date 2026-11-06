@@ -7,7 +7,7 @@ category: "Evaluation"
 tags: ["Evaluation", "AI"]
 translation: "kiyaslama-kirlenmesi"
 heroImage:
-  src: "../../../assets/blog/bimg-13.jpg"
+  src: "../../../assets/blog/covers/benchmark-contamination.jpg"
   alt: "Benchmark Contamination: Why Leaderboard Scores Are Inflated"
 ---
 

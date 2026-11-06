@@ -7,7 +7,7 @@ category: "Governance"
 tags: ["Governance", "AI"]
 translation: "yapay-zeka-icerik-etiketleme"
 heroImage:
-  src: "../../../assets/blog/bimg-03.jpg"
+  src: "../../../assets/blog/covers/ai-content-labeling-transparency.jpg"
   alt: "Labelling AI-Generated Content: Article 50, Machine-Readable Watermarks and C2PA"
 ---
 

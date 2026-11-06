@@ -7,7 +7,7 @@ category: "Governance"
 tags: ["Governance", "AI"]
 translation: "model-kartlari-yonetisim"
 heroImage:
-  src: "../../../assets/blog/bimg-10.jpg"
+  src: "../../../assets/blog/covers/model-cards-governance.jpg"
   alt: "Model Cards and AI Governance: Documenting a Model"
 ---
 

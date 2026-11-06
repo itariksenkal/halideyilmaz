@@ -7,7 +7,7 @@ category: "Privacy"
 tags: ["Privacy", "AI"]
 translation: "makine-unutma"
 heroImage:
-  src: "../../../assets/blog/bimg-02.jpg"
+  src: "../../../assets/blog/covers/machine-unlearning-right-to-be-forgotten.jpg"
   alt: "Machine Unlearning: Can You Really Make a Model Forget Someone?"
 ---
 

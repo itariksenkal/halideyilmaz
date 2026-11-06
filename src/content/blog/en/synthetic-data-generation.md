@@ -7,7 +7,7 @@ category: "Data"
 tags: ["Data", "AI"]
 translation: "sentetik-veri"
 heroImage:
-  src: "../../../assets/blog/bimg-09.jpg"
+  src: "../../../assets/blog/covers/synthetic-data-generation.jpg"
   alt: "Synthetic Data Generation: Overcoming Scarcity, Protecting Privacy, and Avoiding Model Collapse"
 ---
 

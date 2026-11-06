@@ -7,7 +7,7 @@ category: "Methods"
 tags: ["Methods", "AI"]
 translation: "konformal-tahmin"
 heroImage:
-  src: "../../../assets/blog/bimg-16.jpg"
+  src: "../../../assets/blog/covers/conformal-prediction-uncertainty.jpg"
   alt: "Conformal Prediction: Measuring Uncertainty With Distribution-Free Guarantees"
 ---
 

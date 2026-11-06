@@ -7,7 +7,7 @@ category: "Interpretability"
 tags: ["Interpretability", "AI"]
 translation: "model-yorumlanabilirligi"
 heroImage:
-  src: "../../../assets/blog/bimg-08.jpg"
+  src: "../../../assets/blog/covers/model-interpretability-xai.jpg"
   alt: "Model Interpretability (XAI): Why Did a Model Decide That Way?"
 ---
 

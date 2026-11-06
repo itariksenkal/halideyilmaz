@@ -7,7 +7,7 @@ category: "Gizlilik"
 tags: ["Gizlilik", "Yapay Zeka"]
 translation: "is-your-model-anonymous-memorization"
 heroImage:
-  src: "../../../assets/blog/bimg-17.jpg"
+  src: "../../../assets/blog/covers/model-anonim-mi-ezberleme.jpg"
   alt: "Modeliniz Anonim mi? Ezberleme, Üyelik Çıkarımı ve EDPB'nin Yeni Anonimleştirme Kılavuzu"
 ---
 

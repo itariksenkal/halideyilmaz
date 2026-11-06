@@ -7,7 +7,7 @@ category: "Veri"
 tags: ["Veri", "Yapay Zeka"]
 translation: "data-centric-ai"
 heroImage:
-  src: "../../../assets/blog/bimg-01.jpg"
+  src: "../../../assets/blog/covers/veri-merkezli-yapay-zeka.jpg"
   alt: "Veri Merkezli Yapay Zeka: Modeli Değil Veriyi İyileştirmek"
 ---
 

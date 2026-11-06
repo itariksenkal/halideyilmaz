@@ -7,7 +7,7 @@ category: "Üretim"
 tags: ["Üretim", "Yapay Zeka"]
 translation: "model-monitoring-drift"
 heroImage:
-  src: "../../../assets/blog/bimg-10.jpg"
+  src: "../../../assets/blog/covers/model-izleme-drift.jpg"
   alt: "Üretimde Model İzleme ve Veri Kayması: Kavram Kayması, Performans Düşüşü ve Yeniden Eğitim Tetikleyicileri"
 ---
 

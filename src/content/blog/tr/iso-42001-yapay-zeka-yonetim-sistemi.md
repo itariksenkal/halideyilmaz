@@ -7,7 +7,7 @@ category: "Yönetişim"
 tags: ["Yönetişim", "Yapay Zeka"]
 translation: "iso-42001-ai-management-system"
 heroImage:
-  src: "../../../assets/blog/bimg-04.jpg"
+  src: "../../../assets/blog/covers/iso-42001-yapay-zeka-yonetim-sistemi.jpg"
   alt: "ISO/IEC 42001 Mühendis Gözüyle: Yapay Zekâ Yönetim Sistemi Gerçekte Neyi Zorunlu Kılar (ve AB Yasasına Uyum Sağlamaz)"
 ---
 

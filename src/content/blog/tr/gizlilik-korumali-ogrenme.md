@@ -7,7 +7,7 @@ category: "Gizlilik"
 tags: ["Gizlilik", "Yapay Zeka"]
 translation: "privacy-preserving-learning"
 heroImage:
-  src: "../../../assets/blog/bimg-09.jpg"
+  src: "../../../assets/blog/covers/gizlilik-korumali-ogrenme.jpg"
   alt: "Gizlilik Korumalı Öğrenme: Federated Learning ve Diferansiyel Gizlilik"
 ---
 

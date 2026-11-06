@@ -7,7 +7,7 @@ category: "Yöntem"
 tags: ["Yöntem", "Yapay Zeka"]
 translation: "time-series-forecasting"
 heroImage:
-  src: "../../../assets/blog/bimg-07.jpg"
+  src: "../../../assets/blog/covers/zaman-serisi-tahmini.jpg"
   alt: "Zaman Serisi Tahmini: Trend, Mevsimsellik ve Doğru Doğrulama"
 ---
 

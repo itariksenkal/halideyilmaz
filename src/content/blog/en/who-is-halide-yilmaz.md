@@ -1,53 +1,51 @@
 ---
 title: "Who is Halide Yılmaz?"
-description: "Who is Halide Yılmaz? The story of a co-founder of Hatson Teknoloji A.Ş., a graduate of METU Computer Engineering and an engineer working on Turkish artificial intelligence and legal technologies."
+description: "Halide Yılmaz is a METU Computer Engineering graduate and one of the co-founders of HatsonTech and Caseon AI, building companies in AI and software."
 publishDate: "2026-08-09T23:05:00+03:00"
+updatedDate: "2026-11-06T18:00:00+03:00"
 lang: en
 category: "Profile"
-tags: ["Profile", "AI", "Legal Tech"]
+tags: ["Profile", "Entrepreneurship", "HatsonTech", "Caseon AI"]
 translation: "halide-yilmaz-kimdir"
 heroImage:
   src: "../../../assets/blog/halideyilmaz.jpeg"
-  alt: "Who is Halide Yılmaz?"
+  alt: "Halide Yılmaz"
 ---
 
-Hello, I'm **Halide Yılmaz**. I'm a graduate of METU (Middle East Technical University) Computer Engineering, and I've spent years working in computing and artificial intelligence; I'm an engineer who loves turning complex systems into simple, working products. Today, under the roof of **Hatson Teknoloji A.Ş.**, of which I'm a co-founder, I build AI products focused on Turkish.
-
-> “Good engineering doesn't make noise; it quietly does its job. And that's exactly what I'm after — building a product that gets opened every day and is trusted.”
+Hello, I'm **Halide Yılmaz**. I'm a METU Computer Engineering graduate and today one of the co-founders of **HatsonTech** and **Caseon AI**. In this post I wanted to briefly introduce myself and the road so far.
 
 ## In brief
 
--   **Who:** Computing and AI engineer, co-founder.
--   **Education:** METU (Middle East Technical University) Computer Engineering.
--   **What I do:** I design system architecture and build products with large language models and RAG architectures.
--   **Where:** Ankara, METU Technopark.
--   **Company:** Hatson Teknoloji A.Ş. — co-founder.
+-   **Education:** METU (Middle East Technical University), Computer Engineering.
+-   **Companies:** HatsonTech (Hatson Teknoloji Ltd. Şti.) and Caseon AI (Caseon Teknoloji A.Ş.), co-founder.
+-   **Interests:** Machine learning, natural language processing, model evaluation, data quality and AI governance.
+-   **Based in:** Ankara.
 
 ## From METU to engineering
 
-My story began on the benches of METU Computer Engineering, chasing after a single question: how much can a well-designed system ease a person's work? While I was learning algorithms, data structures, and distributed systems at school, the same question was always on my mind — how do I turn these into something that actually solves someone's problem in real life?
+My story began in METU's Computer Engineering department. While learning algorithms, data structures and system design, one question stayed with me: how can I turn this into something that makes someone's work easier in real life?
 
-After graduating, I spent years in the depths of engineering. I built systems that scaled, shouldered the weight of architectural decisions, assembled teams and grew them. Over time my interest shifted toward natural language processing (NLP) and artificial intelligence; because the truly hard problem was there: teaching machines to genuinely understand language and to generate it reliably. This long engineering background gave me a habit — solid foundations first, shiny features later.
+After graduating I worked as an engineer on software and AI projects. Over time my interest shifted towards machine learning and natural language processing. Those years gave me a lasting habit: build a solid foundation first, then add to it.
 
-<div class="callout"><strong>Why does it matter?</strong> AI products tend to be impressive in a demo and fragile in production. The engineering discipline that comes with years makes it possible not just to get an idea working, but to keep it standing under thousands of users, to scale it, and to make it reliable. That's exactly what I bring to HatsonTech.</div>
+## A first startup
 
-## AI for the legal domain
+In 2024, İsmail Tarık Şenkal and I co-founded an AI R&D company in Ankara. We built products around Turkish language models and source-citing search systems. Those years taught me the most about designing a product's architecture, building a team and running a company day to day. In July 2026 I left my role at that company.
 
-We brought HatsonTech to life in 2024, at Ankara METU Technopark, together with my co-founder **İsmail Tarık Şenkal**. Our starting point was clear: to build reliable, genuinely useful products that truly understand Turkish. HatsonTech is not a “consultancy” house; it's an R&D company that builds **its own products**.
+## HatsonTech and Caseon AI
 
-When I saw the immense burden of text that the legal world carries, and how laborious it is to find “the right information” within that text, I thought this was precisely a problem that AI should solve. The question I asked while building the product's first architecture was this: how do we bring case-law research, document analysis, and legal question-and-answer — the things that take up a lawyer's hours — together into a single reliable assistant? The skeleton of the architecture was born from the answer to that question.
+In August 2026 we founded **HatsonTech** in Ankara. At HatsonTech we run projects for organisations on AI agents, source-citing RAG assistants, language-model fine-tuning, computer vision, data engineering, and web and mobile software. Before a project starts, we like to write down with the customer what counts as success, and to measure the result on real examples.
 
-Today, behind this work stands HatsonTech's own language model, fine-tuned for the Turkish legal language. Because answers must be grounded in real documents and must not “make things up,” we placed [RAG](/en/posts/rag-chunking-strategies/) architecture at the heart of the product — this was the decision I cared about most in the product's architectural design.
+Also in 2026, we founded **Caseon AI** as a separate company focused on legal technology. At Caseon we are building software that helps lawyers with due diligence and contract review. Every answer the system gives is shown with the document paragraph it relies on, and the final check always stays with the lawyer.
 
-## What does she believe in?
+Today I spend my time on the growth, products and teams of these two companies.
 
-There are a few core principles that guide my work:
+## A few things I care about
 
--   **Solid engineering is the foundation of everything.** A properly designed system architecture makes every feature built upon it stronger and longer-lasting.
--   **Turkish deserves the AI it's owed.** Most [large language models](/en/posts/attention-mechanism-explained/) are designed around English; everyone who speaks Turkish deserves to access the same quality in their native language.
--   **Accuracy is non-negotiable.** Especially in fields like law, systems that ground their answers in real documents are essential.
--   **Research must turn into a product.** A prototype is valuable; but the real value lies in turning it into a product that thousands of people use with confidence.
+-   **Solid engineering.** A well-designed system makes every feature built on top of it easier and longer-lasting.
+-   **Measurement.** Before calling a model "good", I try to be clear about what it is good at, and by which measure.
+-   **The team.** Every piece of work mentioned here is the effort of the people I work with.
+-   **Writing as I learn.** This blog is partly notes to myself. If I get something wrong, I'm glad to be corrected.
 
 ---
 
-In short: I use my engineering foundation from METU, the experience years have given me, and my product vision to bring Turkish AI down to real life. If you'd like to dig deeper, you can continue with the articles on [what HatsonTech is](/en/posts/how-hatsontech-started/) or [how large language models work](/en/posts/attention-mechanism-explained/).
+We describe how our companies started in [How did HatsonTech come about?](/en/posts/how-hatsontech-started/). If you'd like to talk about a project or a partnership, you can reach me by [email](mailto:halide.yilmaz@hatsontech.com).

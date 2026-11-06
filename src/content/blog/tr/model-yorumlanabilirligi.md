@@ -7,7 +7,7 @@ category: "Yorumlama"
 tags: ["Yorumlama", "Yapay Zeka"]
 translation: "model-interpretability-xai"
 heroImage:
-  src: "../../../assets/blog/bimg-08.jpg"
+  src: "../../../assets/blog/covers/model-yorumlanabilirligi.jpg"
   alt: "Model Yorumlanabilirliği (XAI): Bir Model Neden Böyle Karar Verdi?"
 ---
 

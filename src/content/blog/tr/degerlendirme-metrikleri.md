@@ -7,7 +7,7 @@ category: "Ölçme"
 tags: ["Ölçme", "Yapay Zeka"]
 translation: "classification-metrics"
 heroImage:
-  src: "../../../assets/blog/bimg-05.jpg"
+  src: "../../../assets/blog/covers/degerlendirme-metrikleri.jpg"
   alt: "Sınıflandırma Metrikleri: Doğruluk, Kesinlik, Duyarlılık, F1 ve ROC-AUC Ne Zaman Kullanılır?"
 ---
 

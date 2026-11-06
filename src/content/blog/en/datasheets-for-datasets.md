@@ -7,7 +7,7 @@ category: "Data"
 tags: ["Data", "AI"]
 translation: "veri-seti-belgelendirme"
 heroImage:
-  src: "../../../assets/blog/bimg-11.jpg"
+  src: "../../../assets/blog/covers/datasheets-for-datasets.jpg"
   alt: "Datasheets for Datasets: The Missing Half of the Model Card"
 ---
 

@@ -7,7 +7,7 @@ category: "Evaluation"
 tags: ["Evaluation", "AI"]
 translation: "veri-sizintisi-capraz-dogrulama"
 heroImage:
-  src: "../../../assets/blog/bimg-04.jpg"
+  src: "../../../assets/blog/covers/data-leakage-cross-validation.jpg"
   alt: "Data Leakage and Cross-Validation: Why Your Test Score Is Lying"
 ---
 

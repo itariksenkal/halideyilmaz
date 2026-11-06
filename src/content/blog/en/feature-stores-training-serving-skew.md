@@ -7,7 +7,7 @@ category: "Production"
 tags: ["Production", "AI"]
 translation: "ozellik-deposu-egitim-servis-farki"
 heroImage:
-  src: "../../../assets/blog/bimg-20.jpg"
+  src: "../../../assets/blog/covers/feature-stores-training-serving-skew.jpg"
   alt: "Feature Stores and Training-Serving Skew: Why Your Model Behaves Differently in Production"
 ---
 

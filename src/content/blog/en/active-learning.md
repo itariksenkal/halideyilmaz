@@ -7,7 +7,7 @@ category: "Data"
 tags: ["Data", "AI"]
 translation: "aktif-ogrenme"
 heroImage:
-  src: "../../../assets/blog/bimg-03.jpg"
+  src: "../../../assets/blog/covers/active-learning.jpg"
   alt: "Active Learning: Spending a Labelling Budget on the Examples That Matter"
 ---
 

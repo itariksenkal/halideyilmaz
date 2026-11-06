@@ -7,7 +7,7 @@ category: "Ölçme"
 tags: ["Ölçme", "Yapay Zeka"]
 translation: "annotator-agreement-evaluator-reliability"
 heroImage:
-  src: "../../../assets/blog/bimg-12.jpg"
+  src: "../../../assets/blog/covers/etiketleyici-uyumu-kappa.jpg"
   alt: "Etiketleyici Uyumu ve Değerlendirici Güvenilirliği: Kappa, Alpha ve LLM Hakemi Doğrulamak"
 ---
 

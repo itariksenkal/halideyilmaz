@@ -7,7 +7,7 @@ category: "Methods"
 tags: ["Methods", "AI"]
 translation: "zaman-serisi-temel-modelleri"
 heroImage:
-  src: "../../../assets/blog/bimg-03.jpg"
+  src: "../../../assets/blog/covers/time-series-foundation-models.jpg"
   alt: "Time-Series Foundation Models: Zero-Shot Forecasting Now Beats the Classics — But Does It Beat Yours?"
 ---
 

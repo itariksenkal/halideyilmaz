@@ -7,7 +7,7 @@ category: "Metrics"
 tags: ["Metrics", "AI"]
 translation: "degerlendirme-metrikleri"
 heroImage:
-  src: "../../../assets/blog/bimg-05.jpg"
+  src: "../../../assets/blog/covers/classification-metrics.jpg"
   alt: "Classification Metrics: When to Use Accuracy, Precision, Recall, F1, and ROC-AUC"
 ---
 

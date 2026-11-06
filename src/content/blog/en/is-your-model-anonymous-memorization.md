@@ -7,7 +7,7 @@ category: "Privacy"
 tags: ["Privacy", "AI"]
 translation: "model-anonim-mi-ezberleme"
 heroImage:
-  src: "../../../assets/blog/bimg-17.jpg"
+  src: "../../../assets/blog/covers/is-your-model-anonymous-memorization.jpg"
   alt: "Is Your Model Anonymous? Memorization, Membership Inference and the EDPB's New Anonymisation Guidelines"
 ---
 

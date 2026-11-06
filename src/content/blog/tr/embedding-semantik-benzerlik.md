@@ -7,7 +7,7 @@ category: "Temeller"
 tags: ["Temeller", "Yapay Zeka"]
 translation: "embedding-models-semantic-similarity"
 heroImage:
-  src: "../../../assets/blog/bimg-13.jpg"
+  src: "../../../assets/blog/covers/embedding-semantik-benzerlik.jpg"
   alt: "Embedding Modelleri ve Semantik Benzerlik: Metni Anlama Çeviren Vektörler"
 ---
 

@@ -7,7 +7,7 @@ category: "Methods"
 tags: ["Methods", "AI"]
 translation: "zaman-serisi-tahmini"
 heroImage:
-  src: "../../../assets/blog/bimg-07.jpg"
+  src: "../../../assets/blog/covers/time-series-forecasting.jpg"
   alt: "Time Series Forecasting: Trend, Seasonality and Honest Validation"
 ---
 

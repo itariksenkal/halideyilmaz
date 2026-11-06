@@ -7,7 +7,7 @@ category: "Production"
 tags: ["Production", "AI"]
 translation: "model-izleme-drift"
 heroImage:
-  src: "../../../assets/blog/bimg-10.jpg"
+  src: "../../../assets/blog/covers/model-monitoring-drift.jpg"
   alt: "Model Monitoring and Drift in Production: Concept Drift, Performance Decay, and Retraining Triggers"
 ---
 

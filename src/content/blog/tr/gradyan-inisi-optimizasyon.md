@@ -7,7 +7,7 @@ category: "Eğitim"
 tags: ["Eğitim", "Yapay Zeka"]
 translation: "gradient-descent-optimization"
 heroImage:
-  src: "../../../assets/blog/bimg-04.jpg"
+  src: "../../../assets/blog/covers/gradyan-inisi-optimizasyon.jpg"
   alt: "Gradyan İnişi ve Optimizasyon: Bir Model Nasıl \"Öğrenir\"?"
 ---
 

@@ -7,7 +7,7 @@ category: "Data"
 tags: ["Data", "AI"]
 translation: "ozellik-muhendisligi"
 heroImage:
-  src: "../../../assets/blog/bimg-07.jpg"
+  src: "../../../assets/blog/covers/feature-engineering.jpg"
   alt: "Feature Engineering: Meaningful Signals from Raw Data and the Leakage Traps"
 ---
 

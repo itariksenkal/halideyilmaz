@@ -7,7 +7,7 @@ category: "Yöntem"
 tags: ["Yöntem", "Yapay Zeka"]
 translation: "causal-inference-uplift-modeling"
 heroImage:
-  src: "../../../assets/blog/bimg-01.jpg"
+  src: "../../../assets/blog/covers/nedensel-cikarim-uplift.jpg"
   alt: "Nedensel Çıkarım ve Uplift Modelleme: “Kim Satın Alır?” Yanlış Soru"
 ---
 

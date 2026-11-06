@@ -7,7 +7,7 @@ category: "Üretim"
 tags: ["Üretim", "Yapay Zeka"]
 translation: "ai-incident-reporting-post-market"
 heroImage:
-  src: "../../../assets/blog/bimg-08.jpg"
+  src: "../../../assets/blog/covers/yapay-zeka-olay-bildirimi.jpg"
   alt: "Yapay Zekâ Olay Bildirimi ve Piyasaya Arz Sonrası İzleme: 15 Gün, 10 Gün, 2 Gün"
 ---
 

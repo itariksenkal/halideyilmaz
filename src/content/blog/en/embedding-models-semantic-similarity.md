@@ -7,7 +7,7 @@ category: "Fundamentals"
 tags: ["Fundamentals", "AI"]
 translation: "embedding-semantik-benzerlik"
 heroImage:
-  src: "../../../assets/blog/bimg-13.jpg"
+  src: "../../../assets/blog/covers/embedding-models-semantic-similarity.jpg"
   alt: "Embedding Models and Semantic Similarity: Vectors That Turn Text Into Meaning"
 ---
 

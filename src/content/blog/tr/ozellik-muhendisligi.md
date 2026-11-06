@@ -7,7 +7,7 @@ category: "Veri"
 tags: ["Veri", "Yapay Zeka"]
 translation: "feature-engineering"
 heroImage:
-  src: "../../../assets/blog/bimg-07.jpg"
+  src: "../../../assets/blog/covers/ozellik-muhendisligi.jpg"
   alt: "Özellik Mühendisliği: Ham Veriden Anlamlı Sinyaller ve Sızıntı Tuzakları"
 ---
 

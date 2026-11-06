@@ -7,7 +7,7 @@ category: "Veri"
 tags: ["Veri", "Yapay Zeka"]
 translation: "synthetic-data-generation"
 heroImage:
-  src: "../../../assets/blog/bimg-09.jpg"
+  src: "../../../assets/blog/covers/sentetik-veri.jpg"
   alt: "Sentetik Veri Üretimi: Veri Kıtlığını Aşmak, Gizliliği Korumak ve Model Çöküşünden Kaçınmak"
 ---
 

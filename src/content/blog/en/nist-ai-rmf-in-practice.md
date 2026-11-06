@@ -7,7 +7,7 @@ category: "Governance"
 tags: ["Governance", "AI"]
 translation: "nist-yapay-zeka-risk-cercevesi"
 heroImage:
-  src: "../../../assets/blog/bimg-05.jpg"
+  src: "../../../assets/blog/covers/nist-ai-rmf-in-practice.jpg"
   alt: "The NIST AI Risk Management Framework in Practice: Turning Govern-Map-Measure-Manage into Engineering Work"
 ---
 

@@ -7,7 +7,7 @@ category: "Derin"
 tags: ["Derin", "Yapay Zeka"]
 translation: "attention-mechanism-explained"
 heroImage:
-  src: "../../../assets/blog/bimg-11.jpg"
+  src: "../../../assets/blog/covers/attention-mekanizmasi.jpg"
   alt: "Attention (Dikkat) Mekanizması Sezgisel Anlatım: Query, Key, Value ve Self-Attention Neden Devrim Yarattı?"
 ---
 

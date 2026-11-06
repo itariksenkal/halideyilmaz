@@ -7,7 +7,7 @@ category: "Veri"
 tags: ["Veri", "Yapay Zeka"]
 translation: "data-contracts-for-ml"
 heroImage:
-  src: "../../../assets/blog/bimg-10.jpg"
+  src: "../../../assets/blog/covers/veri-sozlesmeleri.jpg"
   alt: "Veri Sözleşmeleri: ML Boru Hattınızı Sessizce Bozan Şema Değişikliklerini Durdurmak"
 ---
 
