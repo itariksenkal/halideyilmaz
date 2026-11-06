@@ -1,8 +1,8 @@
 # halideyilmaz.com — Halide Yılmaz · Kişisel Blog & Portföy
 
 Modern, açık/koyu temalı, tek sayfa + blog yapısında **statik** bir kişisel site.
-Halide Yılmaz'ı (Hatson Teknoloji A.Ş. kurucu ortağı, ODTÜ Bilgisayar Mühendisliği mezunu,
-Caseon fikrinin öncülerinden) tanıtmak ve yapay zeka / mühendislik üzerine yazılar yayımlamak için tasarlandı.
+Halide Yılmaz'ı (Hatson Teknoloji A.Ş. kurucu ortağı, ODTÜ Bilgisayar Mühendisliği mezunu)
+tanıtmak ve yapay zeka / mühendislik üzerine yazılar yayımlamak için tasarlandı.
 
 > HatsonTech ailesinin kardeş sitesi. [tariksenkal.com] ile aynı tasarım sistemini paylaşır;
 > kişisel dokunuş olarak **teal** ikincil aksan kullanır (`--accent: #0E9D8C`).
@@ -35,7 +35,6 @@ halideyilmaz/
 │   └── turkce-yapay-zeka.html
 ├── css/style.css              # Tüm stiller + tema sistemi (teal aksan)
 ├── js/main.js                 # Tema, mobil menü, scroll-reveal, okuma çubuğu
-├── image/caseon-lockup-black.svg  # Marka logosu (açık tema; koyu tema için -white)
 ├── CNAME                      # halideyilmaz.com
 ├── robots.txt · sitemap.xml   # SEO
 └── README.md
@@ -54,8 +53,7 @@ halideyilmaz/
 ## ⚠️ İçerik notu (önemli)
 
 Biyografik anlatım **örnek/şablon niteliğindedir** ve verilen gerçeklerle birlikte yazılmıştır:
-HatsonTech kurucu ortaklığı, ODTÜ Bilgisayar Mühendisliği mezuniyeti, sektörde uzun deneyim,
-Caseon fikrinin öncülerinden olması. Yayına almadan önce tarihleri, kariyer ayrıntılarını ve
+HatsonTech kurucu ortaklığı, ODTÜ Bilgisayar Mühendisliği mezuniyeti, sektörde uzun deneyim. Yayına almadan önce tarihleri, kariyer ayrıntılarını ve
 sosyal bağlantıları **gözden geçirip kişiselleştirin**:
 
 - `posts/halide-yilmaz-kimdir.html` — kariyer/deneyim ayrıntıları

@@ -1,10 +1,10 @@
 # Halide Yılmaz
 
-> HatsonTech kurucu ortağı; ODTÜ Bilgisayar Mühendisliği mezunu bilgisayar ve yapay zeka mühendisi; Caseon fikrinin ortaya çıkışında yer aldı. — Co-founder of HatsonTech, a computer & AI engineer (METU Computer Engineering graduate) and one of the originators of the Caseon idea.
+> HatsonTech kurucu ortağı; ODTÜ Bilgisayar Mühendisliği mezunu bilgisayar ve yapay zeka mühendisi. — Co-founder of HatsonTech, a computer & AI engineer (METU Computer Engineering graduate).
 
 Bu site Halide Yılmaz'ın kişisel blogudur; makine öğrenmesinin temelleri, attention/transformer mimarileri, RAG, model izleme ve özellik mühendisliği gibi konuları Türkçe ve İngilizce ele alır. — Personal site of Halide Yılmaz, covering machine-learning fundamentals, attention/transformer architectures, RAG, model monitoring and feature engineering, in Turkish and English.
 
-Hatson Teknoloji A.Ş. — Ankara, ODTÜ Teknokent merkezli, Türkçe odaklı yapay zeka Ar-Ge şirketi; amiral ürün Caseon (yapay zeka destekli hukuk teknolojisi platformu).
+Hatson Teknoloji A.Ş. — Ankara, ODTÜ Teknokent merkezli, Türkçe odaklı yapay zeka Ar-Ge şirketi.
 
 ## Hakkında / Background
 - [Halide Yılmaz kimdir?](https://halideyilmaz.com/posts/halide-yilmaz-kimdir/): Halide Yılmaz kimdir? Hatson Teknoloji A.Ş.'nin kurucu ortağı, ODTÜ Bilgisayar Mühendisliği mezunu, Türkçe yapay zeka ve hukuk teknolojileri üzerine çalışan mühendisin hikâyesi.
@@ -133,7 +133,6 @@ Hatson Teknoloji A.Ş. — Ankara, ODTÜ Teknokent merkezli, Türkçe odaklı ya
 - [GitHub](https://github.com/halideyilmaz)
 - [E-posta / Email](mailto:halide.yilmaz@hatsontech.com)
 - [HatsonTech](https://hatsontech.com)
-- [Caseon](https://caseon.ai)
 
 ## Optional
 - [Gizlilik Politikası (TR)](https://halideyilmaz.com/gizlilik/)
