@@ -18,6 +18,7 @@ export const site = {
     { label: 'GitHub', icon: 'github', href: 'https://github.com/halideyilmaz' },
     { label: 'X', icon: 'x', href: 'https://x.com/hatsontech' }
   ],
+  alumni: [{ name: 'Orta Doğu Teknik Üniversitesi (ODTÜ)', url: 'https://www.metu.edu.tr/' }],
   companies: [
     { name: 'HatsonTech', legal: 'Hatson Teknoloji Ltd. Şti.', url: 'https://hatsontech.com/' },
     { name: 'Caseon AI', legal: 'Caseon Teknoloji A.Ş.', url: 'https://caseon.ai/' }

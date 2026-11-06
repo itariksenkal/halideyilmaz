@@ -118,5 +118,8 @@ Allow: /
 User-agent: Bytespider
 Allow: /
 
-# Site haritasi
+# Site haritasi (her derlemede icerikten otomatik uretilir)
+Sitemap: https://halideyilmaz.com/sitemap.xml
 Sitemap: https://halideyilmaz.com/sitemap-index.xml
+
+# LLM rehberi: https://halideyilmaz.com/llms.txt  (tam metin: https://halideyilmaz.com/llms-full.txt)
