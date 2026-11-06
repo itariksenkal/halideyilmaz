@@ -27,17 +27,19 @@ My story began in METU's Computer Engineering department. While learning algorit
 
 After graduating I worked as an engineer on software and AI projects. Over time my interest shifted towards machine learning and natural language processing. Those years gave me a lasting habit: build a solid foundation first, then add to it.
 
-## A first startup
+## Our first company
 
-In 2024, İsmail Tarık Şenkal and I co-founded an AI R&D company in Ankara. We built products around Turkish language models and source-citing search systems. Those years taught me the most about designing a product's architecture, building a team and running a company day to day. In July 2026 I left my role at that company.
+In 2024, İsmail Tarık Şenkal and I founded our first company, in AI. In early 2025 we took part in large-scale model training work through TÜBİTAK events, **TRUBA** and **EUMaster4HPC**.
+
+The same year, our legal-software project took us into METU Technopark, and in 2026 the project received investment. In July 2026 we sold the project to another company. That journey taught me the most about designing a product's architecture, building a team and running a company day to day.
 
 ## HatsonTech and Caseon AI
 
-In August 2026 we founded **HatsonTech** in Ankara. At HatsonTech we run projects for organisations on AI agents, source-citing RAG assistants, language-model fine-tuning, computer vision, data engineering, and web and mobile software. Before a project starts, we like to write down with the customer what counts as success, and to measure the result on real examples.
+In August 2026 we founded our main company, **HatsonTech**, in Ankara. At HatsonTech we run projects for organisations on AI agents, source-citing RAG assistants, language-model fine-tuning, computer vision, data engineering, and web and mobile software. Before a project starts, we like to write down with the customer what counts as success, and to measure the result on real examples.
 
-Also in 2026, we founded **Caseon AI** as a separate company focused on legal technology. At Caseon we are building software that helps lawyers with due diligence and contract review. Every answer the system gives is shown with the document paragraph it relies on, and the final check always stays with the lawyer.
+Also in 2026, we founded **Caseon AI** as a separate company for contract analysis. At Caseon we are building software that helps lawyers with due diligence and contract review. Every answer the system gives is shown with the document paragraph it relies on, and the final check always stays with the lawyer.
 
-Today I spend my time on the growth, products and teams of these two companies.
+Since 2024, together with our earlier work, we have been building technology products in environment, law, software and AI. Today I spend my time on the growth, products and teams of these two companies.
 
 ## A few things I care about
 

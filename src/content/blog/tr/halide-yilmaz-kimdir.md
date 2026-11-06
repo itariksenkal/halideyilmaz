@@ -27,17 +27,19 @@ Hikâyem ODTÜ Bilgisayar Mühendisliği'nde başladı. Algoritmaları, veri yap
 
 Mezuniyetten sonra yazılım ve yapay zeka projelerinde mühendis olarak çalıştım. Zamanla ilgim makine öğrenmesine ve doğal dil işlemeye kaydı. Bu yıllar bana önemli bir alışkanlık kazandırdı: önce sağlam bir temel kurmak, sonra üzerine eklemek.
 
-## İlk girişim
+## İlk şirketimiz
 
-2024'te İsmail Tarık Şenkal ile birlikte Ankara'da bir yapay zeka Ar-Ge şirketini kurucu ortak olarak kurduk. Türkçe dil modelleri ve kaynak gösteren arama sistemleri üzerine ürünler geliştirdik. Bir ürünün mimarisini kurmayı, ekip oluşturmayı ve bir şirketin günlük işlerini yürütmeyi en çok o yıllarda öğrendim. Temmuz 2026'da bu şirketteki görevimden ayrıldım.
+2024'te İsmail Tarık Şenkal ile birlikte yapay zeka alanında ilk şirketimizi kurduk. 2025'in başında TÜBİTAK etkinlikleri, **TRUBA** ve **EUMaster4HPC** gibi ortamlarda büyük ölçekli model eğitimi çalışmalarına katıldık.
+
+Aynı yıl, hukuk yazılımları üzerine yürüttüğümüz projeyle ODTÜ Teknokent'e girdik; 2026'da bu proje yatırım aldı. Temmuz 2026'da ise projeyi başka bir şirkete sattık. Bir ürünün mimarisini kurmayı, ekip oluşturmayı ve bir şirketin günlük işlerini yürütmeyi en çok bu süreçte öğrendim.
 
 ## HatsonTech ve Caseon AI
 
-Ağustos 2026'da Ankara'da **HatsonTech**'i kurduk. HatsonTech'te kurumlar için yapay zeka ajanları, kaynak gösteren RAG asistanları, dil modeli ince ayarı, görüntü işleme, veri mühendisliği ile web ve mobil yazılım projeleri yürütüyoruz. Bir projeye başlamadan önce neyin başarı sayılacağını müşterimizle birlikte yazmayı ve sonucu gerçek örneklerle ölçmeyi önemsiyoruz.
+Ağustos 2026'da ana şirketimiz **HatsonTech**'i Ankara'da kurduk. HatsonTech'te kurumlar için yapay zeka ajanları, kaynak gösteren RAG asistanları, dil modeli ince ayarı, görüntü işleme, veri mühendisliği ile web ve mobil yazılım projeleri yürütüyoruz. Bir projeye başlamadan önce neyin başarı sayılacağını müşterimizle birlikte yazmayı ve sonucu gerçek örneklerle ölçmeyi önemsiyoruz.
 
-Yine 2026'da, hukuk teknolojisine odaklanan ayrı bir şirket olarak **Caseon AI**'ı kurduk. Caseon'da avukatların durum tespiti (due diligence) ve sözleşme inceleme işlerine yardımcı olan bir yazılım geliştiriyoruz. Sistemin verdiği her cevap, dayandığı belge paragrafıyla birlikte gösteriliyor ve son kontrol her zaman avukatta kalıyor.
+Yine 2026'da, sözleşme analizi için ayrı bir şirket olarak **Caseon AI**'ı kurduk. Caseon'da avukatların durum tespiti (due diligence) ve sözleşme inceleme işlerine yardımcı olan bir yazılım geliştiriyoruz. Sistemin verdiği her cevap, dayandığı belge paragrafıyla birlikte gösteriliyor ve son kontrol her zaman avukatta kalıyor.
 
-Bugün zamanımı bu iki şirketin büyümesine, ürünlerine ve ekiplerine ayırıyorum.
+2024'ten bu yana, önceki çalışmalarımızla birlikte çevre, hukuk, yazılım ve yapay zeka alanlarında teknolojik ürünler geliştiriyoruz. Bugün zamanımı bu iki şirketin büyümesine, ürünlerine ve ekiplerine ayırıyorum.
 
 ## Önemsediğim birkaç şey
 

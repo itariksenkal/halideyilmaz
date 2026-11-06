@@ -146,36 +146,15 @@ export const profile: L<{
       }
     ],
     timeline: [
-      {
-        when: 'Lisans',
-        title: 'ODTÜ Bilgisayar Mühendisliği',
-        text: 'Orta Doğu Teknik Üniversitesi Bilgisayar Mühendisliği bölümünden mezun oldum; algoritmalar, veri yapıları ve sistem tasarımı üzerine temelimi burada attım.'
-      },
-      {
-        when: 'Deneyim',
-        title: 'Yazılım ve yapay zeka mühendisliği',
-        text: 'Yazılım ve yapay zeka projelerinde mühendis olarak çalıştım; sistem mimarisi ve ürün geliştirme üzerine deneyim kazandım.'
-      },
-      {
-        when: '2024',
-        title: 'İlk girişim',
-        text: 'Ankara’da bir yapay zeka Ar-Ge şirketini kurucu ortak olarak kurduk; Türkçe dil modelleri ve kaynak gösteren arama sistemleri üzerine ürünler geliştirdik.'
-      },
-      {
-        when: 'Temmuz 2026',
-        title: 'Yeni bir sayfa',
-        text: 'Bu şirketteki görevimden ayrıldım; orada edindiğim ürün ve şirket kurma deneyimini yeni şirketlerimize taşıdım.'
-      },
-      {
-        when: 'Ağustos 2026',
-        title: 'HatsonTech',
-        text: 'Hatson Teknoloji’yi Ankara’da kurduk. Kurumlar için yapay zeka ajanları, kaynak gösteren RAG asistanları, dil modeli ince ayarı, görüntü işleme, veri mühendisliği ile web ve mobil yazılım geliştiriyoruz.'
-      },
-      {
-        when: '2026',
-        title: 'Caseon AI',
-        text: 'Hukuk teknolojisine odaklanan ayrı bir şirket olarak Caseon AI’ı kurduk. Avukatların durum tespiti ve sözleşme inceleme işlerinde belgelerle daha rahat çalışabilmesi için bir yazılım geliştiriyoruz; her cevap dayandığı kaynakla birlikte gösteriliyor.'
-      }
+      { when: 'Lisans', title: 'ODTÜ · Bilgisayar Mühendisliği', text: 'Lisans eğitimi.' },
+      { when: '2024', title: 'İlk şirketimiz', text: 'Yapay zeka alanında ilk şirketimizi kurduk.' },
+      { when: 'Ocak 2025', title: 'Büyük ölçekli yapay zeka çalışmaları', text: 'TÜBİTAK, TRUBA ve EUMaster4HPC ile büyük ölçekli model eğitimi çalışmaları.' },
+      { when: '2025', title: 'ODTÜ Teknokent', text: 'Hukuk yazılımı projemizle ODTÜ Teknokent’e girdik.' },
+      { when: '2026', title: 'Yatırım', text: 'Hukuk yazılımı projemiz yatırım aldı.' },
+      { when: 'Temmuz 2026', title: 'Proje satışı', text: 'Hukuk yazılımı projesini başka bir şirkete sattık.' },
+      { when: 'Ağustos 2026', title: 'HatsonTech', text: 'Ana şirketimiz; farklı alanlarda yazılım ve yapay zeka ürünleri geliştiriyoruz.' },
+      { when: '2026', title: 'Caseon AI', text: 'Sözleşme analizi için kurduğumuz hukuk teknolojisi şirketi.' },
+      { when: 'Bugün', title: 'Çevre, hukuk ve yapay zeka', text: 'Çevre, hukuk, yazılım ve yapay zeka alanlarında teknolojik ürünler geliştiriyoruz.' }
     ],
     stats: [
       { value: '2026', label: 'HatsonTech ve Caseon AI' },
@@ -297,36 +276,15 @@ export const profile: L<{
       }
     ],
     timeline: [
-      {
-        when: 'Bachelor’s',
-        title: 'METU Computer Engineering',
-        text: 'I graduated from Middle East Technical University’s Computer Engineering department, where I built my foundation in algorithms, data structures and system design.'
-      },
-      {
-        when: 'Experience',
-        title: 'Software and AI engineering',
-        text: 'I worked as an engineer on software and AI projects, gaining experience in system architecture and product development.'
-      },
-      {
-        when: '2024',
-        title: 'A first startup',
-        text: 'We co-founded an AI R&D company in Ankara, where we built products around Turkish language models and source-citing search.'
-      },
-      {
-        when: 'July 2026',
-        title: 'A new chapter',
-        text: 'I left my role at that company and carried the product and company-building experience I gained there into our new companies.'
-      },
-      {
-        when: 'August 2026',
-        title: 'HatsonTech',
-        text: 'We founded Hatson Teknoloji in Ankara. We build AI agents, source-citing RAG assistants, language-model fine-tuning, computer vision, data engineering, and web and mobile software for organisations.'
-      },
-      {
-        when: '2026',
-        title: 'Caseon AI',
-        text: 'We founded Caseon AI as a separate company focused on legal technology. We are building software that helps lawyers work through documents in due diligence and contract review; every answer is shown together with its source.'
-      }
+      { when: 'Bachelor’s', title: 'METU · Computer Engineering', text: 'Bachelor’s degree.' },
+      { when: '2024', title: 'Our first company', text: 'We founded our first company, in AI.' },
+      { when: 'January 2025', title: 'Large-scale AI work', text: 'Large-scale model training work with TÜBİTAK, TRUBA and EUMaster4HPC.' },
+      { when: '2025', title: 'METU Technopark', text: 'Our legal-software project took us into METU Technopark.' },
+      { when: '2026', title: 'Investment', text: 'Our legal-software project received investment.' },
+      { when: 'July 2026', title: 'Project sale', text: 'We sold the legal-software project to another company.' },
+      { when: 'August 2026', title: 'HatsonTech', text: 'Our main company; we build software and AI products across fields.' },
+      { when: '2026', title: 'Caseon AI', text: 'The legal-technology company we founded for contract analysis.' },
+      { when: 'Today', title: 'Environment, law and AI', text: 'We build technology products in environment, law, software and AI.' }
     ],
     stats: [
       { value: '2026', label: 'HatsonTech & Caseon AI' },
